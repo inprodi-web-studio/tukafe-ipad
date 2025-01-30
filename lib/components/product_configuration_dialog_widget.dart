@@ -1,0 +1,688 @@
+import '/backend/api_requests/api_calls.dart';
+import '/backend/schema/structs/index.dart';
+import '/flutter_flow/flutter_flow_count_controller.dart';
+import '/flutter_flow/flutter_flow_theme.dart';
+import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/flutter_flow_widgets.dart';
+import '/flutter_flow/custom_functions.dart' as functions;
+import 'package:smooth_page_indicator/smooth_page_indicator.dart'
+    as smooth_page_indicator;
+import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'product_configuration_dialog_model.dart';
+export 'product_configuration_dialog_model.dart';
+
+class ProductConfigurationDialogWidget extends StatefulWidget {
+  const ProductConfigurationDialogWidget({
+    super.key,
+    required this.productId,
+  });
+
+  final String? productId;
+
+  @override
+  State<ProductConfigurationDialogWidget> createState() =>
+      _ProductConfigurationDialogWidgetState();
+}
+
+class _ProductConfigurationDialogWidgetState
+    extends State<ProductConfigurationDialogWidget> {
+  late ProductConfigurationDialogModel _model;
+
+  @override
+  void setState(VoidCallback callback) {
+    super.setState(callback);
+    _model.onUpdate();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _model = createModel(context, () => ProductConfigurationDialogModel());
+  }
+
+  @override
+  void dispose() {
+    _model.maybeDispose();
+
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      height: double.infinity,
+      decoration: BoxDecoration(
+        color: FlutterFlowTheme.of(context).primaryBackground,
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(40.0),
+        child: FutureBuilder<ApiCallResponse>(
+          future: ProductsGroup.singleProductCall.call(
+            productId: widget.productId,
+          ),
+          builder: (context, snapshot) {
+            // Customize what your widget looks like when it's loading.
+            if (!snapshot.hasData) {
+              return Center(
+                child: SizedBox(
+                  width: 80.0,
+                  height: 80.0,
+                  child: SpinKitSquareCircle(
+                    color: FlutterFlowTheme.of(context).primary,
+                    size: 80.0,
+                  ),
+                ),
+              );
+            }
+            final rowSingleProductResponse = snapshot.data!;
+
+            return Row(
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Expanded(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(8.0),
+                    child: Image.asset(
+                      'assets/images/temporal_coffee.jpg',
+                      height: double.infinity,
+                      fit: BoxFit.none,
+                      alignment: const Alignment(0.0, 0.0),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        valueOrDefault<String>(
+                          ProductsGroup.singleProductCall
+                              .data(
+                                rowSingleProductResponse.jsonBody,
+                              )
+                              ?.productName,
+                          '[PRODUCT]',
+                        ),
+                        style: FlutterFlowTheme.of(context).bodyMedium.override(
+                              fontFamily: 'Montserrat',
+                              fontSize: 40.0,
+                              letterSpacing: 0.0,
+                              fontWeight: FontWeight.w600,
+                            ),
+                      ),
+                      Padding(
+                        padding:
+                            const EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 0.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: FlutterFlowTheme.of(context)
+                                .secondaryBackground,
+                            borderRadius: BorderRadius.circular(10.0),
+                            border: Border.all(
+                              color: FlutterFlowTheme.of(context).accent4,
+                              width: 1.0,
+                            ),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsetsDirectional.fromSTEB(
+                                12.0, 6.0, 12.0, 6.0),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Container(
+                                  width: 30.0,
+                                  height: 30.0,
+                                  decoration: BoxDecoration(
+                                    color: FlutterFlowTheme.of(context).primary,
+                                    borderRadius: BorderRadius.circular(100.0),
+                                  ),
+                                  alignment: const AlignmentDirectional(0.0, 0.0),
+                                  child: Icon(
+                                    FFIcons.kcoffeeBean1,
+                                    color: FlutterFlowTheme.of(context)
+                                        .secondaryBackground,
+                                    size: 16.0,
+                                  ),
+                                ),
+                                Text(
+                                  valueOrDefault<String>(
+                                    ProductsGroup.singleProductCall
+                                        .data(
+                                          rowSingleProductResponse.jsonBody,
+                                        )
+                                        ?.categoryName,
+                                    '[CATEGORY]',
+                                  ),
+                                  style: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .override(
+                                        fontFamily: 'Montserrat',
+                                        fontSize: 16.0,
+                                        letterSpacing: 0.0,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                ),
+                              ].divide(const SizedBox(width: 10.0)),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding:
+                            const EdgeInsetsDirectional.fromSTEB(0.0, 30.0, 0.0, 0.0),
+                        child: Text(
+                          valueOrDefault<String>(
+                            functions.formatCurrency(
+                                ProductsGroup.singleProductCall
+                                    .data(
+                                      rowSingleProductResponse.jsonBody,
+                                    )!
+                                    .spots
+                                    .firstOrNull!
+                                    .price,
+                                _model.extra),
+                            '\$0',
+                          ),
+                          style:
+                              FlutterFlowTheme.of(context).bodyMedium.override(
+                                    fontFamily: 'Montserrat',
+                                    color: FlutterFlowTheme.of(context).primary,
+                                    fontSize: 35.0,
+                                    letterSpacing: 0.0,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                        ),
+                      ),
+                      if (ProductsGroup.singleProductCall
+                              .data(
+                                rowSingleProductResponse.jsonBody,
+                              )!
+                              .groupModifications.isNotEmpty)
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsetsDirectional.fromSTEB(
+                                0.0, 30.0, 0.0, 0.0),
+                            child: Builder(
+                              builder: (context) {
+                                final modificators =
+                                    ProductsGroup.singleProductCall
+                                            .data(
+                                              rowSingleProductResponse.jsonBody,
+                                            )
+                                            ?.groupModifications
+                                            .toList() ??
+                                        [];
+
+                                return SizedBox(
+                                  width: double.infinity,
+                                  child: Stack(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsetsDirectional.fromSTEB(
+                                            0.0, 0.0, 0.0, 40.0),
+                                        child: PageView.builder(
+                                          physics:
+                                              const NeverScrollableScrollPhysics(),
+                                          controller: _model
+                                                  .modificatorsController ??=
+                                              PageController(
+                                                  initialPage: max(
+                                                      0,
+                                                      min(
+                                                          0,
+                                                          modificators.length -
+                                                              1))),
+                                          scrollDirection: Axis.horizontal,
+                                          itemCount: modificators.length,
+                                          itemBuilder:
+                                              (context, modificatorsIndex) {
+                                            final modificatorsItem =
+                                                modificators[modificatorsIndex];
+                                            return SingleChildScrollView(
+                                              child: Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    modificatorsItem.name,
+                                                    style: FlutterFlowTheme.of(
+                                                            context)
+                                                        .bodyMedium
+                                                        .override(
+                                                          fontFamily:
+                                                              'Montserrat',
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .primaryText,
+                                                          fontSize: 22.0,
+                                                          letterSpacing: 0.0,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                        ),
+                                                  ),
+                                                  Builder(
+                                                    builder: (context) {
+                                                      final value =
+                                                          modificatorsItem
+                                                              .modifications
+                                                              .toList();
+
+                                                      return Column(
+                                                        mainAxisSize:
+                                                            MainAxisSize.max,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .stretch,
+                                                        children: List.generate(
+                                                            value.length,
+                                                            (valueIndex) {
+                                                          final valueItem =
+                                                              value[valueIndex];
+                                                          return InkWell(
+                                                            splashColor: Colors
+                                                                .transparent,
+                                                            focusColor: Colors
+                                                                .transparent,
+                                                            hoverColor: Colors
+                                                                .transparent,
+                                                            highlightColor:
+                                                                Colors
+                                                                    .transparent,
+                                                            onTap: () async {
+                                                              if ((_model
+                                                                      .product
+                                                                      ?.modification
+                                                                      .elementAtOrNull(
+                                                                          modificatorsIndex)) !=
+                                                                  null) {
+                                                                _model
+                                                                    .updateProductStruct(
+                                                                  (e) => e
+                                                                    ..updateModification(
+                                                                      (e) => e[
+                                                                              modificatorsIndex] =
+                                                                          OrderProductModificationStruct(
+                                                                        id: valueItem
+                                                                            .dishModificationId,
+                                                                        count:
+                                                                            1,
+                                                                        name: valueItem
+                                                                            .name,
+                                                                        price: valueItem
+                                                                            .price,
+                                                                      ),
+                                                                    ),
+                                                                );
+                                                                _model
+                                                                    .extra = _model
+                                                                        .extra +
+                                                                    valueItem
+                                                                        .price;
+                                                                safeSetState(
+                                                                    () {});
+                                                              } else {
+                                                                _model
+                                                                    .updateProductStruct(
+                                                                  (e) => e
+                                                                    ..updateModification(
+                                                                      (e) => e.insert(
+                                                                          modificatorsIndex,
+                                                                          OrderProductModificationStruct(
+                                                                            id: valueItem.dishModificationId,
+                                                                            count:
+                                                                                1,
+                                                                            name:
+                                                                                valueItem.name,
+                                                                            price:
+                                                                                valueItem.price,
+                                                                          )),
+                                                                    ),
+                                                                );
+                                                                _model
+                                                                    .extra = _model
+                                                                        .extra +
+                                                                    valueItem
+                                                                        .price;
+                                                                safeSetState(
+                                                                    () {});
+                                                              }
+
+                                                              if (_model
+                                                                      .modificatorsCurrentIndex !=
+                                                                  (ProductsGroup
+                                                                          .singleProductCall
+                                                                          .data(
+                                                                            rowSingleProductResponse.jsonBody,
+                                                                          )!
+                                                                          .groupModifications
+                                                                          .length -
+                                                                      1)) {
+                                                                await _model
+                                                                    .modificatorsController
+                                                                    ?.nextPage(
+                                                                  duration: const Duration(
+                                                                      milliseconds:
+                                                                          300),
+                                                                  curve: Curves
+                                                                      .ease,
+                                                                );
+                                                              }
+                                                            },
+                                                            child: Container(
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                color:
+                                                                    valueOrDefault<
+                                                                        Color>(
+                                                                  (_model.product?.modification.elementAtOrNull(modificatorsIndex))
+                                                                              ?.id ==
+                                                                          valueItem
+                                                                              .dishModificationId
+                                                                      ? FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .primary
+                                                                      : const Color(
+                                                                          0x3F57636C),
+                                                                  const Color(
+                                                                      0x3F57636C),
+                                                                ),
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            4.0),
+                                                              ),
+                                                              child: Row(
+                                                                mainAxisSize:
+                                                                    MainAxisSize
+                                                                        .max,
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .spaceBetween,
+                                                                children: [
+                                                                  Padding(
+                                                                    padding: const EdgeInsetsDirectional
+                                                                        .fromSTEB(
+                                                                            10.0,
+                                                                            10.0,
+                                                                            10.0,
+                                                                            10.0),
+                                                                    child: Text(
+                                                                      valueItem
+                                                                          .name,
+                                                                      style: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .bodyMedium
+                                                                          .override(
+                                                                            fontFamily:
+                                                                                'Montserrat',
+                                                                            color:
+                                                                                valueOrDefault<Color>(
+                                                                              (_model.product?.modification.elementAtOrNull(modificatorsIndex))?.id == valueItem.dishModificationId ? FlutterFlowTheme.of(context).secondaryBackground : const Color(0xFF57636C),
+                                                                              const Color(0xFF57636C),
+                                                                            ),
+                                                                            fontSize:
+                                                                                18.0,
+                                                                            letterSpacing:
+                                                                                0.0,
+                                                                            fontWeight:
+                                                                                FontWeight.w500,
+                                                                          ),
+                                                                    ),
+                                                                  ),
+                                                                  if (valueItem
+                                                                          .price !=
+                                                                      0.0)
+                                                                    Padding(
+                                                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                                                          10.0,
+                                                                          10.0,
+                                                                          10.0,
+                                                                          10.0),
+                                                                      child:
+                                                                          Text(
+                                                                        '+ \$${valueItem.price.toString()}',
+                                                                        style: FlutterFlowTheme.of(context)
+                                                                            .bodyMedium
+                                                                            .override(
+                                                                              fontFamily: 'Montserrat',
+                                                                              color: valueOrDefault<Color>(
+                                                                                (_model.product?.modification.elementAtOrNull(modificatorsIndex))?.id == valueItem.dishModificationId ? FlutterFlowTheme.of(context).secondaryBackground : const Color(0xFF57636C),
+                                                                                const Color(0xFF57636C),
+                                                                              ),
+                                                                              fontSize: 18.0,
+                                                                              letterSpacing: 0.0,
+                                                                              fontWeight: FontWeight.w500,
+                                                                            ),
+                                                                      ),
+                                                                    ),
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          );
+                                                        }).divide(const SizedBox(
+                                                            height: 10.0)),
+                                                      );
+                                                    },
+                                                  ),
+                                                ].divide(
+                                                    const SizedBox(height: 10.0)),
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                      Align(
+                                        alignment:
+                                            const AlignmentDirectional(0.0, 1.0),
+                                        child: Padding(
+                                          padding:
+                                              const EdgeInsetsDirectional.fromSTEB(
+                                                  0.0, 0.0, 0.0, 16.0),
+                                          child: smooth_page_indicator
+                                              .SmoothPageIndicator(
+                                            controller: _model
+                                                    .modificatorsController ??=
+                                                PageController(
+                                                    initialPage: max(
+                                                        0,
+                                                        min(
+                                                            0,
+                                                            modificators
+                                                                    .length -
+                                                                1))),
+                                            count: modificators.length,
+                                            axisDirection: Axis.horizontal,
+                                            onDotClicked: (i) async {
+                                              await _model
+                                                  .modificatorsController!
+                                                  .animateToPage(
+                                                i,
+                                                duration:
+                                                    const Duration(milliseconds: 500),
+                                                curve: Curves.ease,
+                                              );
+                                              safeSetState(() {});
+                                            },
+                                            effect: smooth_page_indicator
+                                                .ExpandingDotsEffect(
+                                              expansionFactor: 3.0,
+                                              spacing: 12.0,
+                                              radius: 8.0,
+                                              dotWidth: 8.0,
+                                              dotHeight: 8.0,
+                                              dotColor:
+                                                  FlutterFlowTheme.of(context)
+                                                      .accent4,
+                                              activeDotColor:
+                                                  FlutterFlowTheme.of(context)
+                                                      .secondary,
+                                              paintStyle: PaintingStyle.fill,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                        ),
+                      Padding(
+                        padding:
+                            const EdgeInsetsDirectional.fromSTEB(0.0, 40.0, 0.0, 0.0),
+                        child: Container(
+                          width: double.infinity,
+                          height: 50.0,
+                          decoration: BoxDecoration(
+                            color: FlutterFlowTheme.of(context)
+                                .secondaryBackground,
+                            borderRadius: BorderRadius.circular(10.0),
+                            shape: BoxShape.rectangle,
+                            border: Border.all(
+                              color: FlutterFlowTheme.of(context).accent4,
+                              width: 1.0,
+                            ),
+                          ),
+                          child: FlutterFlowCountController(
+                            decrementIconBuilder: (enabled) => Icon(
+                              Icons.remove_rounded,
+                              color: enabled
+                                  ? FlutterFlowTheme.of(context).secondaryText
+                                  : FlutterFlowTheme.of(context).accent4,
+                              size: 30.0,
+                            ),
+                            incrementIconBuilder: (enabled) => Icon(
+                              Icons.add_rounded,
+                              color: enabled
+                                  ? FlutterFlowTheme.of(context).primary
+                                  : FlutterFlowTheme.of(context).accent4,
+                              size: 30.0,
+                            ),
+                            countBuilder: (count) => Text(
+                              count.toString(),
+                              style: FlutterFlowTheme.of(context)
+                                  .titleLarge
+                                  .override(
+                                    fontFamily: 'Montserrat',
+                                    fontSize: 25.0,
+                                    letterSpacing: 0.0,
+                                  ),
+                            ),
+                            count: _model.countControllerValue ??= 1,
+                            updateCount: (count) async {
+                              safeSetState(
+                                  () => _model.countControllerValue = count);
+                              _model.updateProductStruct(
+                                (e) => e..count = _model.countControllerValue,
+                              );
+                              safeSetState(() {});
+                            },
+                            stepSize: 1,
+                            minimum: 1,
+                            maximum: 20,
+                            contentPadding: const EdgeInsetsDirectional.fromSTEB(
+                                20.0, 0.0, 20.0, 0.0),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsetsDirectional.fromSTEB(
+                            0.0, 20.0, 0.0, 40.0),
+                        child: FFButtonWidget(
+                          onPressed: ((ProductsGroup.singleProductCall
+                                          .data(
+                                            rowSingleProductResponse.jsonBody,
+                                          )!
+                                          .groupModifications.isNotEmpty) &&
+                                  (_model.product?.modification.length !=
+                                      ProductsGroup.singleProductCall
+                                          .data(
+                                            rowSingleProductResponse.jsonBody,
+                                          )
+                                          ?.groupModifications
+                                          .length))
+                              ? null
+                              : () async {
+                                  FFAppState()
+                                      .addToOrderItems(OrderProductStruct(
+                                    id: widget.productId,
+                                    count: _model.countControllerValue,
+                                    modification: _model.product?.modification,
+                                    productName: ProductsGroup.singleProductCall
+                                        .data(
+                                          rowSingleProductResponse.jsonBody,
+                                        )
+                                        ?.productName,
+                                    granTotal: valueOrDefault<String>(
+                                      functions.formatCurrency(
+                                          ProductsGroup.singleProductCall
+                                              .data(
+                                                rowSingleProductResponse
+                                                    .jsonBody,
+                                              )!
+                                              .spots
+                                              .firstOrNull!
+                                              .price,
+                                          _model.extra),
+                                      '\$0',
+                                    ),
+                                    unitaryPrice: functions
+                                        .stringToNumber(valueOrDefault<String>(
+                                      functions.formatCurrency(
+                                          ProductsGroup.singleProductCall
+                                              .data(
+                                                rowSingleProductResponse
+                                                    .jsonBody,
+                                              )!
+                                              .spots
+                                              .firstOrNull!
+                                              .price,
+                                          _model.extra),
+                                      '\$0',
+                                    )),
+                                  ));
+                                  _model.updatePage(() {});
+                                  Navigator.pop(context);
+                                },
+                          text: 'Agregar al Pedido',
+                          options: FFButtonOptions(
+                            width: double.infinity,
+                            height: 45.0,
+                            padding: const EdgeInsetsDirectional.fromSTEB(
+                                16.0, 0.0, 16.0, 0.0),
+                            iconAlignment: IconAlignment.start,
+                            iconPadding: const EdgeInsetsDirectional.fromSTEB(
+                                0.0, 0.0, 0.0, 0.0),
+                            color: FlutterFlowTheme.of(context).secondary,
+                            textStyle: FlutterFlowTheme.of(context)
+                                .titleSmall
+                                .override(
+                                  fontFamily: 'Montserrat',
+                                  color: Colors.white,
+                                  letterSpacing: 0.0,
+                                ),
+                            elevation: 0.0,
+                            borderRadius: BorderRadius.circular(8.0),
+                            disabledColor: const Color(0x73ECB169),
+                            disabledTextColor: const Color(0x72FFFFFF),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ].divide(const SizedBox(width: 80.0)),
+            );
+          },
+        ),
+      ),
+    );
+  }
+}
