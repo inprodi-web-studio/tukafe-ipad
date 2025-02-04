@@ -1,0 +1,1 @@
+ /Users/andresmurillo/Development/TuKafe/tukafe-ipad/.dart_tool/flutter_build/ecdde8916d43faeccceab78f42b0f3e7/native_assets.yaml: 

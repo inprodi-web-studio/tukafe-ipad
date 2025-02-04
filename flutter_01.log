@@ -1,0 +1,80 @@
+Flutter crash report.
+Please report a bug at https://github.com/flutter/flutter/issues.
+
+## command
+
+flutter run -d 00008112-001625521193A01E
+
+## exception
+
+SocketException: SocketException: Send failed (OS Error: No route to host, errno = 65), address = 0.0.0.0, port = 5353
+
+```
+#0      _NativeSocket.send (dart:io-patch/socket_patch.dart:1275:34)
+#1      _RawDatagramSocket.send (dart:io-patch/socket_patch.dart:2590:15)
+#2      MDnsClient.lookup (package:multicast_dns/multicast_dns.dart:219:22)
+#3      MDnsVmServiceDiscovery._pollingVmService (package:flutter_tools/src/mdns_discovery.dart:232:66)
+<asynchronous suspension>
+#4      MDnsVmServiceDiscovery.firstMatchingVmService (package:flutter_tools/src/mdns_discovery.dart:188:56)
+<asynchronous suspension>
+#5      MDnsVmServiceDiscovery.getVMServiceUriForLaunch (package:flutter_tools/src/mdns_discovery.dart:433:50)
+<asynchronous suspension>
+#6      Future.wait.<anonymous closure> (dart:async/future.dart:534:21)
+<asynchronous suspension>
+#7      Future.any.onValue (dart:async/future.dart:628:5)
+<asynchronous suspension>
+```
+
+## flutter doctor
+
+```
+[33m[!][39m Flutter (Channel stable, 3.24.2, on macOS 15.1.1 24B91 darwin-arm64, locale es-MX)
+    [32m•[39m Flutter version 3.24.2 on channel stable at /Users/andresmurillo/tools/flutter
+    [33m![39m Warning: `flutter` on your path resolves to /Users/andresmurillo/Tools/flutter/bin/flutter, which is not inside your current Flutter SDK checkout at /Users/andresmurillo/tools/flutter. Consider
+      adding /Users/andresmurillo/tools/flutter/bin to the front of your path.
+    [33m![39m Warning: `dart` on your path resolves to /Users/andresmurillo/Tools/flutter/bin/dart, which is not inside your current Flutter SDK checkout at /Users/andresmurillo/tools/flutter. Consider adding
+      /Users/andresmurillo/tools/flutter/bin to the front of your path.
+    [32m•[39m Upstream repository https://github.com/flutter/flutter.git
+    [32m•[39m Framework revision 4cf269e36d (5 months ago), 2024-09-03 14:30:00 -0700
+    [32m•[39m Engine revision a6bd3f1de1
+    [32m•[39m Dart version 3.5.2
+    [32m•[39m DevTools version 2.37.2
+    [32m•[39m If those were intentional, you can disregard the above warnings; however it is recommended to use "git" directly to perform update checks and upgrades.
+
+[31m[✗][39m Android toolchain - develop for Android devices
+    [31m✗[39m Unable to locate Android SDK.
+      Install Android Studio from: https://developer.android.com/studio/index.html
+      On first launch it will assist you in installing the Android SDK components.
+      (or visit https://flutter.dev/to/macos-android-setup for detailed instructions).
+      If the Android SDK has been installed to a custom location, please use
+      `flutter config --android-sdk` to update to that location.
+
+
+[32m[✓][39m Xcode - develop for iOS and macOS (Xcode 16.2)
+    [32m•[39m Xcode at /Applications/Xcode.app/Contents/Developer
+    [32m•[39m Build 16C5032a
+    [32m•[39m CocoaPods version 1.16.2
+
+[32m[✓][39m Chrome - develop for the web
+    [32m•[39m Chrome at /Applications/Google Chrome.app/Contents/MacOS/Google Chrome
+
+[33m[!][39m Android Studio (not installed)
+    [32m•[39m Android Studio not found; download from https://developer.android.com/studio/index.html
+      (or visit https://flutter.dev/to/macos-android-setup for detailed instructions).
+
+[32m[✓][39m VS Code (version 1.96.4)
+    [32m•[39m VS Code at /Applications/Visual Studio Code.app/Contents
+    [32m•[39m Flutter extension version 3.102.0
+
+[32m[✓][39m Connected device (5 available)
+    [32m•[39m iPhone de Andrés (mobile)       • 00008120-000175593A87C01E • ios            • iOS 18.2.1 22C161
+    [32m•[39m iPad (mobile)                   • 00008112-001625521193A01E • ios            • iOS 18.0.1 22A3370
+    [32m•[39m macOS (desktop)                 • macos                     • darwin-arm64   • macOS 15.1.1 24B91 darwin-arm64
+    [32m•[39m Mac Designed for iPad (desktop) • mac-designed-for-ipad     • darwin         • macOS 15.1.1 24B91 darwin-arm64
+    [32m•[39m Chrome (web)                    • chrome                    • web-javascript • Google Chrome 132.0.6834.111
+
+[32m[✓][39m Network resources
+    [32m•[39m All expected network resources are available.
+
+[33m![39m Doctor found issues in 3 categories.
+```

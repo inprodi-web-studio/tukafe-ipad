@@ -22,17 +22,18 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
-	<array>        <dict>
-        <key>CFBundleTypeRole</key>
-        <string>Editor</string>
-        <key>CFBundleURLName</key>
-        <string>tukafeinplace.com</string>
-        <key>CFBundleURLSchemes</key>
-        <array>
-        <string>tukafeinplace</string>
-        </array>
-        </dict>
-    </array>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+        	<string>tukafeinplace.com</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>tukafeinplace</string>
+			</array>
+		</dict>
+	</array>
     <key>FlutterDeepLinkingEnabled</key>
     <true/>
 
@@ -46,26 +47,8 @@
 		<string>external-accessory</string>
 	</array>
 
-	<key>NSBluetoothAlwaysUsageDescription</key>
-	<string>Our app uses bluetooth to find, connect and transfer data with Zettle card reader devices.</string>
-
 	<key>NSBluetoothPeripheralUsageDescription</key>
 	<string>Our app uses bluetooth to find, connect and transfer data with Zettle card reader devices.</string>
-
-	<key>CFBundleURLTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>"The scheme of your OAuth Redirect URI *"</string>
-			</array>
-		</dict>
-	</array>
-
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>You need to allow this to be able to accept card payments</string>
 
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
@@ -103,5 +86,9 @@
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 
+	<key>CADisableMinimumFrameDurationOnPhone</key>
+	<true/>
+	<key>UIApplicationSupportsIndirectInputEvents</key>
+	<true/>
 </dict>
 </plist>
