@@ -46,7 +46,7 @@
 		</data>
 		<key>Frameworks/App.framework/App</key>
 		<data>
-		VswlNK6LvDewalrXXyDx8otIPZU=
+		PaygiaK+91O2KJec5wcFu7MrIaw=
 		</data>
 		<key>Frameworks/App.framework/Info.plist</key>
 		<data>
@@ -54,7 +54,7 @@
 		</data>
 		<key>Frameworks/App.framework/_CodeSignature/CodeResources</key>
 		<data>
-		A5kLRW1nOVi+OU31Ndt+uAEKQvo=
+		/o73luuUy6ZJb8PgmAz/sz04UVA=
 		</data>
 		<key>Frameworks/App.framework/flutter_assets/AssetManifest.bin</key>
 		<data>
@@ -142,7 +142,7 @@
 		</data>
 		<key>Frameworks/App.framework/flutter_assets/kernel_blob.bin</key>
 		<data>
-		DRmrYo4DAiIcJZRt8hsYHeN8S4s=
+		0SFyNLSSjnCxoeHs5rQUbkZcWt0=
 		</data>
 		<key>Frameworks/App.framework/flutter_assets/packages/cupertino_icons/assets/CupertinoIcons.ttf</key>
 		<data>
@@ -510,7 +510,7 @@
 		</data>
 		<key>Frameworks/iZettlePayments.framework/iZettlePayments</key>
 		<data>
-		v9aUFMELyhr2Om3SQprXygKf/iE=
+		nJXdqAdaGTuzo00J2mVH0l1ieOM=
 		</data>
 		<key>Frameworks/iZettlePayments.framework/localization/da_DK.json</key>
 		<data>
@@ -598,7 +598,7 @@
 		</data>
 		<key>Frameworks/iZettleSDK.framework/iZettleSDK</key>
 		<data>
-		CxzHJXwWVmcq2Ye8239OBEoz8AI=
+		B/1jj8cOVCA4mEm1ZKZGszC2aPY=
 		</data>
 		<key>Frameworks/iZettleSDK.framework/strip-frameworks.sh</key>
 		<data>
@@ -618,11 +618,11 @@
 		</data>
 		<key>Runner.debug.dylib</key>
 		<data>
-		hwolB//nU8mEaY+FwIAEVczB788=
+		eAljTOYDj1OixQoo0zYV2gQHbX4=
 		</data>
 		<key>__preview.dylib</key>
 		<data>
-		Ao26yYJVnWBaQWxoL/W4HIjHqUY=
+		xKiEJYLDLba7EBvcJreTjk720EA=
 		</data>
 		<key>embedded.mobileprovision</key>
 		<data>
@@ -757,7 +757,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			or9v6F9KnynA7kV7SGKX16/s8EBgMy+dXRxgPbvVP6s=
+			8OSFccJFebUu/p9pBBVrzyP9ZAUlaEET5ItCzlFGbAI=
 			</data>
 		</dict>
 		<key>Frameworks/App.framework/Info.plist</key>
@@ -771,7 +771,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			AQMQRvFPtZLntmcHeWtrvNy+NK0HuWYxNXBKUUvXOG0=
+			NAFg8IGRkYX1How9qnoI7N4FinsGzuVd0QRMO8t11nw=
 			</data>
 		</dict>
 		<key>Frameworks/App.framework/flutter_assets/AssetManifest.bin</key>
@@ -925,7 +925,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			DhV6RY7mTIspw76rf22M5HkpPtQPI4U0yGrzO6VZaw0=
+			zqY2PKsLf8G0ahGKULSFqg0irIgRgtCHxFEsq/bykAg=
 			</data>
 		</dict>
 		<key>Frameworks/App.framework/flutter_assets/packages/cupertino_icons/assets/CupertinoIcons.ttf</key>
@@ -1569,7 +1569,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			J79ID5/C751Nr3QMIgz8aLX/LrAtdhIUjdTCG2vKO64=
+			Kyg1wUAAUAU4QlfkJzvhqCqMqAYbalMOSSGZaJuH55o=
 			</data>
 		</dict>
 		<key>Frameworks/iZettlePayments.framework/localization/da_DK.json</key>
@@ -1723,7 +1723,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			nYiwG4BXTK9B6vImlpESg4o1uaYaplArtaO1KtAGwmA=
+			Cll0oETR2R3fsrMJu7M0gWWGhA/k3wXAE/PNrv2hpxg=
 			</data>
 		</dict>
 		<key>Frameworks/iZettleSDK.framework/strip-frameworks.sh</key>
@@ -1744,14 +1744,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			BH+yYES7MhDx7iHE00/OP5mIVBKm15cFbI4GWGP07xY=
+			a8cQpTQTbGl6HBiK7uygv8YpvrYyPlr1x/uvaiPz7R8=
 			</data>
 		</dict>
 		<key>__preview.dylib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			wcrZCXd6etkmeaRv8mNOn5vNs+d0t6XhxqrBRPGgKgI=
+			KHY9ZudlYWolGQezIbDP9uzMHap6+uMRRCBUnaQOyG8=
 			</data>
 		</dict>
 		<key>embedded.mobileprovision</key>
