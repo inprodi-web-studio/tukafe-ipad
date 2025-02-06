@@ -7,7 +7,6 @@ import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
-import '/custom_code/actions/index.dart' as actions;
 import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:styled_divider/styled_divider.dart';
 import 'package:flutter/material.dart';
@@ -20,9 +19,11 @@ class OrderWidget extends StatefulWidget {
   const OrderWidget({
     super.key,
     required this.userType,
+    this.customer,
   });
 
   final UserTypes? userType;
+  final dynamic customer;
 
   @override
   State<OrderWidget> createState() => _OrderWidgetState();
@@ -101,126 +102,132 @@ class _OrderWidgetState extends State<OrderWidget> {
                                 Row(
                                   mainAxisSize: MainAxisSize.max,
                                   children: [
-                                    Container(
-                                      decoration: BoxDecoration(
-                                        color: FlutterFlowTheme.of(context)
-                                            .secondaryBackground,
-                                        borderRadius:
-                                            BorderRadius.circular(10.0),
-                                        border: Border.all(
+                                    if (widget.userType != UserTypes.guest)
+                                      Container(
+                                        decoration: BoxDecoration(
                                           color: FlutterFlowTheme.of(context)
-                                              .accent4,
+                                              .secondaryBackground,
+                                          borderRadius:
+                                              BorderRadius.circular(10.0),
+                                          border: Border.all(
+                                            color: FlutterFlowTheme.of(context)
+                                                .accent4,
+                                          ),
                                         ),
-                                      ),
-                                      child: Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(
-                                            12.0, 4.0, 12.0, 4.0),
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.max,
-                                          children: [
-                                            Container(
-                                              width: 30.0,
-                                              height: 30.0,
-                                              decoration: BoxDecoration(
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .alternate,
-                                                borderRadius:
-                                                    BorderRadius.circular(
-                                                        100.0),
+                                        child: Padding(
+                                          padding:
+                                              const EdgeInsetsDirectional.fromSTEB(
+                                                  12.0, 4.0, 12.0, 4.0),
+                                          child: Row(
+                                            mainAxisSize: MainAxisSize.max,
+                                            children: [
+                                              Container(
+                                                width: 30.0,
+                                                height: 30.0,
+                                                decoration: BoxDecoration(
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .alternate,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          100.0),
+                                                ),
+                                                alignment: const AlignmentDirectional(
+                                                    0.0, 0.0),
+                                                child: Text(
+                                                  'U',
+                                                  style: FlutterFlowTheme.of(
+                                                          context)
+                                                      .bodyMedium
+                                                      .override(
+                                                        fontFamily:
+                                                            'Montserrat',
+                                                        color: FlutterFlowTheme
+                                                                .of(context)
+                                                            .secondaryBackground,
+                                                        fontSize: 14.0,
+                                                        letterSpacing: 0.0,
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                      ),
+                                                ),
                                               ),
-                                              alignment: const AlignmentDirectional(
-                                                  0.0, 0.0),
-                                              child: Text(
-                                                'A',
+                                              Text(
+                                                'Usuario',
                                                 style:
                                                     FlutterFlowTheme.of(context)
                                                         .bodyMedium
                                                         .override(
                                                           fontFamily:
                                                               'Montserrat',
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .secondaryBackground,
                                                           fontSize: 14.0,
                                                           letterSpacing: 0.0,
                                                           fontWeight:
                                                               FontWeight.w600,
                                                         ),
                                               ),
-                                            ),
-                                            Text(
-                                              'Andrés Murillo',
-                                              style: FlutterFlowTheme.of(
-                                                      context)
-                                                  .bodyMedium
-                                                  .override(
-                                                    fontFamily: 'Montserrat',
-                                                    fontSize: 14.0,
-                                                    letterSpacing: 0.0,
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
-                                            ),
-                                          ].divide(const SizedBox(width: 12.0)),
+                                            ].divide(const SizedBox(width: 12.0)),
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                    Container(
-                                      decoration: BoxDecoration(
-                                        color: FlutterFlowTheme.of(context)
-                                            .secondaryBackground,
-                                        borderRadius:
-                                            BorderRadius.circular(10.0),
-                                        border: Border.all(
+                                    if (widget.userType != UserTypes.guest)
+                                      Container(
+                                        decoration: BoxDecoration(
                                           color: FlutterFlowTheme.of(context)
-                                              .accent4,
+                                              .secondaryBackground,
+                                          borderRadius:
+                                              BorderRadius.circular(10.0),
+                                          border: Border.all(
+                                            color: FlutterFlowTheme.of(context)
+                                                .accent4,
+                                          ),
+                                        ),
+                                        child: Padding(
+                                          padding:
+                                              const EdgeInsetsDirectional.fromSTEB(
+                                                  10.0, 7.0, 10.0, 7.0),
+                                          child: Row(
+                                            mainAxisSize: MainAxisSize.max,
+                                            children: [
+                                              Icon(
+                                                FFIcons.kcoffee,
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .secondary,
+                                                size: 24.0,
+                                              ),
+                                              Icon(
+                                                FFIcons.kcoffee,
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .secondary,
+                                                size: 24.0,
+                                              ),
+                                              Icon(
+                                                FFIcons.kcoffee,
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .secondary,
+                                                size: 24.0,
+                                              ),
+                                              Icon(
+                                                FFIcons.kcoffee,
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .accent4,
+                                                size: 24.0,
+                                              ),
+                                              Icon(
+                                                FFIcons.kcoffee,
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .accent4,
+                                                size: 24.0,
+                                              ),
+                                            ].divide(const SizedBox(width: 10.0)),
+                                          ),
                                         ),
                                       ),
-                                      child: Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(
-                                            10.0, 7.0, 10.0, 7.0),
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.max,
-                                          children: [
-                                            Icon(
-                                              FFIcons.kcoffee,
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .secondary,
-                                              size: 24.0,
-                                            ),
-                                            Icon(
-                                              FFIcons.kcoffee,
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .secondary,
-                                              size: 24.0,
-                                            ),
-                                            Icon(
-                                              FFIcons.kcoffee,
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .secondary,
-                                              size: 24.0,
-                                            ),
-                                            Icon(
-                                              FFIcons.kcoffee,
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .accent4,
-                                              size: 24.0,
-                                            ),
-                                            Icon(
-                                              FFIcons.kcoffee,
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .accent4,
-                                              size: 24.0,
-                                            ),
-                                          ].divide(const SizedBox(width: 10.0)),
-                                        ),
-                                      ),
-                                    ),
                                   ].divide(const SizedBox(width: 10.0)),
                                 ),
                               ].divide(const SizedBox(width: 10.0)),
@@ -1413,11 +1420,11 @@ class _OrderWidgetState extends State<OrderWidget> {
                             padding: const EdgeInsetsDirectional.fromSTEB(
                                 0.0, 20.0, 0.0, 0.0),
                             child: FFButtonWidget(
-                              onPressed: () async {
-                                await actions.generatePayment(
-                                  100.0,
-                                );
-                              },
+                              onPressed: (FFAppState().OrderItems.isEmpty)
+                                  ? null
+                                  : () {
+                                      print('Button pressed ...');
+                                    },
                               text: 'Pagar',
                               icon: const Icon(
                                 FFIcons.kcreditCard,
