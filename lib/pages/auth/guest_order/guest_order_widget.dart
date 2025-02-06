@@ -1,3 +1,4 @@
+import '/backend/api_requests/api_calls.dart';
 import '/backend/schema/enums/enums.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -252,6 +253,7 @@ class _GuestOrderWidgetState extends State<GuestOrderWidget> {
                                                         '')
                                                 ? null
                                                 : () async {
+                                                    var shouldSetState = false;
                                                     if (_model.formKey
                                                                 .currentState ==
                                                             null ||
@@ -260,17 +262,158 @@ class _GuestOrderWidgetState extends State<GuestOrderWidget> {
                                                             .validate()) {
                                                       return;
                                                     }
-
-                                                    context.pushNamed(
-                                                      'Order',
-                                                      queryParameters: {
-                                                        'userType':
-                                                            serializeParam(
-                                                          UserTypes.identified,
-                                                          ParamType.Enum,
-                                                        ),
-                                                      }.withoutNulls,
+                                                    _model.existingOutput =
+                                                        await CustomersGroup
+                                                            .findByPhoneCall
+                                                            .call(
+                                                      phone:
+                                                          '52${_model.phoneTextController.text}',
                                                     );
+
+                                                    shouldSetState = true;
+                                                    if ((_model.existingOutput
+                                                            ?.succeeded ??
+                                                        true)) {
+                                                      if (CustomersGroup
+                                                              .findByPhoneCall
+                                                              .data(
+                                                                (_model.existingOutput
+                                                                        ?.jsonBody ??
+                                                                    ''),
+                                                              )!.isNotEmpty) {
+                                                        context.pushNamed(
+                                                          'Order',
+                                                          queryParameters: {
+                                                            'userType':
+                                                                serializeParam(
+                                                              UserTypes
+                                                                  .identified,
+                                                              ParamType.Enum,
+                                                            ),
+                                                            'customer':
+                                                                serializeParam(
+                                                              CustomersGroup
+                                                                  .findByPhoneCall
+                                                                  .customer(
+                                                                (_model.existingOutput
+                                                                        ?.jsonBody ??
+                                                                    ''),
+                                                              ),
+                                                              ParamType.JSON,
+                                                            ),
+                                                          }.withoutNulls,
+                                                        );
+
+                                                        if (shouldSetState) {
+                                                          safeSetState(() {});
+                                                        }
+                                                        return;
+                                                      } else {
+                                                        _model.registerOutput =
+                                                            await CustomersGroup
+                                                                .createPhoneCustomerCall
+                                                                .call(
+                                                          phone: _model
+                                                              .phoneTextController
+                                                              .text,
+                                                        );
+
+                                                        shouldSetState = true;
+                                                        if ((_model
+                                                                .registerOutput
+                                                                ?.succeeded ??
+                                                            true)) {
+                                                          context.pushNamed(
+                                                            'Order',
+                                                            queryParameters: {
+                                                              'userType':
+                                                                  serializeParam(
+                                                                UserTypes
+                                                                    .identified,
+                                                                ParamType.Enum,
+                                                              ),
+                                                              'customer':
+                                                                  serializeParam(
+                                                                <String,
+                                                                    dynamic>{
+                                                                  'phone':
+                                                                      _model.phoneTextController.text,
+                                                                },
+                                                                ParamType.JSON,
+                                                              ),
+                                                            }.withoutNulls,
+                                                          );
+
+                                                          if (shouldSetState) {
+                                                            safeSetState(() {});
+                                                          }
+                                                          return;
+                                                        } else {
+                                                          ScaffoldMessenger.of(
+                                                                  context)
+                                                              .clearSnackBars();
+                                                          ScaffoldMessenger.of(
+                                                                  context)
+                                                              .showSnackBar(
+                                                            SnackBar(
+                                                              content: Text(
+                                                                'Ocurrió un error al identificar al cliente',
+                                                                style:
+                                                                    TextStyle(
+                                                                  color: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .secondaryBackground,
+                                                                ),
+                                                              ),
+                                                              duration: const Duration(
+                                                                  milliseconds:
+                                                                      4000),
+                                                              backgroundColor:
+                                                                  FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .error,
+                                                            ),
+                                                          );
+                                                          if (shouldSetState) {
+                                                            safeSetState(() {});
+                                                          }
+                                                          return;
+                                                        }
+                                                      }
+                                                    } else {
+                                                      ScaffoldMessenger.of(
+                                                              context)
+                                                          .clearSnackBars();
+                                                      ScaffoldMessenger.of(
+                                                              context)
+                                                          .showSnackBar(
+                                                        SnackBar(
+                                                          content: Text(
+                                                            'Ocurrió un error al identificar al cliente',
+                                                            style: TextStyle(
+                                                              color: FlutterFlowTheme
+                                                                      .of(context)
+                                                                  .secondaryBackground,
+                                                            ),
+                                                          ),
+                                                          duration: const Duration(
+                                                              milliseconds:
+                                                                  4000),
+                                                          backgroundColor:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .error,
+                                                        ),
+                                                      );
+                                                      if (shouldSetState) {
+                                                        safeSetState(() {});
+                                                      }
+                                                      return;
+                                                    }
+
+                                                    if (shouldSetState) {
+                                                      safeSetState(() {});
+                                                    }
                                                   },
                                             text: 'Continuar',
                                             options: FFButtonOptions(

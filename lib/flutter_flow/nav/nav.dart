@@ -92,6 +92,10 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               'userType',
               ParamType.Enum,
             ),
+            customer: params.getParam(
+              'customer',
+              ParamType.JSON,
+            ),
           ),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
