@@ -46,7 +46,7 @@
 		</data>
 		<key>Frameworks/App.framework/App</key>
 		<data>
-		F9bFFq+E2Lsl5G/qRSeUGPyTz4U=
+		xGDKBPRSGR+9AC0+Xr1AMO7CCr4=
 		</data>
 		<key>Frameworks/App.framework/Info.plist</key>
 		<data>
@@ -54,7 +54,7 @@
 		</data>
 		<key>Frameworks/App.framework/_CodeSignature/CodeResources</key>
 		<data>
-		/o73luuUy6ZJb8PgmAz/sz04UVA=
+		nOg6Amy2jn8h5kERyCNE1uXyP04=
 		</data>
 		<key>Frameworks/App.framework/flutter_assets/AssetManifest.bin</key>
 		<data>
@@ -142,7 +142,7 @@
 		</data>
 		<key>Frameworks/App.framework/flutter_assets/kernel_blob.bin</key>
 		<data>
-		0SFyNLSSjnCxoeHs5rQUbkZcWt0=
+		4aTrSBk/+HoiD0jclCgVpfcbHwI=
 		</data>
 		<key>Frameworks/App.framework/flutter_assets/packages/cupertino_icons/assets/CupertinoIcons.ttf</key>
 		<data>
@@ -170,7 +170,7 @@
 		</data>
 		<key>Frameworks/Flutter.framework/Flutter</key>
 		<data>
-		zVccvmDO0pTQaWksKWeNV3Zc9ig=
+		LqU/GnbjP6/OSdghd9pyg+LI+sc=
 		</data>
 		<key>Frameworks/Flutter.framework/Headers/Flutter.h</key>
 		<data>
@@ -510,7 +510,7 @@
 		</data>
 		<key>Frameworks/iZettlePayments.framework/iZettlePayments</key>
 		<data>
-		ncGrQvIMXHAESmWM/tVa+HEfZ40=
+		UkvdlWXAMyNqOg2BcdVwT6g8cQ0=
 		</data>
 		<key>Frameworks/iZettlePayments.framework/localization/da_DK.json</key>
 		<data>
@@ -598,7 +598,7 @@
 		</data>
 		<key>Frameworks/iZettleSDK.framework/iZettleSDK</key>
 		<data>
-		TPn0Kc3Tx2Src1dQ6PGP82syeXg=
+		CfJmsNZWgwcpFtNUGoBWkl4+Lag=
 		</data>
 		<key>Frameworks/iZettleSDK.framework/strip-frameworks.sh</key>
 		<data>
@@ -618,15 +618,15 @@
 		</data>
 		<key>Runner.debug.dylib</key>
 		<data>
-		/kvu4X6C67/aaQIoy033tTT7mME=
+		9BidHx9cPrSDjVoEfTSSX9kGzy8=
 		</data>
 		<key>__preview.dylib</key>
 		<data>
-		uNi1jfoSBbYH/Bh4nlsHsAyIKrY=
+		VBaoG+yWp+uhRSHeyW8QNSDurrc=
 		</data>
 		<key>embedded.mobileprovision</key>
 		<data>
-		ZBfZI9JDtKtXT4NSeUrsPEYSqj0=
+		9YiQauEgMXJho7yg4sc8sCaZKo0=
 		</data>
 		<key>flutter_native_splash_privacy.bundle/Info.plist</key>
 		<data>
@@ -757,7 +757,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			DVO4HxP69Zn+3q/gjLyoh/WDzkb6k5EeaVkK+v5OG5U=
+			wxqFZaJNcXzaxCxeFOr8Ge6JWDcC2LEaF0KZTU0UhdY=
 			</data>
 		</dict>
 		<key>Frameworks/App.framework/Info.plist</key>
@@ -771,7 +771,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			NAFg8IGRkYX1How9qnoI7N4FinsGzuVd0QRMO8t11nw=
+			YqxufA6qpN8qxOK1ugxkOZhIk3FhOBJc5DcuOT71iUs=
 			</data>
 		</dict>
 		<key>Frameworks/App.framework/flutter_assets/AssetManifest.bin</key>
@@ -925,7 +925,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			zqY2PKsLf8G0ahGKULSFqg0irIgRgtCHxFEsq/bykAg=
+			JDUgE6yG3iODw5/sDvdw0ACaDUVrKSsgh3UWG+/pDPU=
 			</data>
 		</dict>
 		<key>Frameworks/App.framework/flutter_assets/packages/cupertino_icons/assets/CupertinoIcons.ttf</key>
@@ -974,7 +974,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			EHcThgZOWd3/gYORztxUy+Fwy3xti728wEMkl5pBES0=
+			LnV7h/OeGAZ75HLDv/8tq2TdXpgpScETghsSl70idXM=
 			</data>
 		</dict>
 		<key>Frameworks/Flutter.framework/Headers/Flutter.h</key>
@@ -1569,7 +1569,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			5Oi6/NBw1IbUu78tBcwITHPyQDnJv+AnhGjsCUtFWc8=
+			n9K9ox1DrjX67qabBB6fJ4QQ7dK4ys3RKSiVOhRWP4k=
 			</data>
 		</dict>
 		<key>Frameworks/iZettlePayments.framework/localization/da_DK.json</key>
@@ -1723,7 +1723,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			yBKQaYE1ba+MDdcIi2FWb2K7kfA0uuEvYXm0aDo3Ynw=
+			FC88afHyMsM1uce63V1IOnexxGI5+F/54bFNyokFLI4=
 			</data>
 		</dict>
 		<key>Frameworks/iZettleSDK.framework/strip-frameworks.sh</key>
@@ -1744,21 +1744,21 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			tbFJxm3waYKypFGmFn5X08nN4OOjWW6FxMazujx+un4=
+			nFq7CZUID2idfD3Yin9+FtKO5XINQCEGQy6AON4qEy4=
 			</data>
 		</dict>
 		<key>__preview.dylib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			HpJt5OnXAHqxncudVJw42xRnZA2bg1tP/WIFO2i559k=
+			5y2v3ligOr43HKsAPeCTQiOuEjpxV+vFd0bFJ50/SU0=
 			</data>
 		</dict>
 		<key>embedded.mobileprovision</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			EWH3hYhJLCov0MDP1IZidq4Qe1aN8dZvpIXyIcSp8cY=
+			PIknSey0FAV2iQCpIWcGt+QmQWF+sug8rETHNm9M4oc=
 			</data>
 		</dict>
 		<key>flutter_native_splash_privacy.bundle/Info.plist</key>

@@ -1,7 +1,23 @@
+android {
+    packagingOptions {
+        exclude 'META-INF/*.kotlin_module'
+    }
+}
+
 allprojects {
     repositories {
         google()
         mavenCentral()
+        maven {
+            url = uri("https://maven.pkg.github.com/iZettle/sdk-android")
+            credentials(HttpHeaderCredentials) {
+                name "Authorization"
+                value "Bearer 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"
+            }
+            authentication {
+                header(HttpHeaderAuthentication)
+            }
+        }
     }
 }
 
