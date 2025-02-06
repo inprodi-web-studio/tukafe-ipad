@@ -12,6 +12,13 @@ import 'package:flutter/material.dart';
 import 'package:zettle/zettle.dart';
 
 Future initZettle() async {
-  Zettle.init('674b875c-430d-4c95-8cfa-8f95ba29601b',
-      '096e420a-302f-4f51-816d-c05570278871', 'https://inprodi.com.mx/');
+  try {
+    await Zettle.init(
+      '674b875c-430d-4c95-8cfa-8f95ba29601b',
+      '096e420a-302f-4f51-816d-c05570278871',
+      'tukafeinplace://callback',
+    );
+  } catch (ex) {
+    print(ex.toString());
+  }
 }
