@@ -266,8 +266,9 @@ class _GuestOrderWidgetState extends State<GuestOrderWidget> {
                                                         await CustomersGroup
                                                             .findByPhoneCall
                                                             .call(
-                                                      phone:
-                                                          '52${_model.phoneTextController.text}',
+                                                      phone: _model
+                                                          .phoneTextController
+                                                          .text,
                                                     );
 
                                                     shouldSetState = true;
@@ -338,6 +339,14 @@ class _GuestOrderWidgetState extends State<GuestOrderWidget> {
                                                                     dynamic>{
                                                                   'phone':
                                                                       _model.phoneTextController.text,
+                                                                  'client_id':
+                                                                      CustomersGroup
+                                                                          .createPhoneCustomerCall
+                                                                          .customerId(
+                                                                    (_model.registerOutput
+                                                                            ?.jsonBody ??
+                                                                        ''),
+                                                                  ),
                                                                 },
                                                                 ParamType.JSON,
                                                               ),

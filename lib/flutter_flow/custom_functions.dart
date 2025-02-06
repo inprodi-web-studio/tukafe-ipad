@@ -31,3 +31,19 @@ double stringToNumber(String value) {
 double sumUnitaryPrices(List<OrderProductStruct> items) {
   return items.fold(0.0, (sum, item) => sum + (item.unitaryPrice * item.count));
 }
+
+List<dynamic> parseOrderArray(List<OrderProductStruct> items) {
+  return items.map((item) {
+    return {
+      "id": item.id,
+      "count": item.count,
+      "comment": item.comment,
+      "modification": (item.modification as List)
+          .map((mod) => {
+                "id": mod.id,
+                "count": mod.count,
+              })
+          .toList(),
+    };
+  }).toList();
+}

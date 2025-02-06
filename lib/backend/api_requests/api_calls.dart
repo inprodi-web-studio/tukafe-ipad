@@ -166,7 +166,7 @@ class CreateOrderCall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'Create Order',
-      apiUrl: '$baseUrl/orders',
+      apiUrl: '$baseUrl/orders?token=$token',
       callType: ApiCallType.POST,
       headers: {},
       params: {},

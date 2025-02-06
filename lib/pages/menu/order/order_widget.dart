@@ -134,26 +134,19 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                 ),
                                                 alignment: const AlignmentDirectional(
                                                     0.0, 0.0),
-                                                child: Text(
-                                                  'U',
-                                                  style: FlutterFlowTheme.of(
+                                                child: Icon(
+                                                  Icons.person,
+                                                  color: FlutterFlowTheme.of(
                                                           context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        fontFamily:
-                                                            'Montserrat',
-                                                        color: FlutterFlowTheme
-                                                                .of(context)
-                                                            .secondaryBackground,
-                                                        fontSize: 14.0,
-                                                        letterSpacing: 0.0,
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                      ),
+                                                      .secondaryBackground,
+                                                  size: 18.0,
                                                 ),
                                               ),
                                               Text(
-                                                'Usuario',
+                                                getJsonField(
+                                                  widget.customer,
+                                                  r'''$.phone''',
+                                                ).toString(),
                                                 style:
                                                     FlutterFlowTheme.of(context)
                                                         .bodyMedium
@@ -193,21 +186,21 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                 FFIcons.kcoffee,
                                                 color:
                                                     FlutterFlowTheme.of(context)
-                                                        .secondary,
+                                                        .accent4,
                                                 size: 24.0,
                                               ),
                                               Icon(
                                                 FFIcons.kcoffee,
                                                 color:
                                                     FlutterFlowTheme.of(context)
-                                                        .secondary,
+                                                        .accent4,
                                                 size: 24.0,
                                               ),
                                               Icon(
                                                 FFIcons.kcoffee,
                                                 color:
                                                     FlutterFlowTheme.of(context)
-                                                        .secondary,
+                                                        .accent4,
                                                 size: 24.0,
                                               ),
                                               Icon(
@@ -1422,8 +1415,72 @@ class _OrderWidgetState extends State<OrderWidget> {
                             child: FFButtonWidget(
                               onPressed: (FFAppState().OrderItems.isEmpty)
                                   ? null
-                                  : () {
-                                      print('Button pressed ...');
+                                  : () async {
+                                      var shouldSetState = false;
+                                      _model.orderOutput =
+                                          await OrderGroup.createOrderCall.call(
+                                        customerJson: <String, dynamic>{
+                                          'id': getJsonField(
+                                            widget.customer,
+                                            r'''$.client_id''',
+                                          ),
+                                        },
+                                        productsJson: functions.parseOrderArray(
+                                            FFAppState().OrderItems.toList()),
+                                      );
+
+                                      shouldSetState = true;
+                                      if ((_model.orderOutput?.succeeded ??
+                                          true)) {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          SnackBar(
+                                            content: Text(
+                                              'Pedido creado correctamente',
+                                              style: TextStyle(
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .secondaryBackground,
+                                              ),
+                                            ),
+                                            duration:
+                                                const Duration(milliseconds: 4000),
+                                            backgroundColor:
+                                                FlutterFlowTheme.of(context)
+                                                    .success,
+                                          ),
+                                        );
+                                        if (shouldSetState) {
+                                          safeSetState(() {});
+                                        }
+                                        return;
+                                      } else {
+                                        await showDialog(
+                                          context: context,
+                                          builder: (alertDialogContext) {
+                                            return AlertDialog(
+                                              title: const Text(
+                                                  '¡Ocurrió un Error Inesperado!'),
+                                              content: const Text(
+                                                  'Ocurrió un error de sistema al generar tu pedido. Por favor, intenta nuevamente.'),
+                                              actions: [
+                                                TextButton(
+                                                  onPressed: () =>
+                                                      Navigator.pop(
+                                                          alertDialogContext),
+                                                  child: const Text('Aceptar'),
+                                                ),
+                                              ],
+                                            );
+                                          },
+                                        );
+                                        if (shouldSetState) {
+                                          safeSetState(() {});
+                                        }
+                                        return;
+                                      }
+
+                                      if (shouldSetState) safeSetState(() {});
                                     },
                               text: 'Pagar',
                               icon: const Icon(
