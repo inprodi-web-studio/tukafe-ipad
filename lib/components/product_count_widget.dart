@@ -10,7 +10,7 @@ class ProductCountWidget extends StatefulWidget {
     super.key,
     int? value,
     this.onChange,
-  }) : value = value ?? 1;
+  }) : this.value = value ?? 1;
 
   final int value;
   final Future Function()? onChange;
@@ -86,7 +86,7 @@ class _ProductCountWidgetState extends State<ProductCountWidget> {
         stepSize: 1,
         minimum: 1,
         maximum: 20,
-        contentPadding: const EdgeInsetsDirectional.fromSTEB(10.0, 0.0, 10.0, 0.0),
+        contentPadding: EdgeInsetsDirectional.fromSTEB(10.0, 0.0, 10.0, 0.0),
       ),
     );
   }

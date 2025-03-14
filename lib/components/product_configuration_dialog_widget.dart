@@ -1,3 +1,4 @@
+import '';
 import '/backend/api_requests/api_calls.dart';
 import '/backend/schema/structs/index.dart';
 import '/flutter_flow/flutter_flow_count_controller.dart';
@@ -7,8 +8,10 @@ import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:smooth_page_indicator/smooth_page_indicator.dart'
     as smooth_page_indicator;
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:provider/provider.dart';
 import 'product_configuration_dialog_model.dart';
 export 'product_configuration_dialog_model.dart';
 
@@ -16,9 +19,11 @@ class ProductConfigurationDialogWidget extends StatefulWidget {
   const ProductConfigurationDialogWidget({
     super.key,
     required this.productId,
-  });
+    bool? isFree,
+  }) : this.isFree = isFree ?? false;
 
   final String? productId;
+  final bool isFree;
 
   @override
   State<ProductConfigurationDialogWidget> createState() =>
@@ -50,15 +55,17 @@ class _ProductConfigurationDialogWidgetState
 
   @override
   Widget build(BuildContext context) {
+    context.watch<FFAppState>();
+
     return Container(
       width: double.infinity,
       height: double.infinity,
       decoration: BoxDecoration(
-        color: FlutterFlowTheme.of(context).primaryBackground,
+        color: Color(0xFFF2F2F2),
         borderRadius: BorderRadius.circular(10.0),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(40.0),
+        padding: EdgeInsets.all(40.0),
         child: FutureBuilder<ApiCallResponse>(
           future: ProductsGroup.singleProductCall.call(
             productId: widget.productId,
@@ -85,11 +92,16 @@ class _ProductConfigurationDialogWidgetState
                 Expanded(
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(8.0),
-                    child: Image.asset(
-                      'assets/images/temporal_coffee.jpg',
+                    child: CachedNetworkImage(
+                      fadeInDuration: Duration(milliseconds: 500),
+                      fadeOutDuration: Duration(milliseconds: 500),
+                      imageUrl:
+                          '${FFAppConstants.BaseURL}${ProductsGroup.singleProductCall.data(
+                                rowSingleProductResponse.jsonBody,
+                              )?.photoOrigin}',
                       height: double.infinity,
                       fit: BoxFit.none,
-                      alignment: const Alignment(0.0, 0.0),
+                      alignment: Alignment(0.0, 0.0),
                     ),
                   ),
                 ),
@@ -117,7 +129,7 @@ class _ProductConfigurationDialogWidgetState
                       ),
                       Padding(
                         padding:
-                            const EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 0.0),
+                            EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 0.0),
                         child: Container(
                           decoration: BoxDecoration(
                             color: FlutterFlowTheme.of(context)
@@ -129,7 +141,7 @@ class _ProductConfigurationDialogWidgetState
                             ),
                           ),
                           child: Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(
+                            padding: EdgeInsetsDirectional.fromSTEB(
                                 12.0, 6.0, 12.0, 6.0),
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
@@ -141,7 +153,7 @@ class _ProductConfigurationDialogWidgetState
                                     color: FlutterFlowTheme.of(context).primary,
                                     borderRadius: BorderRadius.circular(100.0),
                                   ),
-                                  alignment: const AlignmentDirectional(0.0, 0.0),
+                                  alignment: AlignmentDirectional(0.0, 0.0),
                                   child: Icon(
                                     FFIcons.kcoffeeBean1,
                                     color: FlutterFlowTheme.of(context)
@@ -167,27 +179,29 @@ class _ProductConfigurationDialogWidgetState
                                         fontWeight: FontWeight.w500,
                                       ),
                                 ),
-                              ].divide(const SizedBox(width: 10.0)),
+                              ].divide(SizedBox(width: 10.0)),
                             ),
                           ),
                         ),
                       ),
                       Padding(
                         padding:
-                            const EdgeInsetsDirectional.fromSTEB(0.0, 30.0, 0.0, 0.0),
+                            EdgeInsetsDirectional.fromSTEB(0.0, 30.0, 0.0, 0.0),
                         child: Text(
-                          valueOrDefault<String>(
-                            functions.formatCurrency(
-                                ProductsGroup.singleProductCall
-                                    .data(
-                                      rowSingleProductResponse.jsonBody,
-                                    )!
-                                    .spots
-                                    .firstOrNull!
-                                    .price,
-                                _model.extra),
-                            '\$0',
-                          ),
+                          widget.isFree
+                              ? '¡Gratis!'
+                              : valueOrDefault<String>(
+                                  functions.formatCurrency(
+                                      ProductsGroup.singleProductCall
+                                          .data(
+                                            rowSingleProductResponse.jsonBody,
+                                          )!
+                                          .spots
+                                          .firstOrNull!
+                                          .price,
+                                      _model.extra),
+                                  '\$0',
+                                ),
                           style:
                               FlutterFlowTheme.of(context).bodyMedium.override(
                                     fontFamily: 'Montserrat',
@@ -202,10 +216,12 @@ class _ProductConfigurationDialogWidgetState
                               .data(
                                 rowSingleProductResponse.jsonBody,
                               )!
-                              .groupModifications.isNotEmpty)
+                              .groupModifications
+                              .length >
+                          0)
                         Expanded(
                           child: Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(
+                            padding: EdgeInsetsDirectional.fromSTEB(
                                 0.0, 30.0, 0.0, 0.0),
                             child: Builder(
                               builder: (context) {
@@ -218,12 +234,12 @@ class _ProductConfigurationDialogWidgetState
                                             .toList() ??
                                         [];
 
-                                return SizedBox(
+                                return Container(
                                   width: double.infinity,
                                   child: Stack(
                                     children: [
                                       Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
                                             0.0, 0.0, 0.0, 40.0),
                                         child: PageView.builder(
                                           physics:
@@ -366,7 +382,7 @@ class _ProductConfigurationDialogWidgetState
                                                                 await _model
                                                                     .modificatorsController
                                                                     ?.nextPage(
-                                                                  duration: const Duration(
+                                                                  duration: Duration(
                                                                       milliseconds:
                                                                           300),
                                                                   curve: Curves
@@ -387,9 +403,9 @@ class _ProductConfigurationDialogWidgetState
                                                                       ? FlutterFlowTheme.of(
                                                                               context)
                                                                           .primary
-                                                                      : const Color(
+                                                                      : Color(
                                                                           0x3F57636C),
-                                                                  const Color(
+                                                                  Color(
                                                                       0x3F57636C),
                                                                 ),
                                                                 borderRadius:
@@ -406,7 +422,7 @@ class _ProductConfigurationDialogWidgetState
                                                                         .spaceBetween,
                                                                 children: [
                                                                   Padding(
-                                                                    padding: const EdgeInsetsDirectional
+                                                                    padding: EdgeInsetsDirectional
                                                                         .fromSTEB(
                                                                             10.0,
                                                                             10.0,
@@ -423,8 +439,8 @@ class _ProductConfigurationDialogWidgetState
                                                                                 'Montserrat',
                                                                             color:
                                                                                 valueOrDefault<Color>(
-                                                                              (_model.product?.modification.elementAtOrNull(modificatorsIndex))?.id == valueItem.dishModificationId ? FlutterFlowTheme.of(context).secondaryBackground : const Color(0xFF57636C),
-                                                                              const Color(0xFF57636C),
+                                                                              (_model.product?.modification.elementAtOrNull(modificatorsIndex))?.id == valueItem.dishModificationId ? FlutterFlowTheme.of(context).secondaryBackground : Color(0xFF57636C),
+                                                                              Color(0xFF57636C),
                                                                             ),
                                                                             fontSize:
                                                                                 18.0,
@@ -439,7 +455,7 @@ class _ProductConfigurationDialogWidgetState
                                                                           .price !=
                                                                       0.0)
                                                                     Padding(
-                                                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                                                      padding: EdgeInsetsDirectional.fromSTEB(
                                                                           10.0,
                                                                           10.0,
                                                                           10.0,
@@ -452,8 +468,8 @@ class _ProductConfigurationDialogWidgetState
                                                                             .override(
                                                                               fontFamily: 'Montserrat',
                                                                               color: valueOrDefault<Color>(
-                                                                                (_model.product?.modification.elementAtOrNull(modificatorsIndex))?.id == valueItem.dishModificationId ? FlutterFlowTheme.of(context).secondaryBackground : const Color(0xFF57636C),
-                                                                                const Color(0xFF57636C),
+                                                                                (_model.product?.modification.elementAtOrNull(modificatorsIndex))?.id == valueItem.dishModificationId ? FlutterFlowTheme.of(context).secondaryBackground : Color(0xFF57636C),
+                                                                                Color(0xFF57636C),
                                                                               ),
                                                                               fontSize: 18.0,
                                                                               letterSpacing: 0.0,
@@ -465,13 +481,13 @@ class _ProductConfigurationDialogWidgetState
                                                               ),
                                                             ),
                                                           );
-                                                        }).divide(const SizedBox(
+                                                        }).divide(SizedBox(
                                                             height: 10.0)),
                                                       );
                                                     },
                                                   ),
                                                 ].divide(
-                                                    const SizedBox(height: 10.0)),
+                                                    SizedBox(height: 10.0)),
                                               ),
                                             );
                                           },
@@ -479,10 +495,10 @@ class _ProductConfigurationDialogWidgetState
                                       ),
                                       Align(
                                         alignment:
-                                            const AlignmentDirectional(0.0, 1.0),
+                                            AlignmentDirectional(0.0, 1.0),
                                         child: Padding(
                                           padding:
-                                              const EdgeInsetsDirectional.fromSTEB(
+                                              EdgeInsetsDirectional.fromSTEB(
                                                   0.0, 0.0, 0.0, 16.0),
                                           child: smooth_page_indicator
                                               .SmoothPageIndicator(
@@ -504,7 +520,7 @@ class _ProductConfigurationDialogWidgetState
                                                   .animateToPage(
                                                 i,
                                                 duration:
-                                                    const Duration(milliseconds: 500),
+                                                    Duration(milliseconds: 500),
                                                 curve: Curves.ease,
                                               );
                                               safeSetState(() {});
@@ -534,73 +550,76 @@ class _ProductConfigurationDialogWidgetState
                             ),
                           ),
                         ),
-                      Padding(
-                        padding:
-                            const EdgeInsetsDirectional.fromSTEB(0.0, 40.0, 0.0, 0.0),
-                        child: Container(
-                          width: double.infinity,
-                          height: 50.0,
-                          decoration: BoxDecoration(
-                            color: FlutterFlowTheme.of(context)
-                                .secondaryBackground,
-                            borderRadius: BorderRadius.circular(10.0),
-                            shape: BoxShape.rectangle,
-                            border: Border.all(
-                              color: FlutterFlowTheme.of(context).accent4,
-                              width: 1.0,
+                      if (!widget.isFree)
+                        Padding(
+                          padding: EdgeInsetsDirectional.fromSTEB(
+                              0.0, 40.0, 0.0, 0.0),
+                          child: Container(
+                            width: double.infinity,
+                            height: 50.0,
+                            decoration: BoxDecoration(
+                              color: FlutterFlowTheme.of(context)
+                                  .secondaryBackground,
+                              borderRadius: BorderRadius.circular(10.0),
+                              shape: BoxShape.rectangle,
+                              border: Border.all(
+                                color: FlutterFlowTheme.of(context).accent4,
+                                width: 1.0,
+                              ),
                             ),
-                          ),
-                          child: FlutterFlowCountController(
-                            decrementIconBuilder: (enabled) => Icon(
-                              Icons.remove_rounded,
-                              color: enabled
-                                  ? FlutterFlowTheme.of(context).secondaryText
-                                  : FlutterFlowTheme.of(context).accent4,
-                              size: 30.0,
+                            child: FlutterFlowCountController(
+                              decrementIconBuilder: (enabled) => Icon(
+                                Icons.remove_rounded,
+                                color: enabled
+                                    ? FlutterFlowTheme.of(context).secondaryText
+                                    : FlutterFlowTheme.of(context).accent4,
+                                size: 30.0,
+                              ),
+                              incrementIconBuilder: (enabled) => Icon(
+                                Icons.add_rounded,
+                                color: enabled
+                                    ? FlutterFlowTheme.of(context).primary
+                                    : FlutterFlowTheme.of(context).accent4,
+                                size: 30.0,
+                              ),
+                              countBuilder: (count) => Text(
+                                count.toString(),
+                                style: FlutterFlowTheme.of(context)
+                                    .titleLarge
+                                    .override(
+                                      fontFamily: 'Montserrat',
+                                      fontSize: 25.0,
+                                      letterSpacing: 0.0,
+                                    ),
+                              ),
+                              count: _model.countControllerValue ??= 1,
+                              updateCount: (count) async {
+                                safeSetState(
+                                    () => _model.countControllerValue = count);
+                                _model.updateProductStruct(
+                                  (e) => e..count = _model.countControllerValue,
+                                );
+                                safeSetState(() {});
+                              },
+                              stepSize: 1,
+                              minimum: 1,
+                              maximum: 20,
+                              contentPadding: EdgeInsetsDirectional.fromSTEB(
+                                  20.0, 0.0, 20.0, 0.0),
                             ),
-                            incrementIconBuilder: (enabled) => Icon(
-                              Icons.add_rounded,
-                              color: enabled
-                                  ? FlutterFlowTheme.of(context).primary
-                                  : FlutterFlowTheme.of(context).accent4,
-                              size: 30.0,
-                            ),
-                            countBuilder: (count) => Text(
-                              count.toString(),
-                              style: FlutterFlowTheme.of(context)
-                                  .titleLarge
-                                  .override(
-                                    fontFamily: 'Montserrat',
-                                    fontSize: 25.0,
-                                    letterSpacing: 0.0,
-                                  ),
-                            ),
-                            count: _model.countControllerValue ??= 1,
-                            updateCount: (count) async {
-                              safeSetState(
-                                  () => _model.countControllerValue = count);
-                              _model.updateProductStruct(
-                                (e) => e..count = _model.countControllerValue,
-                              );
-                              safeSetState(() {});
-                            },
-                            stepSize: 1,
-                            minimum: 1,
-                            maximum: 20,
-                            contentPadding: const EdgeInsetsDirectional.fromSTEB(
-                                20.0, 0.0, 20.0, 0.0),
                           ),
                         ),
-                      ),
                       Padding(
-                        padding: const EdgeInsetsDirectional.fromSTEB(
+                        padding: EdgeInsetsDirectional.fromSTEB(
                             0.0, 20.0, 0.0, 40.0),
                         child: FFButtonWidget(
                           onPressed: ((ProductsGroup.singleProductCall
                                           .data(
                                             rowSingleProductResponse.jsonBody,
                                           )!
-                                          .groupModifications.isNotEmpty) &&
+                                          .groupModifications
+                                          .length >
+                                      0) &&
                                   (_model.product?.modification.length !=
                                       ProductsGroup.singleProductCall
                                           .data(
@@ -610,55 +629,277 @@ class _ProductConfigurationDialogWidgetState
                                           .length))
                               ? null
                               : () async {
-                                  FFAppState()
-                                      .addToOrderItems(OrderProductStruct(
-                                    id: widget.productId,
-                                    count: _model.countControllerValue,
-                                    modification: _model.product?.modification,
-                                    productName: ProductsGroup.singleProductCall
-                                        .data(
-                                          rowSingleProductResponse.jsonBody,
-                                        )
-                                        ?.productName,
-                                    granTotal: valueOrDefault<String>(
-                                      functions.formatCurrency(
-                                          ProductsGroup.singleProductCall
+                                  if (FFAppState()
+                                      .OrderItems
+                                      .contains(OrderProductStruct(
+                                        id: widget.productId,
+                                        count: widget.isFree
+                                            ? 1
+                                            : _model.countControllerValue,
+                                        modification:
+                                            _model.product?.modification,
+                                        productName: ProductsGroup
+                                            .singleProductCall
+                                            .data(
+                                              rowSingleProductResponse.jsonBody,
+                                            )
+                                            ?.productName,
+                                        granTotal: valueOrDefault<String>(
+                                          functions.formatCurrency(
+                                              ProductsGroup.singleProductCall
+                                                  .data(
+                                                    rowSingleProductResponse
+                                                        .jsonBody,
+                                                  )!
+                                                  .spots
+                                                  .firstOrNull!
+                                                  .price,
+                                              _model.extra),
+                                          '\$0',
+                                        ),
+                                        unitaryPrice: functions.stringToNumber(
+                                            valueOrDefault<String>(
+                                          functions.formatCurrency(
+                                              ProductsGroup.singleProductCall
+                                                  .data(
+                                                    rowSingleProductResponse
+                                                        .jsonBody,
+                                                  )!
+                                                  .spots
+                                                  .firstOrNull!
+                                                  .price,
+                                              _model.extra),
+                                          '\$0',
+                                        )),
+                                        categoryId: ProductsGroup
+                                            .singleProductCall
+                                            .data(
+                                              rowSingleProductResponse.jsonBody,
+                                            )
+                                            ?.menuCategoryId,
+                                        photo: ProductsGroup.singleProductCall
+                                            .data(
+                                              rowSingleProductResponse.jsonBody,
+                                            )
+                                            ?.photo,
+                                        isFree: widget.isFree,
+                                        price: widget.isFree
+                                            ? 0.0
+                                            : ((double.parse(ProductsGroup
+                                                    .singleProductCall
+                                                    .data(
+                                                      rowSingleProductResponse
+                                                          .jsonBody,
+                                                    )!
+                                                    .spots
+                                                    .firstOrNull!
+                                                    .price) /
+                                                100)),
+                                      ))) {
+                                    FFAppState().updateOrderItemsAtIndex(
+                                      functions.findIndexInOrder(
+                                          FFAppState().OrderItems.toList(),
+                                          OrderProductStruct(
+                                            id: widget.productId,
+                                            count: widget.isFree
+                                                ? 1
+                                                : _model.countControllerValue,
+                                            modification:
+                                                _model.product?.modification,
+                                            productName:
+                                                ProductsGroup.singleProductCall
+                                                    .data(
+                                                      rowSingleProductResponse
+                                                          .jsonBody,
+                                                    )
+                                                    ?.productName,
+                                            granTotal: valueOrDefault<String>(
+                                              functions.formatCurrency(
+                                                  ProductsGroup
+                                                      .singleProductCall
+                                                      .data(
+                                                        rowSingleProductResponse
+                                                            .jsonBody,
+                                                      )!
+                                                      .spots
+                                                      .firstOrNull!
+                                                      .price,
+                                                  _model.extra),
+                                              '\$0',
+                                            ),
+                                            unitaryPrice:
+                                                functions.stringToNumber(
+                                                    valueOrDefault<String>(
+                                              functions.formatCurrency(
+                                                  ProductsGroup
+                                                      .singleProductCall
+                                                      .data(
+                                                        rowSingleProductResponse
+                                                            .jsonBody,
+                                                      )!
+                                                      .spots
+                                                      .firstOrNull!
+                                                      .price,
+                                                  _model.extra),
+                                              '\$0',
+                                            )),
+                                            categoryId:
+                                                ProductsGroup.singleProductCall
+                                                    .data(
+                                                      rowSingleProductResponse
+                                                          .jsonBody,
+                                                    )
+                                                    ?.menuCategoryId,
+                                            photo:
+                                                ProductsGroup.singleProductCall
+                                                    .data(
+                                                      rowSingleProductResponse
+                                                          .jsonBody,
+                                                    )
+                                                    ?.photo,
+                                            isFree: widget.isFree,
+                                            price: widget.isFree
+                                                ? 0.0
+                                                : ((double.parse(ProductsGroup
+                                                        .singleProductCall
+                                                        .data(
+                                                          rowSingleProductResponse
+                                                              .jsonBody,
+                                                        )!
+                                                        .spots
+                                                        .firstOrNull!
+                                                        .price) /
+                                                    100)),
+                                          )),
+                                      (e) => e
+                                        ..incrementCount(
+                                            _model.countControllerValue!),
+                                    );
+                                    _model.updatePage(() {});
+                                  } else {
+                                    FFAppState()
+                                        .addToOrderItems(OrderProductStruct(
+                                      id: widget.productId,
+                                      count: widget.isFree
+                                          ? 1
+                                          : _model.countControllerValue,
+                                      modification:
+                                          _model.product?.modification,
+                                      productName: ProductsGroup
+                                          .singleProductCall
+                                          .data(
+                                            rowSingleProductResponse.jsonBody,
+                                          )
+                                          ?.productName,
+                                      granTotal: valueOrDefault<String>(
+                                        functions.formatCurrency(
+                                            ProductsGroup.singleProductCall
+                                                .data(
+                                                  rowSingleProductResponse
+                                                      .jsonBody,
+                                                )!
+                                                .spots
+                                                .firstOrNull!
+                                                .price,
+                                            _model.extra),
+                                        '\$0',
+                                      ),
+                                      unitaryPrice: functions.stringToNumber(
+                                          valueOrDefault<String>(
+                                        functions.formatCurrency(
+                                            ProductsGroup.singleProductCall
+                                                .data(
+                                                  rowSingleProductResponse
+                                                      .jsonBody,
+                                                )!
+                                                .spots
+                                                .firstOrNull!
+                                                .price,
+                                            _model.extra),
+                                        '\$0',
+                                      )),
+                                      categoryId: ProductsGroup
+                                          .singleProductCall
+                                          .data(
+                                            rowSingleProductResponse.jsonBody,
+                                          )
+                                          ?.menuCategoryId,
+                                      photo: ProductsGroup.singleProductCall
+                                          .data(
+                                            rowSingleProductResponse.jsonBody,
+                                          )
+                                          ?.photo,
+                                      isFree: widget.isFree,
+                                      price: widget.isFree
+                                          ? 0.0
+                                          : ((double.parse(ProductsGroup
+                                                  .singleProductCall
+                                                  .data(
+                                                    rowSingleProductResponse
+                                                        .jsonBody,
+                                                  )!
+                                                  .spots
+                                                  .firstOrNull!
+                                                  .price) /
+                                              100)),
+                                    ));
+                                    _model.updatePage(() {});
+                                  }
+
+                                  if (!((ProductsGroup.singleProductCall
                                               .data(
                                                 rowSingleProductResponse
                                                     .jsonBody,
-                                              )!
-                                              .spots
-                                              .firstOrNull!
-                                              .price,
-                                          _model.extra),
-                                      '\$0',
-                                    ),
-                                    unitaryPrice: functions
-                                        .stringToNumber(valueOrDefault<String>(
-                                      functions.formatCurrency(
-                                          ProductsGroup.singleProductCall
-                                              .data(
-                                                rowSingleProductResponse
-                                                    .jsonBody,
-                                              )!
-                                              .spots
-                                              .firstOrNull!
-                                              .price,
-                                          _model.extra),
-                                      '\$0',
-                                    )),
-                                  ));
-                                  _model.updatePage(() {});
+                                              )
+                                              ?.nodiscount ==
+                                          '1') ||
+                                      widget.isFree)) {
+                                    if (FFAppState()
+                                        .LastCustomerOrdersProducts
+                                        .contains(
+                                            LastCustomerOrdersProductsStruct(
+                                          productId: widget.productId,
+                                          count: _model.countControllerValue,
+                                          isNew: true,
+                                        ))) {
+                                      FFAppState()
+                                          .updateLastCustomerOrdersProductsAtIndex(
+                                        functions.findIndexInLastItems(
+                                            FFAppState()
+                                                .LastCustomerOrdersProducts
+                                                .toList(),
+                                            LastCustomerOrdersProductsStruct(
+                                              productId: widget.productId,
+                                              count:
+                                                  _model.countControllerValue,
+                                              isNew: true,
+                                            )),
+                                        (e) => e
+                                          ..incrementCount(
+                                              _model.countControllerValue!),
+                                      );
+                                      _model.updatePage(() {});
+                                    } else {
+                                      FFAppState()
+                                          .addToLastCustomerOrdersProducts(
+                                              LastCustomerOrdersProductsStruct(
+                                        productId: widget.productId,
+                                        count: _model.countControllerValue,
+                                        isNew: true,
+                                      ));
+                                      _model.updatePage(() {});
+                                    }
+                                  }
                                   Navigator.pop(context);
                                 },
                           text: 'Agregar al Pedido',
                           options: FFButtonOptions(
                             width: double.infinity,
                             height: 45.0,
-                            padding: const EdgeInsetsDirectional.fromSTEB(
+                            padding: EdgeInsetsDirectional.fromSTEB(
                                 16.0, 0.0, 16.0, 0.0),
                             iconAlignment: IconAlignment.start,
-                            iconPadding: const EdgeInsetsDirectional.fromSTEB(
+                            iconPadding: EdgeInsetsDirectional.fromSTEB(
                                 0.0, 0.0, 0.0, 0.0),
                             color: FlutterFlowTheme.of(context).secondary,
                             textStyle: FlutterFlowTheme.of(context)
@@ -670,15 +911,15 @@ class _ProductConfigurationDialogWidgetState
                                 ),
                             elevation: 0.0,
                             borderRadius: BorderRadius.circular(8.0),
-                            disabledColor: const Color(0x73ECB169),
-                            disabledTextColor: const Color(0x72FFFFFF),
+                            disabledColor: Color(0x73ECB169),
+                            disabledTextColor: Color(0x72FFFFFF),
                           ),
                         ),
                       ),
                     ],
                   ),
                 ),
-              ].divide(const SizedBox(width: 80.0)),
+              ].divide(SizedBox(width: 80.0)),
             );
           },
         ),

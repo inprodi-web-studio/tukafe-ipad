@@ -1,6 +1,7 @@
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'app_login_model.dart';
@@ -8,6 +9,9 @@ export 'app_login_model.dart';
 
 class AppLoginWidget extends StatefulWidget {
   const AppLoginWidget({super.key});
+
+  static String routeName = 'AppLogin';
+  static String routePath = '/appLogin';
 
   @override
   State<AppLoginWidget> createState() => _AppLoginWidgetState();
@@ -50,7 +54,7 @@ class _AppLoginWidgetState extends State<AppLoginWidget> {
               color: FlutterFlowTheme.of(context).secondaryBackground,
             ),
             child: Padding(
-              padding: const EdgeInsets.all(20.0),
+              padding: EdgeInsets.all(20.0),
               child: Row(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -58,9 +62,9 @@ class _AppLoginWidgetState extends State<AppLoginWidget> {
                 children: [
                   Container(
                     width: 663.0,
-                    decoration: const BoxDecoration(),
+                    decoration: BoxDecoration(),
                     child: Padding(
-                      padding: const EdgeInsets.all(40.0),
+                      padding: EdgeInsets.all(40.0),
                       child: Column(
                         mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -75,7 +79,7 @@ class _AppLoginWidgetState extends State<AppLoginWidget> {
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(
+                            padding: EdgeInsetsDirectional.fromSTEB(
                                 0.0, 40.0, 0.0, 60.0),
                             child: Column(
                               mainAxisSize: MainAxisSize.max,
@@ -106,7 +110,7 @@ class _AppLoginWidgetState extends State<AppLoginWidget> {
                                         lineHeight: 2.0,
                                       ),
                                 ),
-                              ].divide(const SizedBox(height: 10.0)),
+                              ].divide(SizedBox(height: 10.0)),
                             ),
                           ),
                           Column(
@@ -126,16 +130,16 @@ class _AppLoginWidgetState extends State<AppLoginWidget> {
                                   safeSetState(() {});
                                 },
                                 text: 'Escanear Código QR',
-                                icon: const Icon(
+                                icon: Icon(
                                   FFIcons.kqrCode,
                                   size: 20.0,
                                 ),
                                 options: FFButtonOptions(
                                   height: 40.0,
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
                                       16.0, 0.0, 16.0, 0.0),
                                   iconAlignment: IconAlignment.start,
-                                  iconPadding: const EdgeInsetsDirectional.fromSTEB(
+                                  iconPadding: EdgeInsetsDirectional.fromSTEB(
                                       0.0, 0.0, 6.0, 0.0),
                                   color: FlutterFlowTheme.of(context).secondary,
                                   textStyle: FlutterFlowTheme.of(context)
@@ -152,7 +156,7 @@ class _AppLoginWidgetState extends State<AppLoginWidget> {
                             ],
                           ),
                           Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(
+                            padding: EdgeInsetsDirectional.fromSTEB(
                                 0.0, 60.0, 0.0, 0.0),
                             child: Column(
                               mainAxisSize: MainAxisSize.max,
@@ -161,9 +165,9 @@ class _AppLoginWidgetState extends State<AppLoginWidget> {
                                 FFButtonWidget(
                                   onPressed: () async {
                                     context.goNamed(
-                                      'CustomerIdentifier',
+                                      CustomerIdentifierWidget.routeName,
                                       extra: <String, dynamic>{
-                                        kTransitionInfoKey: const TransitionInfo(
+                                        kTransitionInfoKey: TransitionInfo(
                                           hasTransition: true,
                                           transitionType:
                                               PageTransitionType.fade,
@@ -173,16 +177,16 @@ class _AppLoginWidgetState extends State<AppLoginWidget> {
                                     );
                                   },
                                   text: 'Regresar',
-                                  icon: const Icon(
+                                  icon: Icon(
                                     FFIcons.karrowLeft,
                                     size: 18.0,
                                   ),
                                   options: FFButtonOptions(
                                     height: 40.0,
-                                    padding: const EdgeInsetsDirectional.fromSTEB(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
                                         16.0, 0.0, 16.0, 0.0),
                                     iconAlignment: IconAlignment.start,
-                                    iconPadding: const EdgeInsetsDirectional.fromSTEB(
+                                    iconPadding: EdgeInsetsDirectional.fromSTEB(
                                         0.0, 0.0, 6.0, 0.0),
                                     color: FlutterFlowTheme.of(context)
                                         .primaryBackground,
@@ -204,7 +208,7 @@ class _AppLoginWidgetState extends State<AppLoginWidget> {
                                     borderRadius: BorderRadius.circular(8.0),
                                   ),
                                 ),
-                              ].divide(const SizedBox(height: 30.0)),
+                              ].divide(SizedBox(height: 30.0)),
                             ),
                           ),
                         ],

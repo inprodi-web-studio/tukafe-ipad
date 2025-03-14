@@ -36,16 +36,16 @@ class _EmptyOrderWidgetState extends State<EmptyOrderWidget> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsetsDirectional.fromSTEB(0.0, 20.0, 0.0, 20.0),
+      padding: EdgeInsetsDirectional.fromSTEB(0.0, 20.0, 0.0, 20.0),
       child: Container(
         width: double.infinity,
         height: double.infinity,
         decoration: BoxDecoration(
-          color: const Color(0xA7EDE9E8),
+          color: Color(0xA7EDE9E8),
           borderRadius: BorderRadius.circular(10.0),
         ),
         child: Padding(
-          padding: const EdgeInsets.all(20.0),
+          padding: EdgeInsets.all(20.0),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -81,7 +81,7 @@ class _EmptyOrderWidgetState extends State<EmptyOrderWidget> {
                       lineHeight: 1.5,
                     ),
               ),
-            ].divide(const SizedBox(height: 4.0)),
+            ].divide(SizedBox(height: 4.0)),
           ),
         ),
       ),

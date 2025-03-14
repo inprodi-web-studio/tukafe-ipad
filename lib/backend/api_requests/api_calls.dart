@@ -33,7 +33,7 @@ class ProductCategoriesCall {
 
     return ApiManager.instance.makeApiCall(
       callName: 'Product Categories',
-      apiUrl: '$baseUrl/menu.getCategories',
+      apiUrl: '${baseUrl}/menu.getCategories',
       callType: ApiCallType.GET,
       headers: {},
       params: {
@@ -69,7 +69,7 @@ class ProductsCall {
 
     return ApiManager.instance.makeApiCall(
       callName: 'Products',
-      apiUrl: '$baseUrl/menu.getProducts',
+      apiUrl: '${baseUrl}/menu.getProducts',
       callType: ApiCallType.GET,
       headers: {},
       params: {
@@ -106,7 +106,7 @@ class SingleProductCall {
 
     return ApiManager.instance.makeApiCall(
       callName: 'Single Product',
-      apiUrl: '$baseUrl/menu.getProduct',
+      apiUrl: '${baseUrl}/menu.getProduct',
       callType: ApiCallType.GET,
       headers: {},
       params: {
@@ -160,13 +160,13 @@ class CreateOrderCall {
   "spotId": 1,
   "serviceMode": 2,
   "autoAccept": true,
-  "client": $customer,
+  "client": ${customer},
   "comment": "${escapeStringForJson(comment)}",
-  "products": $products
+  "products": ${products}
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'Create Order',
-      apiUrl: '$baseUrl/orders?token=$token',
+      apiUrl: '${baseUrl}/orders?token=${token}',
       callType: ApiCallType.POST,
       headers: {},
       params: {},
@@ -208,7 +208,7 @@ class FindByPhoneCall {
 
     return ApiManager.instance.makeApiCall(
       callName: 'Find By Phone',
-      apiUrl: '$baseUrl/clients.getClients',
+      apiUrl: '${baseUrl}/clients.getClients',
       callType: ApiCallType.GET,
       headers: {},
       params: {
@@ -254,7 +254,7 @@ class CreatePhoneCustomerCall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'Create Phone Customer',
-      apiUrl: '$baseUrl/clients.createClient?token=$token',
+      apiUrl: '${baseUrl}/clients.createClient?token=${token}',
       callType: ApiCallType.POST,
       headers: {},
       params: {},
@@ -276,6 +276,142 @@ class CreatePhoneCustomerCall {
 }
 
 /// End Customers Group Code
+
+/// Start Own Routes Group Code
+
+class OwnRoutesGroup {
+  static String getBaseUrl({
+    String? token =
+        'ba5d1c7f7d69b253d2796e30dfda7e7b202cf5dd5757accdd38681d73cda0c8d6a4f77d82c0989fe19a182b56eaebc6dc221e97a14de01c1b34716caccbfcfa6efc0d75f2478aca43ada5bf120a261ced1fb770c5d3b99d3d1e211f591c2879769449d0803b38548e3faaf77b6df06d2c2c7ce5463e8c9debe3393753efc415c',
+  }) =>
+      'https://mayfly-intimate-polliwog.ngrok-free.app/api';
+  static Map<String, String> headers = {
+    'Authorization': 'Bearer [token]',
+  };
+  static GetCustomerLastOrdersCall getCustomerLastOrdersCall =
+      GetCustomerLastOrdersCall();
+  static CreateCustomerOrderCall createCustomerOrderCall =
+      CreateCustomerOrderCall();
+  static CreateWorkCall createWorkCall = CreateWorkCall();
+}
+
+class GetCustomerLastOrdersCall {
+  Future<ApiCallResponse> call({
+    String? customerId = '',
+    String? token =
+        'ba5d1c7f7d69b253d2796e30dfda7e7b202cf5dd5757accdd38681d73cda0c8d6a4f77d82c0989fe19a182b56eaebc6dc221e97a14de01c1b34716caccbfcfa6efc0d75f2478aca43ada5bf120a261ced1fb770c5d3b99d3d1e211f591c2879769449d0803b38548e3faaf77b6df06d2c2c7ce5463e8c9debe3393753efc415c',
+  }) async {
+    final baseUrl = OwnRoutesGroup.getBaseUrl(
+      token: token,
+    );
+
+    return ApiManager.instance.makeApiCall(
+      callName: 'Get Customer Last Orders',
+      apiUrl: '${baseUrl}/orders',
+      callType: ApiCallType.GET,
+      headers: {
+        'Authorization': 'Bearer ${token}',
+      },
+      params: {
+        'populate': "*",
+        'filters[customer_id]': customerId,
+        'pagination[limit]': 5,
+        'filters[isUsed]': false,
+      },
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+
+  List<LastCustomerOrdersProductsStruct>? items(dynamic response) =>
+      (getJsonField(
+        response,
+        r'''$.data[:].products[0]''',
+        true,
+      ) as List?)
+          ?.withoutNulls
+          .map((x) => LastCustomerOrdersProductsStruct.maybeFromMap(x))
+          .withoutNulls
+          .toList();
+}
+
+class CreateCustomerOrderCall {
+  Future<ApiCallResponse> call({
+    String? customerId = '',
+    dynamic productsJson,
+    bool? hasFree,
+    String? token =
+        'ba5d1c7f7d69b253d2796e30dfda7e7b202cf5dd5757accdd38681d73cda0c8d6a4f77d82c0989fe19a182b56eaebc6dc221e97a14de01c1b34716caccbfcfa6efc0d75f2478aca43ada5bf120a261ced1fb770c5d3b99d3d1e211f591c2879769449d0803b38548e3faaf77b6df06d2c2c7ce5463e8c9debe3393753efc415c',
+  }) async {
+    final baseUrl = OwnRoutesGroup.getBaseUrl(
+      token: token,
+    );
+
+    final products = _serializeJson(productsJson, true);
+    final ffApiRequestBody = '''
+{
+  "customer_id": "${escapeStringForJson(customerId)}",
+  "products": ${products},
+  "hasFree": ${hasFree}
+}''';
+    return ApiManager.instance.makeApiCall(
+      callName: 'Create Customer Order',
+      apiUrl: '${baseUrl}/orders',
+      callType: ApiCallType.POST,
+      headers: {
+        'Authorization': 'Bearer ${token}',
+      },
+      params: {},
+      body: ffApiRequestBody,
+      bodyType: BodyType.JSON,
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+}
+
+class CreateWorkCall {
+  Future<ApiCallResponse> call({
+    dynamic itemsJson,
+    String? token =
+        'ba5d1c7f7d69b253d2796e30dfda7e7b202cf5dd5757accdd38681d73cda0c8d6a4f77d82c0989fe19a182b56eaebc6dc221e97a14de01c1b34716caccbfcfa6efc0d75f2478aca43ada5bf120a261ced1fb770c5d3b99d3d1e211f591c2879769449d0803b38548e3faaf77b6df06d2c2c7ce5463e8c9debe3393753efc415c',
+  }) async {
+    final baseUrl = OwnRoutesGroup.getBaseUrl(
+      token: token,
+    );
+
+    final items = _serializeJson(itemsJson, true);
+    final ffApiRequestBody = '''
+${items}''';
+    return ApiManager.instance.makeApiCall(
+      callName: 'Create Work',
+      apiUrl: '${baseUrl}/works',
+      callType: ApiCallType.POST,
+      headers: {
+        'Authorization': 'Bearer ${token}',
+      },
+      params: {},
+      body: ffApiRequestBody,
+      bodyType: BodyType.JSON,
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+}
+
+/// End Own Routes Group Code
 
 class ApiPagingParams {
   int nextPageNumber = 0;

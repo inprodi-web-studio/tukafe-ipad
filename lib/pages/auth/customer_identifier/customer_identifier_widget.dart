@@ -1,12 +1,16 @@
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import '/index.dart';
 import 'package:flutter/material.dart';
 import 'customer_identifier_model.dart';
 export 'customer_identifier_model.dart';
 
 class CustomerIdentifierWidget extends StatefulWidget {
   const CustomerIdentifierWidget({super.key});
+
+  static String routeName = 'CustomerIdentifier';
+  static String routePath = '/customerIdentifier';
 
   @override
   State<CustomerIdentifierWidget> createState() =>
@@ -50,7 +54,7 @@ class _CustomerIdentifierWidgetState extends State<CustomerIdentifierWidget> {
               color: FlutterFlowTheme.of(context).secondaryBackground,
             ),
             child: Padding(
-              padding: const EdgeInsets.all(20.0),
+              padding: EdgeInsets.all(20.0),
               child: Row(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -58,9 +62,9 @@ class _CustomerIdentifierWidgetState extends State<CustomerIdentifierWidget> {
                 children: [
                   Container(
                     width: 663.0,
-                    decoration: const BoxDecoration(),
+                    decoration: BoxDecoration(),
                     child: Padding(
-                      padding: const EdgeInsets.all(40.0),
+                      padding: EdgeInsets.all(40.0),
                       child: Column(
                         mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -75,7 +79,7 @@ class _CustomerIdentifierWidgetState extends State<CustomerIdentifierWidget> {
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(
+                            padding: EdgeInsetsDirectional.fromSTEB(
                                 0.0, 40.0, 0.0, 60.0),
                             child: Column(
                               mainAxisSize: MainAxisSize.max,
@@ -106,7 +110,7 @@ class _CustomerIdentifierWidgetState extends State<CustomerIdentifierWidget> {
                                         lineHeight: 2.0,
                                       ),
                                 ),
-                              ].divide(const SizedBox(height: 10.0)),
+                              ].divide(SizedBox(height: 10.0)),
                             ),
                           ),
                           Divider(
@@ -116,7 +120,7 @@ class _CustomerIdentifierWidgetState extends State<CustomerIdentifierWidget> {
                                 FlutterFlowTheme.of(context).primaryBackground,
                           ),
                           Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(
+                            padding: EdgeInsetsDirectional.fromSTEB(
                                 0.0, 60.0, 0.0, 0.0),
                             child: Column(
                               mainAxisSize: MainAxisSize.max,
@@ -125,9 +129,9 @@ class _CustomerIdentifierWidgetState extends State<CustomerIdentifierWidget> {
                                 FFButtonWidget(
                                   onPressed: () async {
                                     context.pushNamed(
-                                      'AppLogin',
+                                      AppLoginWidget.routeName,
                                       extra: <String, dynamic>{
-                                        kTransitionInfoKey: const TransitionInfo(
+                                        kTransitionInfoKey: TransitionInfo(
                                           hasTransition: true,
                                           transitionType:
                                               PageTransitionType.fade,
@@ -140,10 +144,10 @@ class _CustomerIdentifierWidgetState extends State<CustomerIdentifierWidget> {
                                   options: FFButtonOptions(
                                     width: double.infinity,
                                     height: 45.0,
-                                    padding: const EdgeInsetsDirectional.fromSTEB(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
                                         16.0, 0.0, 16.0, 0.0),
                                     iconAlignment: IconAlignment.start,
-                                    iconPadding: const EdgeInsetsDirectional.fromSTEB(
+                                    iconPadding: EdgeInsetsDirectional.fromSTEB(
                                         0.0, 0.0, 0.0, 0.0),
                                     color:
                                         FlutterFlowTheme.of(context).secondary,
@@ -161,9 +165,9 @@ class _CustomerIdentifierWidgetState extends State<CustomerIdentifierWidget> {
                                 FFButtonWidget(
                                   onPressed: () async {
                                     context.goNamed(
-                                      'GuestOrder',
+                                      GuestOrderWidget.routeName,
                                       extra: <String, dynamic>{
-                                        kTransitionInfoKey: const TransitionInfo(
+                                        kTransitionInfoKey: TransitionInfo(
                                           hasTransition: true,
                                           transitionType:
                                               PageTransitionType.fade,
@@ -176,10 +180,10 @@ class _CustomerIdentifierWidgetState extends State<CustomerIdentifierWidget> {
                                   options: FFButtonOptions(
                                     width: double.infinity,
                                     height: 45.0,
-                                    padding: const EdgeInsetsDirectional.fromSTEB(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
                                         16.0, 0.0, 16.0, 0.0),
                                     iconAlignment: IconAlignment.start,
-                                    iconPadding: const EdgeInsetsDirectional.fromSTEB(
+                                    iconPadding: EdgeInsetsDirectional.fromSTEB(
                                         0.0, 0.0, 0.0, 0.0),
                                     color: FlutterFlowTheme.of(context)
                                         .secondaryBackground,
@@ -201,7 +205,7 @@ class _CustomerIdentifierWidgetState extends State<CustomerIdentifierWidget> {
                                     borderRadius: BorderRadius.circular(8.0),
                                   ),
                                 ),
-                              ].divide(const SizedBox(height: 30.0)),
+                              ].divide(SizedBox(height: 30.0)),
                             ),
                           ),
                         ],

@@ -6,9 +6,10 @@ import 'package:provider/provider.dart';
 import '/backend/schema/structs/index.dart';
 import '/backend/schema/enums/enums.dart';
 
-import '/index.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+
+import '/index.dart';
 
 export 'package:go_router/go_router.dart';
 export 'serialization_util.dart';
@@ -49,7 +50,7 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
                 ),
               ),
             )
-          : const GuestOrderWidget(),
+          : GuestOrderWidget(),
       routes: [
         FFRoute(
           name: '_initialize',
@@ -67,26 +68,26 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
                     ),
                   ),
                 )
-              : const GuestOrderWidget(),
+              : GuestOrderWidget(),
         ),
         FFRoute(
-          name: 'CustomerIdentifier',
-          path: '/customerIdentifier',
-          builder: (context, params) => const CustomerIdentifierWidget(),
+          name: CustomerIdentifierWidget.routeName,
+          path: CustomerIdentifierWidget.routePath,
+          builder: (context, params) => CustomerIdentifierWidget(),
         ),
         FFRoute(
-          name: 'GuestOrder',
-          path: '/guestOrder',
-          builder: (context, params) => const GuestOrderWidget(),
+          name: GuestOrderWidget.routeName,
+          path: GuestOrderWidget.routePath,
+          builder: (context, params) => GuestOrderWidget(),
         ),
         FFRoute(
-          name: 'AppLogin',
-          path: '/appLogin',
-          builder: (context, params) => const AppLoginWidget(),
+          name: AppLoginWidget.routeName,
+          path: AppLoginWidget.routePath,
+          builder: (context, params) => AppLoginWidget(),
         ),
         FFRoute(
-          name: 'Order',
-          path: '/order',
+          name: OrderWidget.routeName,
+          path: OrderWidget.routePath,
           builder: (context, params) => OrderWidget(
             userType: params.getParam<UserTypes>(
               'userType',
@@ -97,6 +98,11 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               ParamType.JSON,
             ),
           ),
+        ),
+        FFRoute(
+          name: ConfirmationWidget.routeName,
+          path: ConfirmationWidget.routePath,
+          builder: (context, params) => ConfirmationWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );
@@ -262,7 +268,7 @@ class TransitionInfo {
   final Duration duration;
   final Alignment? alignment;
 
-  static TransitionInfo appDefault() => const TransitionInfo(hasTransition: false);
+  static TransitionInfo appDefault() => TransitionInfo(hasTransition: false);
 }
 
 class RootPageContext {

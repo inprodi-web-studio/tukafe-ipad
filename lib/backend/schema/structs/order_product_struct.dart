@@ -13,13 +13,21 @@ class OrderProductStruct extends BaseStruct {
     String? productName,
     String? granTotal,
     double? unitaryPrice,
+    String? categoryId,
+    String? photo,
+    bool? isFree,
+    double? price,
   })  : _count = count,
         _comment = comment,
         _modification = modification,
         _id = id,
         _productName = productName,
         _granTotal = granTotal,
-        _unitaryPrice = unitaryPrice;
+        _unitaryPrice = unitaryPrice,
+        _categoryId = categoryId,
+        _photo = photo,
+        _isFree = isFree,
+        _price = price;
 
   // "count" field.
   int? _count;
@@ -82,6 +90,36 @@ class OrderProductStruct extends BaseStruct {
 
   bool hasUnitaryPrice() => _unitaryPrice != null;
 
+  // "category_id" field.
+  String? _categoryId;
+  String get categoryId => _categoryId ?? '';
+  set categoryId(String? val) => _categoryId = val;
+
+  bool hasCategoryId() => _categoryId != null;
+
+  // "photo" field.
+  String? _photo;
+  String get photo => _photo ?? '';
+  set photo(String? val) => _photo = val;
+
+  bool hasPhoto() => _photo != null;
+
+  // "isFree" field.
+  bool? _isFree;
+  bool get isFree => _isFree ?? false;
+  set isFree(bool? val) => _isFree = val;
+
+  bool hasIsFree() => _isFree != null;
+
+  // "price" field.
+  double? _price;
+  double get price => _price ?? 0.0;
+  set price(double? val) => _price = val;
+
+  void incrementPrice(double amount) => price = price + amount;
+
+  bool hasPrice() => _price != null;
+
   static OrderProductStruct fromMap(Map<String, dynamic> data) =>
       OrderProductStruct(
         count: castToType<int>(data['count']),
@@ -94,6 +132,10 @@ class OrderProductStruct extends BaseStruct {
         productName: data['productName'] as String?,
         granTotal: data['granTotal'] as String?,
         unitaryPrice: castToType<double>(data['unitaryPrice']),
+        categoryId: data['category_id'] as String?,
+        photo: data['photo'] as String?,
+        isFree: data['isFree'] as bool?,
+        price: castToType<double>(data['price']),
       );
 
   static OrderProductStruct? maybeFromMap(dynamic data) => data is Map
@@ -108,6 +150,10 @@ class OrderProductStruct extends BaseStruct {
         'productName': _productName,
         'granTotal': _granTotal,
         'unitaryPrice': _unitaryPrice,
+        'category_id': _categoryId,
+        'photo': _photo,
+        'isFree': _isFree,
+        'price': _price,
       }.withoutNulls;
 
   @override
@@ -139,6 +185,22 @@ class OrderProductStruct extends BaseStruct {
         ),
         'unitaryPrice': serializeParam(
           _unitaryPrice,
+          ParamType.double,
+        ),
+        'category_id': serializeParam(
+          _categoryId,
+          ParamType.String,
+        ),
+        'photo': serializeParam(
+          _photo,
+          ParamType.String,
+        ),
+        'isFree': serializeParam(
+          _isFree,
+          ParamType.bool,
+        ),
+        'price': serializeParam(
+          _price,
           ParamType.double,
         ),
       }.withoutNulls;
@@ -181,6 +243,26 @@ class OrderProductStruct extends BaseStruct {
           ParamType.double,
           false,
         ),
+        categoryId: deserializeParam(
+          data['category_id'],
+          ParamType.String,
+          false,
+        ),
+        photo: deserializeParam(
+          data['photo'],
+          ParamType.String,
+          false,
+        ),
+        isFree: deserializeParam(
+          data['isFree'],
+          ParamType.bool,
+          false,
+        ),
+        price: deserializeParam(
+          data['price'],
+          ParamType.double,
+          false,
+        ),
       );
 
   @override
@@ -196,12 +278,27 @@ class OrderProductStruct extends BaseStruct {
         id == other.id &&
         productName == other.productName &&
         granTotal == other.granTotal &&
-        unitaryPrice == other.unitaryPrice;
+        unitaryPrice == other.unitaryPrice &&
+        categoryId == other.categoryId &&
+        photo == other.photo &&
+        isFree == other.isFree &&
+        price == other.price;
   }
 
   @override
-  int get hashCode => const ListEquality().hash(
-      [count, comment, modification, id, productName, granTotal, unitaryPrice]);
+  int get hashCode => const ListEquality().hash([
+        count,
+        comment,
+        modification,
+        id,
+        productName,
+        granTotal,
+        unitaryPrice,
+        categoryId,
+        photo,
+        isFree,
+        price
+      ]);
 }
 
 OrderProductStruct createOrderProductStruct({
@@ -211,6 +308,10 @@ OrderProductStruct createOrderProductStruct({
   String? productName,
   String? granTotal,
   double? unitaryPrice,
+  String? categoryId,
+  String? photo,
+  bool? isFree,
+  double? price,
 }) =>
     OrderProductStruct(
       count: count,
@@ -219,4 +320,8 @@ OrderProductStruct createOrderProductStruct({
       productName: productName,
       granTotal: granTotal,
       unitaryPrice: unitaryPrice,
+      categoryId: categoryId,
+      photo: photo,
+      isFree: isFree,
+      price: price,
     );

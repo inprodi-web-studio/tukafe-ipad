@@ -12,12 +12,18 @@ class ProductStruct extends BaseStruct {
     List<SpotProductInfoStruct>? spots,
     List<ProductGroupModificationStruct>? groupModifications,
     String? menuCategoryId,
+    String? photo,
+    String? photoOrigin,
+    String? nodiscount,
   })  : _categoryName = categoryName,
         _productId = productId,
         _productName = productName,
         _spots = spots,
         _groupModifications = groupModifications,
-        _menuCategoryId = menuCategoryId;
+        _menuCategoryId = menuCategoryId,
+        _photo = photo,
+        _photoOrigin = photoOrigin,
+        _nodiscount = nodiscount;
 
   // "category_name" field.
   String? _categoryName;
@@ -72,6 +78,27 @@ class ProductStruct extends BaseStruct {
 
   bool hasMenuCategoryId() => _menuCategoryId != null;
 
+  // "photo" field.
+  String? _photo;
+  String get photo => _photo ?? '';
+  set photo(String? val) => _photo = val;
+
+  bool hasPhoto() => _photo != null;
+
+  // "photo_origin" field.
+  String? _photoOrigin;
+  String get photoOrigin => _photoOrigin ?? '';
+  set photoOrigin(String? val) => _photoOrigin = val;
+
+  bool hasPhotoOrigin() => _photoOrigin != null;
+
+  // "nodiscount" field.
+  String? _nodiscount;
+  String get nodiscount => _nodiscount ?? '';
+  set nodiscount(String? val) => _nodiscount = val;
+
+  bool hasNodiscount() => _nodiscount != null;
+
   static ProductStruct fromMap(Map<String, dynamic> data) => ProductStruct(
         categoryName: data['category_name'] as String?,
         productId: data['product_id'] as String?,
@@ -85,6 +112,9 @@ class ProductStruct extends BaseStruct {
           ProductGroupModificationStruct.fromMap,
         ),
         menuCategoryId: data['menu_category_id'] as String?,
+        photo: data['photo'] as String?,
+        photoOrigin: data['photo_origin'] as String?,
+        nodiscount: data['nodiscount'] as String?,
       );
 
   static ProductStruct? maybeFromMap(dynamic data) =>
@@ -98,6 +128,9 @@ class ProductStruct extends BaseStruct {
         'group_modifications':
             _groupModifications?.map((e) => e.toMap()).toList(),
         'menu_category_id': _menuCategoryId,
+        'photo': _photo,
+        'photo_origin': _photoOrigin,
+        'nodiscount': _nodiscount,
       }.withoutNulls;
 
   @override
@@ -126,6 +159,18 @@ class ProductStruct extends BaseStruct {
         ),
         'menu_category_id': serializeParam(
           _menuCategoryId,
+          ParamType.String,
+        ),
+        'photo': serializeParam(
+          _photo,
+          ParamType.String,
+        ),
+        'photo_origin': serializeParam(
+          _photoOrigin,
+          ParamType.String,
+        ),
+        'nodiscount': serializeParam(
+          _nodiscount,
           ParamType.String,
         ),
       }.withoutNulls;
@@ -165,6 +210,21 @@ class ProductStruct extends BaseStruct {
           ParamType.String,
           false,
         ),
+        photo: deserializeParam(
+          data['photo'],
+          ParamType.String,
+          false,
+        ),
+        photoOrigin: deserializeParam(
+          data['photo_origin'],
+          ParamType.String,
+          false,
+        ),
+        nodiscount: deserializeParam(
+          data['nodiscount'],
+          ParamType.String,
+          false,
+        ),
       );
 
   @override
@@ -179,7 +239,10 @@ class ProductStruct extends BaseStruct {
         productName == other.productName &&
         listEquality.equals(spots, other.spots) &&
         listEquality.equals(groupModifications, other.groupModifications) &&
-        menuCategoryId == other.menuCategoryId;
+        menuCategoryId == other.menuCategoryId &&
+        photo == other.photo &&
+        photoOrigin == other.photoOrigin &&
+        nodiscount == other.nodiscount;
   }
 
   @override
@@ -189,7 +252,10 @@ class ProductStruct extends BaseStruct {
         productName,
         spots,
         groupModifications,
-        menuCategoryId
+        menuCategoryId,
+        photo,
+        photoOrigin,
+        nodiscount
       ]);
 }
 
@@ -198,10 +264,16 @@ ProductStruct createProductStruct({
   String? productId,
   String? productName,
   String? menuCategoryId,
+  String? photo,
+  String? photoOrigin,
+  String? nodiscount,
 }) =>
     ProductStruct(
       categoryName: categoryName,
       productId: productId,
       productName: productName,
       menuCategoryId: menuCategoryId,
+      photo: photo,
+      photoOrigin: photoOrigin,
+      nodiscount: nodiscount,
     );

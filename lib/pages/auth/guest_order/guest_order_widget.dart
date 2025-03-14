@@ -1,8 +1,10 @@
 import '/backend/api_requests/api_calls.dart';
 import '/backend/schema/enums/enums.dart';
+import '/backend/schema/structs/index.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import '/index.dart';
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
 import 'guest_order_model.dart';
@@ -10,6 +12,9 @@ export 'guest_order_model.dart';
 
 class GuestOrderWidget extends StatefulWidget {
   const GuestOrderWidget({super.key});
+
+  static String routeName = 'GuestOrder';
+  static String routePath = '/guestOrder';
 
   @override
   State<GuestOrderWidget> createState() => _GuestOrderWidgetState();
@@ -55,7 +60,7 @@ class _GuestOrderWidgetState extends State<GuestOrderWidget> {
               color: FlutterFlowTheme.of(context).secondaryBackground,
             ),
             child: Padding(
-              padding: const EdgeInsets.all(20.0),
+              padding: EdgeInsets.all(20.0),
               child: Row(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -63,11 +68,11 @@ class _GuestOrderWidgetState extends State<GuestOrderWidget> {
                 children: [
                   Container(
                     width: 663.0,
-                    decoration: const BoxDecoration(),
+                    decoration: BoxDecoration(),
                     child: Align(
-                      alignment: const AlignmentDirectional(-1.0, 0.0),
+                      alignment: AlignmentDirectional(-1.0, 0.0),
                       child: Padding(
-                        padding: const EdgeInsets.all(40.0),
+                        padding: EdgeInsets.all(40.0),
                         child: SingleChildScrollView(
                           child: Column(
                             mainAxisSize: MainAxisSize.max,
@@ -83,7 +88,7 @@ class _GuestOrderWidgetState extends State<GuestOrderWidget> {
                                 ),
                               ),
                               Padding(
-                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                padding: EdgeInsetsDirectional.fromSTEB(
                                     0.0, 40.0, 0.0, 40.0),
                                 child: Column(
                                   mainAxisSize: MainAxisSize.max,
@@ -115,13 +120,13 @@ class _GuestOrderWidgetState extends State<GuestOrderWidget> {
                                             lineHeight: 2.0,
                                           ),
                                     ),
-                                  ].divide(const SizedBox(height: 10.0)),
+                                  ].divide(SizedBox(height: 10.0)),
                                 ),
                               ),
                               Padding(
-                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                padding: EdgeInsetsDirectional.fromSTEB(
                                     0.0, 0.0, 0.0, 60.0),
-                                child: SizedBox(
+                                child: Container(
                                   width: double.infinity,
                                   child: Form(
                                     key: _model.formKey,
@@ -131,7 +136,7 @@ class _GuestOrderWidgetState extends State<GuestOrderWidget> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.stretch,
                                       children: [
-                                        SizedBox(
+                                        Container(
                                           width: double.infinity,
                                           child: TextFormField(
                                             controller:
@@ -140,7 +145,7 @@ class _GuestOrderWidgetState extends State<GuestOrderWidget> {
                                             onChanged: (_) =>
                                                 EasyDebounce.debounce(
                                               '_model.phoneTextController',
-                                              const Duration(milliseconds: 500),
+                                              Duration(milliseconds: 500),
                                               () => safeSetState(() {}),
                                             ),
                                             autofocus: false,
@@ -163,7 +168,7 @@ class _GuestOrderWidgetState extends State<GuestOrderWidget> {
                                                   .labelMedium
                                                   .override(
                                                     fontFamily: 'Montserrat',
-                                                    color: const Color(0xA657636C),
+                                                    color: Color(0xA657636C),
                                                     fontSize: 16.0,
                                                     letterSpacing: 0.0,
                                                     lineHeight: 1.5,
@@ -214,7 +219,7 @@ class _GuestOrderWidgetState extends State<GuestOrderWidget> {
                                                   FlutterFlowTheme.of(context)
                                                       .secondaryBackground,
                                               contentPadding:
-                                                  const EdgeInsetsDirectional
+                                                  EdgeInsetsDirectional
                                                       .fromSTEB(16.0, 16.0,
                                                           16.0, 16.0),
                                               prefixIcon: Icon(
@@ -245,7 +250,7 @@ class _GuestOrderWidgetState extends State<GuestOrderWidget> {
                                         ),
                                         Padding(
                                           padding:
-                                              const EdgeInsetsDirectional.fromSTEB(
+                                              EdgeInsetsDirectional.fromSTEB(
                                                   0.0, 0.0, 0.0, 20.0),
                                           child: FFButtonWidget(
                                             onPressed: (_model.phoneTextController
@@ -253,7 +258,7 @@ class _GuestOrderWidgetState extends State<GuestOrderWidget> {
                                                         '')
                                                 ? null
                                                 : () async {
-                                                    var shouldSetState = false;
+                                                    var _shouldSetState = false;
                                                     if (_model.formKey
                                                                 .currentState ==
                                                             null ||
@@ -271,7 +276,7 @@ class _GuestOrderWidgetState extends State<GuestOrderWidget> {
                                                           .text,
                                                     );
 
-                                                    shouldSetState = true;
+                                                    _shouldSetState = true;
                                                     if ((_model.existingOutput
                                                             ?.succeeded ??
                                                         true)) {
@@ -281,9 +286,60 @@ class _GuestOrderWidgetState extends State<GuestOrderWidget> {
                                                                 (_model.existingOutput
                                                                         ?.jsonBody ??
                                                                     ''),
-                                                              )!.isNotEmpty) {
+                                                              )!
+                                                              .length >
+                                                          0) {
+                                                        _model.customerOrdersOutput =
+                                                            await OwnRoutesGroup
+                                                                .getCustomerLastOrdersCall
+                                                                .call(
+                                                          customerId:
+                                                              getJsonField(
+                                                            CustomersGroup
+                                                                .findByPhoneCall
+                                                                .customer(
+                                                              (_model.existingOutput
+                                                                      ?.jsonBody ??
+                                                                  ''),
+                                                            ),
+                                                            r'''$.client_id''',
+                                                          ).toString(),
+                                                        );
+
+                                                        _shouldSetState = true;
+                                                        if (OwnRoutesGroup
+                                                                    .getCustomerLastOrdersCall
+                                                                    .items(
+                                                                  (_model.customerOrdersOutput
+                                                                          ?.jsonBody ??
+                                                                      ''),
+                                                                ) !=
+                                                                null &&
+                                                            (OwnRoutesGroup
+                                                                    .getCustomerLastOrdersCall
+                                                                    .items(
+                                                              (_model.customerOrdersOutput
+                                                                      ?.jsonBody ??
+                                                                  ''),
+                                                            ))!
+                                                                .isNotEmpty) {
+                                                          FFAppState()
+                                                                  .LastCustomerOrdersProducts =
+                                                              OwnRoutesGroup
+                                                                  .getCustomerLastOrdersCall
+                                                                  .items(
+                                                                    (_model.customerOrdersOutput
+                                                                            ?.jsonBody ??
+                                                                        ''),
+                                                                  )!
+                                                                  .toList()
+                                                                  .cast<
+                                                                      LastCustomerOrdersProductsStruct>();
+                                                          safeSetState(() {});
+                                                        }
+
                                                         context.pushNamed(
-                                                          'Order',
+                                                          OrderWidget.routeName,
                                                           queryParameters: {
                                                             'userType':
                                                                 serializeParam(
@@ -305,9 +361,8 @@ class _GuestOrderWidgetState extends State<GuestOrderWidget> {
                                                           }.withoutNulls,
                                                         );
 
-                                                        if (shouldSetState) {
+                                                        if (_shouldSetState)
                                                           safeSetState(() {});
-                                                        }
                                                         return;
                                                       } else {
                                                         _model.registerOutput =
@@ -319,13 +374,18 @@ class _GuestOrderWidgetState extends State<GuestOrderWidget> {
                                                               .text,
                                                         );
 
-                                                        shouldSetState = true;
+                                                        _shouldSetState = true;
                                                         if ((_model
                                                                 .registerOutput
                                                                 ?.succeeded ??
                                                             true)) {
+                                                          FFAppState()
+                                                              .LastCustomerOrdersProducts = [];
+                                                          safeSetState(() {});
+
                                                           context.pushNamed(
-                                                            'Order',
+                                                            OrderWidget
+                                                                .routeName,
                                                             queryParameters: {
                                                               'userType':
                                                                   serializeParam(
@@ -338,7 +398,7 @@ class _GuestOrderWidgetState extends State<GuestOrderWidget> {
                                                                 <String,
                                                                     dynamic>{
                                                                   'phone':
-                                                                      _model.phoneTextController.text,
+                                                                      '${_model.phoneTextController.text}',
                                                                   'client_id':
                                                                       CustomersGroup
                                                                           .createPhoneCustomerCall
@@ -353,9 +413,8 @@ class _GuestOrderWidgetState extends State<GuestOrderWidget> {
                                                             }.withoutNulls,
                                                           );
 
-                                                          if (shouldSetState) {
+                                                          if (_shouldSetState)
                                                             safeSetState(() {});
-                                                          }
                                                           return;
                                                         } else {
                                                           ScaffoldMessenger.of(
@@ -374,7 +433,7 @@ class _GuestOrderWidgetState extends State<GuestOrderWidget> {
                                                                       .secondaryBackground,
                                                                 ),
                                                               ),
-                                                              duration: const Duration(
+                                                              duration: Duration(
                                                                   milliseconds:
                                                                       4000),
                                                               backgroundColor:
@@ -383,9 +442,8 @@ class _GuestOrderWidgetState extends State<GuestOrderWidget> {
                                                                       .error,
                                                             ),
                                                           );
-                                                          if (shouldSetState) {
+                                                          if (_shouldSetState)
                                                             safeSetState(() {});
-                                                          }
                                                           return;
                                                         }
                                                       }
@@ -405,7 +463,7 @@ class _GuestOrderWidgetState extends State<GuestOrderWidget> {
                                                                   .secondaryBackground,
                                                             ),
                                                           ),
-                                                          duration: const Duration(
+                                                          duration: Duration(
                                                               milliseconds:
                                                                   4000),
                                                           backgroundColor:
@@ -414,26 +472,24 @@ class _GuestOrderWidgetState extends State<GuestOrderWidget> {
                                                                   .error,
                                                         ),
                                                       );
-                                                      if (shouldSetState) {
+                                                      if (_shouldSetState)
                                                         safeSetState(() {});
-                                                      }
                                                       return;
                                                     }
 
-                                                    if (shouldSetState) {
+                                                    if (_shouldSetState)
                                                       safeSetState(() {});
-                                                    }
                                                   },
                                             text: 'Continuar',
                                             options: FFButtonOptions(
                                               width: double.infinity,
                                               height: 45.0,
-                                              padding: const EdgeInsetsDirectional
+                                              padding: EdgeInsetsDirectional
                                                   .fromSTEB(
                                                       16.0, 0.0, 16.0, 0.0),
                                               iconAlignment:
                                                   IconAlignment.start,
-                                              iconPadding: const EdgeInsetsDirectional
+                                              iconPadding: EdgeInsetsDirectional
                                                   .fromSTEB(0.0, 0.0, 0.0, 0.0),
                                               color:
                                                   FlutterFlowTheme.of(context)
@@ -450,16 +506,16 @@ class _GuestOrderWidgetState extends State<GuestOrderWidget> {
                                               elevation: 0.0,
                                               borderRadius:
                                                   BorderRadius.circular(8.0),
-                                              disabledColor: const Color(0x7FECB169),
+                                              disabledColor: Color(0x7FECB169),
                                               disabledTextColor:
-                                                  const Color(0x80FFFFFF),
+                                                  Color(0x80FFFFFF),
                                             ),
                                           ),
                                         ),
                                         FFButtonWidget(
                                           onPressed: () async {
                                             context.goNamed(
-                                              'Order',
+                                              OrderWidget.routeName,
                                               queryParameters: {
                                                 'userType': serializeParam(
                                                   UserTypes.guest,
@@ -468,7 +524,7 @@ class _GuestOrderWidgetState extends State<GuestOrderWidget> {
                                               }.withoutNulls,
                                               extra: <String, dynamic>{
                                                 kTransitionInfoKey:
-                                                    const TransitionInfo(
+                                                    TransitionInfo(
                                                   hasTransition: true,
                                                   transitionType:
                                                       PageTransitionType
@@ -484,11 +540,11 @@ class _GuestOrderWidgetState extends State<GuestOrderWidget> {
                                             width: double.infinity,
                                             height: 45.0,
                                             padding:
-                                                const EdgeInsetsDirectional.fromSTEB(
+                                                EdgeInsetsDirectional.fromSTEB(
                                                     16.0, 0.0, 16.0, 0.0),
                                             iconAlignment: IconAlignment.start,
                                             iconPadding:
-                                                const EdgeInsetsDirectional.fromSTEB(
+                                                EdgeInsetsDirectional.fromSTEB(
                                                     0.0, 0.0, 0.0, 0.0),
                                             color: FlutterFlowTheme.of(context)
                                                 .secondaryBackground,
@@ -514,7 +570,7 @@ class _GuestOrderWidgetState extends State<GuestOrderWidget> {
                                                 BorderRadius.circular(8.0),
                                           ),
                                         ),
-                                      ].divide(const SizedBox(height: 20.0)),
+                                      ].divide(SizedBox(height: 20.0)),
                                     ),
                                   ),
                                 ),
@@ -527,7 +583,7 @@ class _GuestOrderWidgetState extends State<GuestOrderWidget> {
                                       .primaryBackground,
                                 ),
                               Padding(
-                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                padding: EdgeInsetsDirectional.fromSTEB(
                                     0.0, 60.0, 0.0, 0.0),
                                 child: Column(
                                   mainAxisSize: MainAxisSize.max,
@@ -538,10 +594,10 @@ class _GuestOrderWidgetState extends State<GuestOrderWidget> {
                                       FFButtonWidget(
                                         onPressed: () async {
                                           context.goNamed(
-                                            'CustomerIdentifier',
+                                            CustomerIdentifierWidget.routeName,
                                             extra: <String, dynamic>{
                                               kTransitionInfoKey:
-                                                  const TransitionInfo(
+                                                  TransitionInfo(
                                                 hasTransition: true,
                                                 transitionType:
                                                     PageTransitionType.fade,
@@ -552,7 +608,7 @@ class _GuestOrderWidgetState extends State<GuestOrderWidget> {
                                           );
                                         },
                                         text: 'Regresar',
-                                        icon: const Icon(
+                                        icon: Icon(
                                           FFIcons.karrowLeft,
                                           size: 18.0,
                                         ),
@@ -560,11 +616,11 @@ class _GuestOrderWidgetState extends State<GuestOrderWidget> {
                                           width: double.infinity,
                                           height: 45.0,
                                           padding:
-                                              const EdgeInsetsDirectional.fromSTEB(
+                                              EdgeInsetsDirectional.fromSTEB(
                                                   16.0, 0.0, 16.0, 0.0),
                                           iconAlignment: IconAlignment.start,
                                           iconPadding:
-                                              const EdgeInsetsDirectional.fromSTEB(
+                                              EdgeInsetsDirectional.fromSTEB(
                                                   0.0, 0.0, 6.0, 0.0),
                                           color: FlutterFlowTheme.of(context)
                                               .primaryBackground,
@@ -589,7 +645,7 @@ class _GuestOrderWidgetState extends State<GuestOrderWidget> {
                                               BorderRadius.circular(8.0),
                                         ),
                                       ),
-                                  ].divide(const SizedBox(height: 30.0)),
+                                  ].divide(SizedBox(height: 30.0)),
                                 ),
                               ),
                             ],

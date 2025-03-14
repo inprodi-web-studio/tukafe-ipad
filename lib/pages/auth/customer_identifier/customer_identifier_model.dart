@@ -1,4 +1,5 @@
 import '/flutter_flow/flutter_flow_util.dart';
+import '/index.dart';
 import 'customer_identifier_widget.dart' show CustomerIdentifierWidget;
 import 'package:flutter/material.dart';
 

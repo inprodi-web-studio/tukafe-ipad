@@ -1,5 +1,6 @@
 import '/backend/api_requests/api_calls.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/index.dart';
 import 'guest_order_widget.dart' show GuestOrderWidget;
 import 'package:flutter/material.dart';
 
@@ -24,6 +25,8 @@ class GuestOrderModel extends FlutterFlowModel<GuestOrderWidget> {
 
   // Stores action output result for [Backend Call - API (Find By Phone)] action in Submit widget.
   ApiCallResponse? existingOutput;
+  // Stores action output result for [Backend Call - API (Get Customer Last Orders)] action in Submit widget.
+  ApiCallResponse? customerOrdersOutput;
   // Stores action output result for [Backend Call - API (Create Phone Customer)] action in Submit widget.
   ApiCallResponse? registerOutput;
 

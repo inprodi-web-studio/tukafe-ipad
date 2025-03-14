@@ -49,4 +49,38 @@ class FFAppState extends ChangeNotifier {
   void insertAtIndexInOrderItems(int index, OrderProductStruct value) {
     OrderItems.insert(index, value);
   }
+
+  List<LastCustomerOrdersProductsStruct> _LastCustomerOrdersProducts = [];
+  List<LastCustomerOrdersProductsStruct> get LastCustomerOrdersProducts =>
+      _LastCustomerOrdersProducts;
+  set LastCustomerOrdersProducts(List<LastCustomerOrdersProductsStruct> value) {
+    _LastCustomerOrdersProducts = value;
+  }
+
+  void addToLastCustomerOrdersProducts(LastCustomerOrdersProductsStruct value) {
+    LastCustomerOrdersProducts.add(value);
+  }
+
+  void removeFromLastCustomerOrdersProducts(
+      LastCustomerOrdersProductsStruct value) {
+    LastCustomerOrdersProducts.remove(value);
+  }
+
+  void removeAtIndexFromLastCustomerOrdersProducts(int index) {
+    LastCustomerOrdersProducts.removeAt(index);
+  }
+
+  void updateLastCustomerOrdersProductsAtIndex(
+    int index,
+    LastCustomerOrdersProductsStruct Function(LastCustomerOrdersProductsStruct)
+        updateFn,
+  ) {
+    LastCustomerOrdersProducts[index] =
+        updateFn(_LastCustomerOrdersProducts[index]);
+  }
+
+  void insertAtIndexInLastCustomerOrdersProducts(
+      int index, LastCustomerOrdersProductsStruct value) {
+    LastCustomerOrdersProducts.insert(index, value);
+  }
 }

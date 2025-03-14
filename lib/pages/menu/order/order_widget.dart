@@ -1,14 +1,19 @@
+import '';
 import '/backend/api_requests/api_calls.dart';
 import '/backend/schema/enums/enums.dart';
 import '/components/empty_order_widget.dart';
+import '/components/orders_count_widget.dart';
 import '/components/product_configuration_dialog_widget.dart';
-import '/components/product_count_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import 'dart:async';
 import '/flutter_flow/custom_functions.dart' as functions;
+import '/index.dart';
 import 'package:styled_divider/styled_divider.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
@@ -25,6 +30,9 @@ class OrderWidget extends StatefulWidget {
   final UserTypes? userType;
   final dynamic customer;
 
+  static String routeName = 'Order';
+  static String routePath = '/order';
+
   @override
   State<OrderWidget> createState() => _OrderWidgetState();
 }
@@ -38,6 +46,9 @@ class _OrderWidgetState extends State<OrderWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => OrderModel());
+
+    _model.nameTextController ??= TextEditingController();
+    _model.nameFocusNode ??= FocusNode();
   }
 
   @override
@@ -78,14 +89,14 @@ class _OrderWidgetState extends State<OrderWidget> {
                   ),
                   child: Padding(
                     padding:
-                        const EdgeInsetsDirectional.fromSTEB(0.0, 20.0, 0.0, 0.0),
+                        EdgeInsetsDirectional.fromSTEB(0.0, 20.0, 0.0, 0.0),
                     child: SingleChildScrollView(
                       primary: false,
                       child: Column(
                         mainAxisSize: MainAxisSize.max,
                         children: [
                           Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(
+                            padding: EdgeInsetsDirectional.fromSTEB(
                                 30.0, 0.0, 30.0, 0.0),
                             child: Row(
                               mainAxisSize: MainAxisSize.max,
@@ -116,7 +127,7 @@ class _OrderWidgetState extends State<OrderWidget> {
                                         ),
                                         child: Padding(
                                           padding:
-                                              const EdgeInsetsDirectional.fromSTEB(
+                                              EdgeInsetsDirectional.fromSTEB(
                                                   12.0, 4.0, 12.0, 4.0),
                                           child: Row(
                                             mainAxisSize: MainAxisSize.max,
@@ -132,7 +143,7 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                       BorderRadius.circular(
                                                           100.0),
                                                 ),
-                                                alignment: const AlignmentDirectional(
+                                                alignment: AlignmentDirectional(
                                                     0.0, 0.0),
                                                 child: Icon(
                                                   Icons.person,
@@ -159,75 +170,38 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                               FontWeight.w600,
                                                         ),
                                               ),
-                                            ].divide(const SizedBox(width: 12.0)),
+                                            ].divide(SizedBox(width: 12.0)),
                                           ),
                                         ),
                                       ),
-                                    if (widget.userType != UserTypes.guest)
-                                      Container(
-                                        decoration: BoxDecoration(
-                                          color: FlutterFlowTheme.of(context)
-                                              .secondaryBackground,
-                                          borderRadius:
-                                              BorderRadius.circular(10.0),
-                                          border: Border.all(
-                                            color: FlutterFlowTheme.of(context)
-                                                .accent4,
-                                          ),
-                                        ),
-                                        child: Padding(
-                                          padding:
-                                              const EdgeInsetsDirectional.fromSTEB(
-                                                  10.0, 7.0, 10.0, 7.0),
-                                          child: Row(
-                                            mainAxisSize: MainAxisSize.max,
-                                            children: [
-                                              Icon(
-                                                FFIcons.kcoffee,
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .accent4,
-                                                size: 24.0,
-                                              ),
-                                              Icon(
-                                                FFIcons.kcoffee,
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .accent4,
-                                                size: 24.0,
-                                              ),
-                                              Icon(
-                                                FFIcons.kcoffee,
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .accent4,
-                                                size: 24.0,
-                                              ),
-                                              Icon(
-                                                FFIcons.kcoffee,
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .accent4,
-                                                size: 24.0,
-                                              ),
-                                              Icon(
-                                                FFIcons.kcoffee,
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .accent4,
-                                                size: 24.0,
-                                              ),
-                                            ].divide(const SizedBox(width: 10.0)),
+                                    if ((widget.userType != UserTypes.guest) &&
+                                        (FFAppState()
+                                                .OrderItems
+                                                .where((e) => e.isFree == true)
+                                                .toList()
+                                                .length ==
+                                            0))
+                                      wrapWithModel(
+                                        model: _model.ordersCountModel,
+                                        updateCallback: () =>
+                                            safeSetState(() {}),
+                                        child: OrdersCountWidget(
+                                          count: valueOrDefault<int>(
+                                            functions.sumProductsCounts(
+                                                FFAppState()
+                                                    .LastCustomerOrdersProducts
+                                                    .toList()),
+                                            0,
                                           ),
                                         ),
                                       ),
-                                  ].divide(const SizedBox(width: 10.0)),
+                                  ].divide(SizedBox(width: 10.0)),
                                 ),
-                              ].divide(const SizedBox(width: 10.0)),
+                              ].divide(SizedBox(width: 10.0)),
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(
+                            padding: EdgeInsetsDirectional.fromSTEB(
                                 0.0, 10.0, 0.0, 0.0),
                             child: SingleChildScrollView(
                               child: Column(
@@ -236,7 +210,7 @@ class _OrderWidgetState extends State<OrderWidget> {
                                 children: [
                                   if (_model.path != 'categories')
                                     Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
                                           30.0, 0.0, 0.0, 0.0),
                                       child: FFButtonWidget(
                                         onPressed: () async {
@@ -253,18 +227,18 @@ class _OrderWidgetState extends State<OrderWidget> {
                                           }
                                         },
                                         text: 'Regresar',
-                                        icon: const Icon(
+                                        icon: Icon(
                                           FFIcons.karrowLeft,
                                           size: 15.0,
                                         ),
                                         options: FFButtonOptions(
                                           height: 40.0,
                                           padding:
-                                              const EdgeInsetsDirectional.fromSTEB(
+                                              EdgeInsetsDirectional.fromSTEB(
                                                   16.0, 0.0, 16.0, 0.0),
                                           iconAlignment: IconAlignment.start,
                                           iconPadding:
-                                              const EdgeInsetsDirectional.fromSTEB(
+                                              EdgeInsetsDirectional.fromSTEB(
                                                   0.0, 0.0, 0.0, 0.0),
                                           color: FlutterFlowTheme.of(context)
                                               .secondaryBackground,
@@ -292,7 +266,7 @@ class _OrderWidgetState extends State<OrderWidget> {
                                     ),
                                   if (_model.path == 'categories')
                                     Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
                                           30.0, 0.0, 30.0, 0.0),
                                       child: FutureBuilder<ApiCallResponse>(
                                         future: ProductsGroup
@@ -334,7 +308,7 @@ class _OrderWidgetState extends State<OrderWidget> {
                                               return GridView.builder(
                                                 padding: EdgeInsets.zero,
                                                 gridDelegate:
-                                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                                    SliverGridDelegateWithFixedCrossAxisCount(
                                                   crossAxisCount: 5,
                                                   crossAxisSpacing: 14.0,
                                                   mainAxisSpacing: 14.0,
@@ -383,7 +357,7 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                       ),
                                                       child: Padding(
                                                         padding:
-                                                            const EdgeInsetsDirectional
+                                                            EdgeInsetsDirectional
                                                                 .fromSTEB(
                                                                     16.0,
                                                                     16.0,
@@ -401,7 +375,7 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                           children: [
                                                             Align(
                                                               alignment:
-                                                                  const AlignmentDirectional(
+                                                                  AlignmentDirectional(
                                                                       -1.0,
                                                                       -1.0),
                                                               child: Container(
@@ -418,7 +392,7 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                                               100.0),
                                                                 ),
                                                                 alignment:
-                                                                    const AlignmentDirectional(
+                                                                    AlignmentDirectional(
                                                                         0.0,
                                                                         0.0),
                                                                 child: Icon(
@@ -473,7 +447,7 @@ class _OrderWidgetState extends State<OrderWidget> {
                                         if (_model.path != 'product')
                                           Padding(
                                             padding:
-                                                const EdgeInsetsDirectional.fromSTEB(
+                                                EdgeInsetsDirectional.fromSTEB(
                                                     30.0, 0.0, 30.0, 0.0),
                                             child:
                                                 FutureBuilder<ApiCallResponse>(
@@ -519,7 +493,7 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                     return GridView.builder(
                                                       padding: EdgeInsets.zero,
                                                       gridDelegate:
-                                                          const SliverGridDelegateWithFixedCrossAxisCount(
+                                                          SliverGridDelegateWithFixedCrossAxisCount(
                                                         crossAxisCount: 5,
                                                         crossAxisSpacing: 14.0,
                                                         mainAxisSpacing: 14.0,
@@ -573,7 +547,7 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                             ),
                                                             child: Padding(
                                                               padding:
-                                                                  const EdgeInsetsDirectional
+                                                                  EdgeInsetsDirectional
                                                                       .fromSTEB(
                                                                           16.0,
                                                                           16.0,
@@ -592,7 +566,7 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                                 children: [
                                                                   Align(
                                                                     alignment:
-                                                                        const AlignmentDirectional(
+                                                                        AlignmentDirectional(
                                                                             -1.0,
                                                                             -1.0),
                                                                     child:
@@ -609,7 +583,7 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                                             BorderRadius.circular(100.0),
                                                                       ),
                                                                       alignment:
-                                                                          const AlignmentDirectional(
+                                                                          AlignmentDirectional(
                                                                               0.0,
                                                                               0.0),
                                                                       child:
@@ -659,7 +633,7 @@ class _OrderWidgetState extends State<OrderWidget> {
                                           ),
                                         Padding(
                                           padding:
-                                              const EdgeInsetsDirectional.fromSTEB(
+                                              EdgeInsetsDirectional.fromSTEB(
                                                   30.0, 0.0, 30.0, 0.0),
                                           child: FutureBuilder<ApiCallResponse>(
                                             future: ProductsGroup.productsCall
@@ -709,7 +683,7 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                   return GridView.builder(
                                                     padding: EdgeInsets.zero,
                                                     gridDelegate:
-                                                        const SliverGridDelegateWithFixedCrossAxisCount(
+                                                        SliverGridDelegateWithFixedCrossAxisCount(
                                                       crossAxisCount: 4,
                                                       crossAxisSpacing: 14.0,
                                                       mainAxisSpacing: 14.0,
@@ -748,7 +722,7 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                                   backgroundColor:
                                                                       Colors
                                                                           .transparent,
-                                                                  alignment: const AlignmentDirectional(
+                                                                  alignment: AlignmentDirectional(
                                                                           0.0,
                                                                           0.0)
                                                                       .resolve(
@@ -766,7 +740,7 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                                           ?.unfocus();
                                                                     },
                                                                     child:
-                                                                        SizedBox(
+                                                                        Container(
                                                                       height:
                                                                           MediaQuery.sizeOf(context).height *
                                                                               0.9,
@@ -777,6 +751,15 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                                           ProductConfigurationDialogWidget(
                                                                         productId:
                                                                             productItem.productId,
+                                                                        isFree: (FFAppState().OrderItems.where((e) => e.isFree).toList().length == 0) &&
+                                                                                (valueOrDefault<int>(
+                                                                                      functions.sumProductsCounts(FFAppState().LastCustomerOrdersProducts.toList()),
+                                                                                      0,
+                                                                                    ) >=
+                                                                                    4) &&
+                                                                                (functions.parseRewardsItems(FFAppState().LastCustomerOrdersProducts.toList()).where((e) => e.productId == productItem.productId).toList().length > 0)
+                                                                            ? true
+                                                                            : false,
                                                                       ),
                                                                     ),
                                                                   ),
@@ -804,7 +787,7 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                             ),
                                                             child: Padding(
                                                               padding:
-                                                                  const EdgeInsets
+                                                                  EdgeInsets
                                                                       .all(4.0),
                                                               child: Column(
                                                                 mainAxisSize:
@@ -815,9 +798,16 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                                     borderRadius:
                                                                         BorderRadius.circular(
                                                                             8.0),
-                                                                    child: Image
-                                                                        .asset(
-                                                                      'assets/images/temporal_coffee.jpg',
+                                                                    child:
+                                                                        CachedNetworkImage(
+                                                                      fadeInDuration:
+                                                                          Duration(
+                                                                              milliseconds: 500),
+                                                                      fadeOutDuration:
+                                                                          Duration(
+                                                                              milliseconds: 500),
+                                                                      imageUrl:
+                                                                          '${FFAppConstants.BaseURL}${productItem.photo}',
                                                                       width:
                                                                           200.0,
                                                                       height:
@@ -825,7 +815,7 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                                       fit: BoxFit
                                                                           .fitHeight,
                                                                       alignment:
-                                                                          const Alignment(
+                                                                          Alignment(
                                                                               0.0,
                                                                               0.0),
                                                                     ),
@@ -833,7 +823,7 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                                   Expanded(
                                                                     child:
                                                                         Padding(
-                                                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                                                      padding: EdgeInsetsDirectional.fromSTEB(
                                                                           8.0,
                                                                           14.0,
                                                                           8.0,
@@ -894,9 +884,9 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                                                       fontWeight: FontWeight.w600,
                                                                                     ),
                                                                               ),
-                                                                            ].divide(const SizedBox(width: 4.0)),
+                                                                            ].divide(SizedBox(width: 4.0)),
                                                                           ),
-                                                                        ].divide(const SizedBox(height: 6.0)),
+                                                                        ].divide(SizedBox(height: 6.0)),
                                                                       ),
                                                                     ),
                                                                   ),
@@ -913,13 +903,13 @@ class _OrderWidgetState extends State<OrderWidget> {
                                             },
                                           ),
                                         ),
-                                      ].divide(const SizedBox(height: 16.0)),
+                                      ].divide(SizedBox(height: 16.0)),
                                     ),
-                                ].divide(const SizedBox(height: 10.0)),
+                                ].divide(SizedBox(height: 10.0)),
                               ),
                             ),
                           ),
-                        ].divide(const SizedBox(height: 10.0)),
+                        ].divide(SizedBox(height: 10.0)),
                       ),
                     ),
                   ),
@@ -933,7 +923,7 @@ class _OrderWidgetState extends State<OrderWidget> {
                     BoxShadow(
                       blurRadius: 0.0,
                       color: FlutterFlowTheme.of(context).accent4,
-                      offset: const Offset(
+                      offset: Offset(
                         -1.0,
                         0.0,
                       ),
@@ -948,7 +938,7 @@ class _OrderWidgetState extends State<OrderWidget> {
                     ),
                     child: Padding(
                       padding:
-                          const EdgeInsetsDirectional.fromSTEB(20.0, 20.0, 20.0, 0.0),
+                          EdgeInsetsDirectional.fromSTEB(20.0, 20.0, 20.0, 0.0),
                       child: Column(
                         mainAxisSize: MainAxisSize.max,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -974,7 +964,7 @@ class _OrderWidgetState extends State<OrderWidget> {
                                       ),
                                 ),
                               ),
-                            ].divide(const SizedBox(width: 20.0)),
+                            ].divide(SizedBox(width: 20.0)),
                           ),
                           Expanded(
                             child: Builder(
@@ -982,11 +972,11 @@ class _OrderWidgetState extends State<OrderWidget> {
                                 final products =
                                     FFAppState().OrderItems.toList();
                                 if (products.isEmpty) {
-                                  return const EmptyOrderWidget();
+                                  return EmptyOrderWidget();
                                 }
 
                                 return ListView.separated(
-                                  padding: const EdgeInsets.fromLTRB(
+                                  padding: EdgeInsets.fromLTRB(
                                     0,
                                     20.0,
                                     0,
@@ -995,7 +985,7 @@ class _OrderWidgetState extends State<OrderWidget> {
                                   scrollDirection: Axis.vertical,
                                   itemCount: products.length,
                                   separatorBuilder: (_, __) =>
-                                      const SizedBox(height: 10.0),
+                                      SizedBox(height: 10.0),
                                   itemBuilder: (context, productsIndex) {
                                     final productsItem =
                                         products[productsIndex];
@@ -1013,7 +1003,7 @@ class _OrderWidgetState extends State<OrderWidget> {
                                         ),
                                       ),
                                       child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
+                                        padding: EdgeInsets.all(8.0),
                                         child: Row(
                                           mainAxisSize: MainAxisSize.min,
                                           crossAxisAlignment:
@@ -1022,8 +1012,13 @@ class _OrderWidgetState extends State<OrderWidget> {
                                             ClipRRect(
                                               borderRadius:
                                                   BorderRadius.circular(8.0),
-                                              child: Image.asset(
-                                                'assets/images/temporal_coffee.jpg',
+                                              child: CachedNetworkImage(
+                                                fadeInDuration:
+                                                    Duration(milliseconds: 500),
+                                                fadeOutDuration:
+                                                    Duration(milliseconds: 500),
+                                                imageUrl:
+                                                    '${FFAppConstants.BaseURL}${productsItem.photo}',
                                                 width: 100.0,
                                                 height: 100.0,
                                                 fit: BoxFit.cover,
@@ -1110,7 +1105,7 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                                       ),
                                                                       child:
                                                                           Padding(
-                                                                        padding: const EdgeInsetsDirectional.fromSTEB(
+                                                                        padding: EdgeInsetsDirectional.fromSTEB(
                                                                             6.0,
                                                                             2.0,
                                                                             6.0,
@@ -1143,17 +1138,17 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                                                       fontWeight: FontWeight.w600,
                                                                                     ),
                                                                               ),
-                                                                          ].divide(const SizedBox(width: 6.0)),
+                                                                          ].divide(SizedBox(width: 6.0)),
                                                                         ),
                                                                       ),
                                                                     );
-                                                                  }).divide(const SizedBox(
+                                                                  }).divide(SizedBox(
                                                                       height:
                                                                           4.0)),
                                                                 );
                                                               },
                                                             ),
-                                                          ].divide(const SizedBox(
+                                                          ].divide(SizedBox(
                                                               height: 4.0)),
                                                         ),
                                                       ),
@@ -1173,10 +1168,111 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                           size: 14.0,
                                                         ),
                                                         onPressed: () async {
+                                                          if ((functions
+                                                                      .sustractNumbers(
+                                                                          valueOrDefault<
+                                                                              int>(
+                                                                            functions.sumProductsCounts(FFAppState().LastCustomerOrdersProducts.toList()),
+                                                                            0,
+                                                                          ),
+                                                                          productsItem
+                                                                              .count) <
+                                                                  4) &&
+                                                              (FFAppState()
+                                                                      .OrderItems
+                                                                      .where((e) => e
+                                                                          .isFree)
+                                                                      .toList()
+                                                                      .length >
+                                                                  0) &&
+                                                              !productsItem
+                                                                  .isFree) {
+                                                            var confirmDialogResponse =
+                                                                await showDialog<
+                                                                        bool>(
+                                                                      context:
+                                                                          context,
+                                                                      builder:
+                                                                          (alertDialogContext) {
+                                                                        return AlertDialog(
+                                                                          title:
+                                                                              Text('Se Eliminará tu Producto Gratis'),
+                                                                          content:
+                                                                              Text('Si eliminas este producto de tu orden se perderá la promoción de tu producto gratis.'),
+                                                                          actions: [
+                                                                            TextButton(
+                                                                              onPressed: () => Navigator.pop(alertDialogContext, false),
+                                                                              child: Text('Cancelar'),
+                                                                            ),
+                                                                            TextButton(
+                                                                              onPressed: () => Navigator.pop(alertDialogContext, true),
+                                                                              child: Text('Si, Eliminar'),
+                                                                            ),
+                                                                          ],
+                                                                        );
+                                                                      },
+                                                                    ) ??
+                                                                    false;
+                                                            if (confirmDialogResponse) {
+                                                              FFAppState().removeFromOrderItems(
+                                                                  FFAppState()
+                                                                      .OrderItems
+                                                                      .where((e) =>
+                                                                          e.isFree)
+                                                                      .toList()
+                                                                      .firstOrNull!);
+                                                              safeSetState(
+                                                                  () {});
+                                                            } else {
+                                                              return;
+                                                            }
+                                                          }
                                                           FFAppState()
                                                               .removeAtIndexFromOrderItems(
                                                                   productsIndex);
+                                                          FFAppState()
+                                                              .updateLastCustomerOrdersProductsAtIndex(
+                                                            functions.findIndexInLastItems(
+                                                                FFAppState()
+                                                                    .LastCustomerOrdersProducts
+                                                                    .toList(),
+                                                                FFAppState()
+                                                                    .LastCustomerOrdersProducts
+                                                                    .where((e) =>
+                                                                        (e.productId ==
+                                                                            productsItem.id) &&
+                                                                        e.isNew)
+                                                                    .toList()
+                                                                    .firstOrNull!),
+                                                            (e) => e
+                                                              ..incrementCount(
+                                                                  productsItem
+                                                                          .count *
+                                                                      -1),
+                                                          );
                                                           safeSetState(() {});
+                                                          if (FFAppState()
+                                                                  .LastCustomerOrdersProducts
+                                                                  .where((e) =>
+                                                                      (e.productId ==
+                                                                          productsItem
+                                                                              .id) &&
+                                                                      e.isNew)
+                                                                  .toList()
+                                                                  .firstOrNull
+                                                                  ?.count ==
+                                                              0) {
+                                                            FFAppState().removeFromLastCustomerOrdersProducts(FFAppState()
+                                                                .LastCustomerOrdersProducts
+                                                                .where((e) =>
+                                                                    (e.productId ==
+                                                                        productsItem
+                                                                            .id) &&
+                                                                    e.isNew)
+                                                                .toList()
+                                                                .firstOrNull!);
+                                                            safeSetState(() {});
+                                                          }
                                                         },
                                                       ),
                                                     ],
@@ -1184,62 +1280,35 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                   Row(
                                                     mainAxisSize:
                                                         MainAxisSize.max,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
                                                     children: [
-                                                      Expanded(
-                                                        child: Row(
-                                                          mainAxisSize:
-                                                              MainAxisSize.max,
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .start,
-                                                          children: [
-                                                            wrapWithModel(
-                                                              model: _model
-                                                                  .productCountModels
-                                                                  .getModel(
-                                                                '${productsItem.id}-${productsIndex.toString()}',
-                                                                productsIndex,
-                                                              ),
-                                                              updateCallback: () =>
-                                                                  safeSetState(
-                                                                      () {}),
-                                                              child:
-                                                                  ProductCountWidget(
-                                                                key: Key(
-                                                                  'Key30a_${'${productsItem.id}-${productsIndex.toString()}'}',
-                                                                ),
-                                                                value:
-                                                                    productsItem
-                                                                        .count,
-                                                                onChange:
-                                                                    () async {
-                                                                  FFAppState()
-                                                                      .updateOrderItemsAtIndex(
-                                                                    productsIndex,
-                                                                    (e) => e
-                                                                      ..count =
-                                                                          valueOrDefault<
-                                                                              int>(
-                                                                        _model
-                                                                            .productCountModels
-                                                                            .getValueAtIndex(
-                                                                          productsIndex,
-                                                                          (m) =>
-                                                                              m.countControllerValue,
-                                                                        ),
-                                                                        0,
-                                                                      ),
-                                                                  );
-                                                                  safeSetState(
-                                                                      () {});
-                                                                },
-                                                              ),
+                                                      Text(
+                                                        'x${valueOrDefault<String>(
+                                                          productsItem.count
+                                                              .toString(),
+                                                          '0',
+                                                        )}',
+                                                        style: FlutterFlowTheme
+                                                                .of(context)
+                                                            .bodyMedium
+                                                            .override(
+                                                              fontFamily:
+                                                                  'Montserrat',
+                                                              fontSize: 16.0,
+                                                              letterSpacing:
+                                                                  0.0,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
                                                             ),
-                                                          ],
-                                                        ),
                                                       ),
                                                       Text(
-                                                        productsItem.granTotal,
+                                                        productsItem.isFree
+                                                            ? '¡Gratis!'
+                                                            : productsItem
+                                                                .granTotal,
                                                         style:
                                                             FlutterFlowTheme.of(
                                                                     context)
@@ -1262,16 +1331,109 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                     ],
                                                   ),
                                                 ].divide(
-                                                    const SizedBox(height: 16.0)),
+                                                    SizedBox(height: 16.0)),
                                               ),
                                             ),
-                                          ].divide(const SizedBox(width: 16.0)),
+                                          ].divide(SizedBox(width: 16.0)),
                                         ),
                                       ),
                                     );
                                   },
                                 );
                               },
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsetsDirectional.fromSTEB(
+                                0.0, 10.0, 0.0, 16.0),
+                            child: Container(
+                              width: double.infinity,
+                              child: TextFormField(
+                                controller: _model.nameTextController,
+                                focusNode: _model.nameFocusNode,
+                                onChanged: (_) => EasyDebounce.debounce(
+                                  '_model.nameTextController',
+                                  Duration(milliseconds: 500),
+                                  () => safeSetState(() {}),
+                                ),
+                                autofocus: false,
+                                textCapitalization: TextCapitalization.none,
+                                obscureText: false,
+                                decoration: InputDecoration(
+                                  isDense: true,
+                                  labelStyle: FlutterFlowTheme.of(context)
+                                      .labelMedium
+                                      .override(
+                                        fontFamily: 'Montserrat',
+                                        letterSpacing: 0.0,
+                                      ),
+                                  hintText: 'Ingresa tu Nombre',
+                                  hintStyle: FlutterFlowTheme.of(context)
+                                      .labelMedium
+                                      .override(
+                                        fontFamily: 'Montserrat',
+                                        color: Color(0xA657636C),
+                                        fontSize: 16.0,
+                                        letterSpacing: 0.0,
+                                        lineHeight: 1.5,
+                                      ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color:
+                                          FlutterFlowTheme.of(context).accent4,
+                                      width: 1.0,
+                                    ),
+                                    borderRadius: BorderRadius.circular(8.0),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color:
+                                          FlutterFlowTheme.of(context).primary,
+                                      width: 1.0,
+                                    ),
+                                    borderRadius: BorderRadius.circular(8.0),
+                                  ),
+                                  errorBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: FlutterFlowTheme.of(context).error,
+                                      width: 1.0,
+                                    ),
+                                    borderRadius: BorderRadius.circular(8.0),
+                                  ),
+                                  focusedErrorBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: FlutterFlowTheme.of(context).error,
+                                      width: 1.0,
+                                    ),
+                                    borderRadius: BorderRadius.circular(8.0),
+                                  ),
+                                  filled: true,
+                                  fillColor: FlutterFlowTheme.of(context)
+                                      .secondaryBackground,
+                                  contentPadding:
+                                      EdgeInsetsDirectional.fromSTEB(
+                                          16.0, 16.0, 16.0, 16.0),
+                                  prefixIcon: Icon(
+                                    FFIcons.kuser,
+                                    color: FlutterFlowTheme.of(context)
+                                        .secondaryText,
+                                    size: 20.0,
+                                  ),
+                                ),
+                                style: FlutterFlowTheme.of(context)
+                                    .bodyMedium
+                                    .override(
+                                      fontFamily: 'Montserrat',
+                                      fontSize: 16.0,
+                                      letterSpacing: 0.0,
+                                      fontWeight: FontWeight.w600,
+                                      lineHeight: 1.5,
+                                    ),
+                                cursorColor:
+                                    FlutterFlowTheme.of(context).primaryText,
+                                validator: _model.nameTextControllerValidator
+                                    .asValidator(context),
+                              ),
                             ),
                           ),
                           Container(
@@ -1289,7 +1451,7 @@ class _OrderWidgetState extends State<OrderWidget> {
                               mainAxisSize: MainAxisSize.max,
                               children: [
                                 Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
                                       14.0, 14.0, 14.0, 0.0),
                                   child: Row(
                                     mainAxisSize: MainAxisSize.max,
@@ -1329,7 +1491,7 @@ class _OrderWidgetState extends State<OrderWidget> {
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
                                       14.0, 0.0, 14.0, 0.0),
                                   child: Row(
                                     mainAxisSize: MainAxisSize.max,
@@ -1348,7 +1510,18 @@ class _OrderWidgetState extends State<OrderWidget> {
                                             ),
                                       ),
                                       Text(
-                                        '- \$0.00',
+                                        '- ${formatNumber(
+                                          functions.sumUnitaryPrices(
+                                              FFAppState()
+                                                  .OrderItems
+                                                  .where(
+                                                      (e) => e.isFree == true)
+                                                  .toList()),
+                                          formatType: FormatType.decimal,
+                                          decimalType:
+                                              DecimalType.periodDecimal,
+                                          currency: '\$',
+                                        )}',
                                         style: FlutterFlowTheme.of(context)
                                             .bodyMedium
                                             .override(
@@ -1367,7 +1540,7 @@ class _OrderWidgetState extends State<OrderWidget> {
                                   lineStyle: DividerLineStyle.dashed,
                                 ),
                                 Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
                                       14.0, 0.0, 14.0, 14.0),
                                   child: Row(
                                     mainAxisSize: MainAxisSize.max,
@@ -1388,7 +1561,11 @@ class _OrderWidgetState extends State<OrderWidget> {
                                       Text(
                                         formatNumber(
                                           functions.sumUnitaryPrices(
-                                              FFAppState().OrderItems.toList()),
+                                              FFAppState()
+                                                  .OrderItems
+                                                  .where(
+                                                      (e) => e.isFree == false)
+                                                  .toList()),
                                           formatType: FormatType.decimal,
                                           decimalType:
                                               DecimalType.periodDecimal,
@@ -1406,17 +1583,19 @@ class _OrderWidgetState extends State<OrderWidget> {
                                     ],
                                   ),
                                 ),
-                              ].divide(const SizedBox(height: 10.0)),
+                              ].divide(SizedBox(height: 10.0)),
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(
+                            padding: EdgeInsetsDirectional.fromSTEB(
                                 0.0, 20.0, 0.0, 0.0),
                             child: FFButtonWidget(
-                              onPressed: (FFAppState().OrderItems.isEmpty)
+                              onPressed: ((FFAppState().OrderItems.length ==
+                                          0) ||
+                                      (_model.nameTextController.text == ''))
                                   ? null
                                   : () async {
-                                      var shouldSetState = false;
+                                      var _shouldSetState = false;
                                       _model.orderOutput =
                                           await OrderGroup.createOrderCall.call(
                                         customerJson: <String, dynamic>{
@@ -1426,74 +1605,134 @@ class _OrderWidgetState extends State<OrderWidget> {
                                           ),
                                         },
                                         productsJson: functions.parseOrderArray(
-                                            FFAppState().OrderItems.toList()),
+                                            FFAppState()
+                                                .OrderItems
+                                                .where((e) => e.price != 0.0)
+                                                .toList(),
+                                            false),
                                       );
 
-                                      shouldSetState = true;
+                                      _shouldSetState = true;
+                                      _model.orderOutputPromo =
+                                          await OrderGroup.createOrderCall.call(
+                                        customerJson: <String, dynamic>{
+                                          'id': getJsonField(
+                                            widget.customer,
+                                            r'''$.client_id''',
+                                          ),
+                                        },
+                                        productsJson: functions.parseOrderArray(
+                                            FFAppState()
+                                                .OrderItems
+                                                .where((e) => e.price == 0.0)
+                                                .toList(),
+                                            false),
+                                      );
+
+                                      _shouldSetState = true;
                                       if ((_model.orderOutput?.succeeded ??
                                           true)) {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          SnackBar(
-                                            content: Text(
-                                              'Pedido creado correctamente',
-                                              style: TextStyle(
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .secondaryBackground,
-                                              ),
-                                            ),
-                                            duration:
-                                                const Duration(milliseconds: 4000),
-                                            backgroundColor:
-                                                FlutterFlowTheme.of(context)
-                                                    .success,
-                                          ),
+                                        unawaited(
+                                          () async {
+                                            await OwnRoutesGroup
+                                                .createCustomerOrderCall
+                                                .call(
+                                              customerId: getJsonField(
+                                                widget.customer,
+                                                r'''$.client_id''',
+                                              ).toString(),
+                                              productsJson:
+                                                  functions.parseOrderArray(
+                                                      FFAppState()
+                                                          .OrderItems
+                                                          .toList(),
+                                                      true),
+                                              hasFree: FFAppState()
+                                                          .OrderItems
+                                                          .where(
+                                                              (e) => e.isFree)
+                                                          .toList()
+                                                          .length >
+                                                      0
+                                                  ? true
+                                                  : false,
+                                            );
+                                          }(),
                                         );
-                                        if (shouldSetState) {
+                                        unawaited(
+                                          () async {
+                                            _model.workOutput =
+                                                await OwnRoutesGroup
+                                                    .createWorkCall
+                                                    .call(
+                                              itemsJson:
+                                                  functions.parseWorkArray(
+                                                      FFAppState()
+                                                          .OrderItems
+                                                          .toList(),
+                                                      _model.nameTextController
+                                                          .text),
+                                            );
+                                          }(),
+                                        );
+                                        _shouldSetState = true;
+
+                                        context.goNamed(
+                                          ConfirmationWidget.routeName,
+                                          extra: <String, dynamic>{
+                                            kTransitionInfoKey: TransitionInfo(
+                                              hasTransition: true,
+                                              transitionType: PageTransitionType
+                                                  .bottomToTop,
+                                            ),
+                                          },
+                                        );
+
+                                        FFAppState()
+                                            .LastCustomerOrdersProducts = [];
+                                        FFAppState().OrderItems = [];
+                                        if (_shouldSetState)
                                           safeSetState(() {});
-                                        }
                                         return;
                                       } else {
                                         await showDialog(
                                           context: context,
                                           builder: (alertDialogContext) {
                                             return AlertDialog(
-                                              title: const Text(
+                                              title: Text(
                                                   '¡Ocurrió un Error Inesperado!'),
-                                              content: const Text(
+                                              content: Text(
                                                   'Ocurrió un error de sistema al generar tu pedido. Por favor, intenta nuevamente.'),
                                               actions: [
                                                 TextButton(
                                                   onPressed: () =>
                                                       Navigator.pop(
                                                           alertDialogContext),
-                                                  child: const Text('Aceptar'),
+                                                  child: Text('Aceptar'),
                                                 ),
                                               ],
                                             );
                                           },
                                         );
-                                        if (shouldSetState) {
+                                        if (_shouldSetState)
                                           safeSetState(() {});
-                                        }
                                         return;
                                       }
 
-                                      if (shouldSetState) safeSetState(() {});
+                                      if (_shouldSetState) safeSetState(() {});
                                     },
                               text: 'Pagar',
-                              icon: const Icon(
+                              icon: Icon(
                                 FFIcons.kcreditCard,
                                 size: 18.0,
                               ),
                               options: FFButtonOptions(
                                 width: double.infinity,
                                 height: 40.0,
-                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                padding: EdgeInsetsDirectional.fromSTEB(
                                     16.0, 0.0, 16.0, 0.0),
                                 iconAlignment: IconAlignment.end,
-                                iconPadding: const EdgeInsetsDirectional.fromSTEB(
+                                iconPadding: EdgeInsetsDirectional.fromSTEB(
                                     6.0, 0.0, 0.0, 0.0),
                                 color: FlutterFlowTheme.of(context).secondary,
                                 textStyle: FlutterFlowTheme.of(context)
@@ -1505,11 +1744,13 @@ class _OrderWidgetState extends State<OrderWidget> {
                                     ),
                                 elevation: 0.0,
                                 borderRadius: BorderRadius.circular(8.0),
+                                disabledColor: Color(0x65ECB169),
+                                disabledTextColor: Color(0x7FFFFFFF),
                               ),
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(
+                            padding: EdgeInsetsDirectional.fromSTEB(
                                 0.0, 10.0, 0.0, 0.0),
                             child: FFButtonWidget(
                               onPressed: () async {
@@ -1518,8 +1759,8 @@ class _OrderWidgetState extends State<OrderWidget> {
                                           context: context,
                                           builder: (alertDialogContext) {
                                             return AlertDialog(
-                                              title: const Text('¿Cancelar Pedido?'),
-                                              content: const Text(
+                                              title: Text('¿Cancelar Pedido?'),
+                                              content: Text(
                                                   'Si cancelas el pedido cerraremos esta sesión y te regresaremos a la pantalla inicial.'),
                                               actions: [
                                                 TextButton(
@@ -1527,14 +1768,14 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                       Navigator.pop(
                                                           alertDialogContext,
                                                           false),
-                                                  child: const Text('Cancelar'),
+                                                  child: Text('Cancelar'),
                                                 ),
                                                 TextButton(
                                                   onPressed: () =>
                                                       Navigator.pop(
                                                           alertDialogContext,
                                                           true),
-                                                  child: const Text('Aceptar'),
+                                                  child: Text('Aceptar'),
                                                 ),
                                               ],
                                             );
@@ -1542,10 +1783,10 @@ class _OrderWidgetState extends State<OrderWidget> {
                                         ) ??
                                         false;
                                 if (confirmDialogResponse) {
-                                  context.goNamed(
-                                    'CustomerIdentifier',
+                                  context.pushNamed(
+                                    GuestOrderWidget.routeName,
                                     extra: <String, dynamic>{
-                                      kTransitionInfoKey: const TransitionInfo(
+                                      kTransitionInfoKey: TransitionInfo(
                                         hasTransition: true,
                                         transitionType:
                                             PageTransitionType.topToBottom,
@@ -1554,6 +1795,7 @@ class _OrderWidgetState extends State<OrderWidget> {
                                   );
 
                                   FFAppState().OrderItems = [];
+                                  FFAppState().LastCustomerOrdersProducts = [];
                                   safeSetState(() {});
                                 }
                               },
@@ -1561,10 +1803,10 @@ class _OrderWidgetState extends State<OrderWidget> {
                               options: FFButtonOptions(
                                 width: double.infinity,
                                 height: 40.0,
-                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                padding: EdgeInsetsDirectional.fromSTEB(
                                     16.0, 0.0, 16.0, 0.0),
                                 iconAlignment: IconAlignment.start,
-                                iconPadding: const EdgeInsetsDirectional.fromSTEB(
+                                iconPadding: EdgeInsetsDirectional.fromSTEB(
                                     0.0, 0.0, 6.0, 0.0),
                                 color: FlutterFlowTheme.of(context)
                                     .primaryBackground,
@@ -1587,7 +1829,7 @@ class _OrderWidgetState extends State<OrderWidget> {
                               ),
                             ),
                           ),
-                        ].divide(const SizedBox(height: 0.0)),
+                        ].divide(SizedBox(height: 0.0)),
                       ),
                     ),
                   ),

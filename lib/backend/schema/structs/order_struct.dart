@@ -10,7 +10,7 @@ class OrderStruct extends BaseStruct {
     int? serviceMode,
     bool? autoAccept,
     CustomerStruct? client,
-    List<ProductStruct>? products,
+    List<OrderProductStruct>? products,
   })  : _spotId = spotId,
         _serviceMode = serviceMode,
         _autoAccept = autoAccept,
@@ -54,11 +54,11 @@ class OrderStruct extends BaseStruct {
   bool hasClient() => _client != null;
 
   // "products" field.
-  List<ProductStruct>? _products;
-  List<ProductStruct> get products => _products ?? const [];
-  set products(List<ProductStruct>? val) => _products = val;
+  List<OrderProductStruct>? _products;
+  List<OrderProductStruct> get products => _products ?? const [];
+  set products(List<OrderProductStruct>? val) => _products = val;
 
-  void updateProducts(Function(List<ProductStruct>) updateFn) {
+  void updateProducts(Function(List<OrderProductStruct>) updateFn) {
     updateFn(_products ??= []);
   }
 
@@ -73,7 +73,7 @@ class OrderStruct extends BaseStruct {
             : CustomerStruct.maybeFromMap(data['client']),
         products: getStructList(
           data['products'],
-          ProductStruct.fromMap,
+          OrderProductStruct.fromMap,
         ),
       );
 
@@ -136,11 +136,11 @@ class OrderStruct extends BaseStruct {
           false,
           structBuilder: CustomerStruct.fromSerializableMap,
         ),
-        products: deserializeStructParam<ProductStruct>(
+        products: deserializeStructParam<OrderProductStruct>(
           data['products'],
           ParamType.DataStruct,
           true,
-          structBuilder: ProductStruct.fromSerializableMap,
+          structBuilder: OrderProductStruct.fromSerializableMap,
         ),
       );
 
