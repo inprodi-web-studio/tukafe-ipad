@@ -775,7 +775,7 @@ class _ProductConfigurationDialogWidgetState
                                         ..incrementCount(
                                             _model.countControllerValue!),
                                     );
-                                    _model.updatePage(() {});
+                                    FFAppState().update(() {});
                                   } else {
                                     FFAppState()
                                         .addToOrderItems(OrderProductStruct(
@@ -843,7 +843,7 @@ class _ProductConfigurationDialogWidgetState
                                                   .price) /
                                               100)),
                                     ));
-                                    _model.updatePage(() {});
+                                    FFAppState().update(() {});
                                   }
 
                                   if (!((ProductsGroup.singleProductCall
@@ -878,7 +878,7 @@ class _ProductConfigurationDialogWidgetState
                                           ..incrementCount(
                                               _model.countControllerValue!),
                                       );
-                                      _model.updatePage(() {});
+                                      FFAppState().update(() {});
                                     } else {
                                       FFAppState()
                                           .addToLastCustomerOrdersProducts(
@@ -887,7 +887,7 @@ class _ProductConfigurationDialogWidgetState
                                         count: _model.countControllerValue,
                                         isNew: true,
                                       ));
-                                      _model.updatePage(() {});
+                                      FFAppState().update(() {});
                                     }
                                   }
                                   Navigator.pop(context);
