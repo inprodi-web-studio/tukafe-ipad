@@ -24,8 +24,12 @@ class OrderModel extends FlutterFlowModel<OrderWidget> {
   String? Function(BuildContext, String?)? nameTextControllerValidator;
   // Stores action output result for [Backend Call - API (Create Order)] action in Button widget.
   ApiCallResponse? orderOutputPromo;
+  // Stores action output result for [Backend Call - API (Close Order)] action in Button widget.
+  ApiCallResponse? closePromoOrder;
   // Stores action output result for [Backend Call - API (Create Order)] action in Button widget.
   ApiCallResponse? orderOutput;
+  // Stores action output result for [Backend Call - API (Close Order)] action in Button widget.
+  ApiCallResponse? closeOrder;
   // Stores action output result for [Backend Call - API (Create Work)] action in Button widget.
   ApiCallResponse? workOutput;
 

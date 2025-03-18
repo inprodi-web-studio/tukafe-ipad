@@ -140,6 +140,7 @@ class OrderGroup {
       'https://joinposter.com/api';
   static Map<String, String> headers = {};
   static CreateOrderCall createOrderCall = CreateOrderCall();
+  static CloseOrderCall closeOrderCall = CloseOrderCall();
 }
 
 class CreateOrderCall {
@@ -167,6 +168,41 @@ class CreateOrderCall {
     return ApiManager.instance.makeApiCall(
       callName: 'Create Order',
       apiUrl: '${baseUrl}/orders?token=${token}',
+      callType: ApiCallType.POST,
+      headers: {},
+      params: {},
+      body: ffApiRequestBody,
+      bodyType: BodyType.JSON,
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+}
+
+class CloseOrderCall {
+  Future<ApiCallResponse> call({
+    int? orderId,
+    double? amount,
+    String? token = '182720:8145958cd583496ec02d4cd60b03bebf',
+  }) async {
+    final baseUrl = OrderGroup.getBaseUrl(
+      token: token,
+    );
+
+    final ffApiRequestBody = '''
+{
+  "spot_id": 1,
+  "spot_tablet_id": 1,
+  "transaction_id": ${orderId},
+  "payed_card": 60
+}''';
+    return ApiManager.instance.makeApiCall(
+      callName: 'Close Order',
+      apiUrl: '${baseUrl}/transactions.closeTransaction?token=${token}',
       callType: ApiCallType.POST,
       headers: {},
       params: {},
