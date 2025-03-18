@@ -9,13 +9,13 @@
     },
     {
       "name": "archive",
-      "rootUri": "file:///Users/andresmurillo/.pub-cache/hosted/pub.dev/archive-4.0.2",
+      "rootUri": "file:///Users/andresmurillo/.pub-cache/hosted/pub.dev/archive-4.0.4",
       "packageUri": "lib/",
       "languageVersion": "3.0"
     },
     {
       "name": "args",
-      "rootUri": "file:///Users/andresmurillo/.pub-cache/hosted/pub.dev/args-2.6.0",
+      "rootUri": "file:///Users/andresmurillo/.pub-cache/hosted/pub.dev/args-2.7.0",
       "packageUri": "lib/",
       "languageVersion": "3.3"
     },
@@ -249,7 +249,7 @@
     },
     {
       "name": "image",
-      "rootUri": "file:///Users/andresmurillo/.pub-cache/hosted/pub.dev/image-4.5.2",
+      "rootUri": "file:///Users/andresmurillo/.pub-cache/hosted/pub.dev/image-4.5.3",
       "packageUri": "lib/",
       "languageVersion": "3.0"
     },
@@ -639,7 +639,7 @@
     },
     {
       "name": "web",
-      "rootUri": "file:///Users/andresmurillo/.pub-cache/hosted/pub.dev/web-1.1.0",
+      "rootUri": "file:///Users/andresmurillo/.pub-cache/hosted/pub.dev/web-1.1.1",
       "packageUri": "lib/",
       "languageVersion": "3.4"
     },
@@ -674,7 +674,7 @@
       "languageVersion": "3.0"
     }
   ],
-  "generated": "2025-02-06T16:24:07.554841Z",
+  "generated": "2025-03-18T15:58:40.017562Z",
   "generator": "pub",
   "generatorVersion": "3.5.2",
   "flutterRoot": "file:///Users/andresmurillo/tools/flutter",
