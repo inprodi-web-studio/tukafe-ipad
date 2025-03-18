@@ -11,13 +11,29 @@ import 'package:flutter/material.dart';
 
 import 'package:zettle/zettle.dart';
 
-Future generatePayment(double amount) async {
+Future generatePayment(
+  int amount,
+  Future Function() onSuccess,
+  Future Function() onCancel,
+) async {
   var request = ZettlePaymentRequest(
-      amount: 100,
-      reference: "tester",
+      amount: amount,
+      reference: "tukafe order",
       enableLogin: true,
       enableTipping: false,
       enableInstalments: false);
 
-  Zettle.requestPayment(request);
+  try {
+    final response = await Zettle.requestPayment(request);
+
+    print("Status de la respuesta: ${response.status}");
+
+    if (response.status == 'success') {
+      onSuccess();
+    } else {
+      onCancel();
+    }
+  } catch (error) {
+    onCancel();
+  }
 }
