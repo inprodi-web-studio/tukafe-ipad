@@ -186,7 +186,7 @@ class CreateOrderCall {
 class CloseOrderCall {
   Future<ApiCallResponse> call({
     int? orderId,
-    double? amount,
+    int? amount,
     String? token = '182720:8145958cd583496ec02d4cd60b03bebf',
   }) async {
     final baseUrl = OrderGroup.getBaseUrl(

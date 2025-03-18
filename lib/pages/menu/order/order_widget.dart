@@ -1665,7 +1665,7 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                       ''),
                                                   r'''$.response.id''',
                                                 ),
-                                                amount: 0.0,
+                                                amount: 0,
                                               );
 
                                               _shouldSetState = true;
