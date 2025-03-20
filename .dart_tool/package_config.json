@@ -74,6 +74,12 @@
       "languageVersion": "2.18"
     },
     {
+      "name": "confetti",
+      "rootUri": "file:///Users/andresmurillo/.pub-cache/hosted/pub.dev/confetti-0.7.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
       "name": "crypto",
       "rootUri": "file:///Users/andresmurillo/.pub-cache/hosted/pub.dev/crypto-3.0.6",
       "packageUri": "lib/",
@@ -675,10 +681,18 @@
     }
   ],
 <<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
   "generated": "2025-03-20T21:54:37.744675Z",
 =======
   "generated": "2025-03-18T16:06:04.630117Z",
 >>>>>>> 06a076faca0ac66d06ef2e64c38513bfcaa0b95a
+=======
+  "generated": "2025-03-20T22:04:23.382425Z",
+>>>>>>> 62b3db6 (fix)
+=======
+  "generated": "2025-03-20T22:04:23.382425Z",
+>>>>>>> 128f28731ffa1495c3b0b9e25abd119ee08081ad
   "generator": "pub",
   "generatorVersion": "3.5.2",
   "flutterRoot": "file:///Users/andresmurillo/tools/flutter",
