@@ -2157,7 +2157,27 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                   .LastCustomerOrdersProducts = [];
                                               FFAppState().OrderItems = [];
                                             },
-                                            () async {},
+                                            () async {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                SnackBar(
+                                                  content: Text(
+                                                    'No se pudo procesar correctamente tu orden',
+                                                    style: TextStyle(
+                                                      color: FlutterFlowTheme
+                                                              .of(context)
+                                                          .secondaryBackground,
+                                                    ),
+                                                  ),
+                                                  duration: Duration(
+                                                      milliseconds: 4000),
+                                                  backgroundColor:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .error,
+                                                ),
+                                              );
+                                            },
                                           );
                                           if (_shouldSetState)
                                             safeSetState(() {});
