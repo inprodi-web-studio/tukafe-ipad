@@ -4,9 +4,11 @@ import '/backend/schema/structs/index.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import '/flutter_flow/custom_functions.dart' as functions;
 import '/index.dart';
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'guest_order_model.dart';
 export 'guest_order_model.dart';
 
@@ -43,6 +45,8 @@ class _GuestOrderWidgetState extends State<GuestOrderWidget> {
 
   @override
   Widget build(BuildContext context) {
+    context.watch<FFAppState>();
+
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -79,13 +83,26 @@ class _GuestOrderWidgetState extends State<GuestOrderWidget> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(8.0),
-                                child: Image.asset(
-                                  'assets/images/Tukafe_Identidad-31.png',
-                                  height: 80.0,
-                                  fit: BoxFit.cover,
-                                ),
+                              Row(
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(8.0),
+                                    child: Image.asset(
+                                      'assets/images/Tukafe_Identidad-31.png',
+                                      height: 50.0,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(8.0),
+                                    child: Image.asset(
+                                      'assets/images/Tukafe_Identidad_24.png',
+                                      height: 50.0,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ].divide(SizedBox(width: 16.0)),
                               ),
                               Padding(
                                 padding: EdgeInsetsDirectional.fromSTEB(
@@ -358,6 +375,20 @@ class _GuestOrderWidgetState extends State<GuestOrderWidget> {
                                                               ),
                                                               ParamType.JSON,
                                                             ),
+                                                            'hasFree':
+                                                                serializeParam(
+                                                              valueOrDefault<
+                                                                          int>(
+                                                                        functions.sumProductsCounts(FFAppState()
+                                                                            .LastCustomerOrdersProducts
+                                                                            .toList()),
+                                                                        0,
+                                                                      ) >=
+                                                                      4
+                                                                  ? true
+                                                                  : false,
+                                                              ParamType.bool,
+                                                            ),
                                                           }.withoutNulls,
                                                         );
 
@@ -409,6 +440,11 @@ class _GuestOrderWidgetState extends State<GuestOrderWidget> {
                                                                   ),
                                                                 },
                                                                 ParamType.JSON,
+                                                              ),
+                                                              'hasFree':
+                                                                  serializeParam(
+                                                                false,
+                                                                ParamType.bool,
                                                               ),
                                                             }.withoutNulls,
                                                           );
@@ -520,6 +556,10 @@ class _GuestOrderWidgetState extends State<GuestOrderWidget> {
                                                 'userType': serializeParam(
                                                   UserTypes.guest,
                                                   ParamType.Enum,
+                                                ),
+                                                'hasFree': serializeParam(
+                                                  false,
+                                                  ParamType.bool,
                                                 ),
                                               }.withoutNulls,
                                               extra: <String, dynamic>{
@@ -652,18 +692,6 @@ class _GuestOrderWidgetState extends State<GuestOrderWidget> {
                           ),
                         ),
                       ),
-                    ),
-                  ),
-                  Container(
-                    width: 663.0,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: Image.asset(
-                          'assets/images/home_background.jpg',
-                        ).image,
-                      ),
-                      borderRadius: BorderRadius.circular(20.0),
                     ),
                   ),
                 ],

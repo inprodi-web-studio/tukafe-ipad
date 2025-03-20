@@ -198,7 +198,7 @@ class CloseOrderCall {
   "spot_id": 1,
   "spot_tablet_id": 1,
   "transaction_id": ${orderId},
-  "payed_card": 60
+  "payed_card": ${amount}
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'Close Order',
@@ -318,9 +318,9 @@ class CreatePhoneCustomerCall {
 class OwnRoutesGroup {
   static String getBaseUrl({
     String? token =
-        'ba5d1c7f7d69b253d2796e30dfda7e7b202cf5dd5757accdd38681d73cda0c8d6a4f77d82c0989fe19a182b56eaebc6dc221e97a14de01c1b34716caccbfcfa6efc0d75f2478aca43ada5bf120a261ced1fb770c5d3b99d3d1e211f591c2879769449d0803b38548e3faaf77b6df06d2c2c7ce5463e8c9debe3393753efc415c',
+        '78445fbc64d40826408f50653f9692f59da74b601bd3ec841acab680a038a1d81183ed56aa6c0a71790a3c142713274384030d61af59ab7420b1d2b330e93307b598ad67e7a2793e72b8eb007ae32f0237606997b7ae5053f28be4edd943a35c1293fde44436c4744f3c8ef1ab935b221911b2bc2dd21a639b8a6d443580b536',
   }) =>
-      'https://mayfly-intimate-polliwog.ngrok-free.app/api';
+      'https://tukafe-api-49kty.ondigitalocean.app/api';
   static Map<String, String> headers = {
     'Authorization': 'Bearer [token]',
   };
@@ -335,7 +335,7 @@ class GetCustomerLastOrdersCall {
   Future<ApiCallResponse> call({
     String? customerId = '',
     String? token =
-        'ba5d1c7f7d69b253d2796e30dfda7e7b202cf5dd5757accdd38681d73cda0c8d6a4f77d82c0989fe19a182b56eaebc6dc221e97a14de01c1b34716caccbfcfa6efc0d75f2478aca43ada5bf120a261ced1fb770c5d3b99d3d1e211f591c2879769449d0803b38548e3faaf77b6df06d2c2c7ce5463e8c9debe3393753efc415c',
+        '78445fbc64d40826408f50653f9692f59da74b601bd3ec841acab680a038a1d81183ed56aa6c0a71790a3c142713274384030d61af59ab7420b1d2b330e93307b598ad67e7a2793e72b8eb007ae32f0237606997b7ae5053f28be4edd943a35c1293fde44436c4744f3c8ef1ab935b221911b2bc2dd21a639b8a6d443580b536',
   }) async {
     final baseUrl = OwnRoutesGroup.getBaseUrl(
       token: token,
@@ -381,7 +381,7 @@ class CreateCustomerOrderCall {
     dynamic productsJson,
     bool? hasFree,
     String? token =
-        'ba5d1c7f7d69b253d2796e30dfda7e7b202cf5dd5757accdd38681d73cda0c8d6a4f77d82c0989fe19a182b56eaebc6dc221e97a14de01c1b34716caccbfcfa6efc0d75f2478aca43ada5bf120a261ced1fb770c5d3b99d3d1e211f591c2879769449d0803b38548e3faaf77b6df06d2c2c7ce5463e8c9debe3393753efc415c',
+        '78445fbc64d40826408f50653f9692f59da74b601bd3ec841acab680a038a1d81183ed56aa6c0a71790a3c142713274384030d61af59ab7420b1d2b330e93307b598ad67e7a2793e72b8eb007ae32f0237606997b7ae5053f28be4edd943a35c1293fde44436c4744f3c8ef1ab935b221911b2bc2dd21a639b8a6d443580b536',
   }) async {
     final baseUrl = OwnRoutesGroup.getBaseUrl(
       token: token,
@@ -418,7 +418,7 @@ class CreateWorkCall {
   Future<ApiCallResponse> call({
     dynamic itemsJson,
     String? token =
-        'ba5d1c7f7d69b253d2796e30dfda7e7b202cf5dd5757accdd38681d73cda0c8d6a4f77d82c0989fe19a182b56eaebc6dc221e97a14de01c1b34716caccbfcfa6efc0d75f2478aca43ada5bf120a261ced1fb770c5d3b99d3d1e211f591c2879769449d0803b38548e3faaf77b6df06d2c2c7ce5463e8c9debe3393753efc415c',
+        '78445fbc64d40826408f50653f9692f59da74b601bd3ec841acab680a038a1d81183ed56aa6c0a71790a3c142713274384030d61af59ab7420b1d2b330e93307b598ad67e7a2793e72b8eb007ae32f0237606997b7ae5053f28be4edd943a35c1293fde44436c4744f3c8ef1ab935b221911b2bc2dd21a639b8a6d443580b536',
   }) async {
     final baseUrl = OwnRoutesGroup.getBaseUrl(
       token: token,

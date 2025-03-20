@@ -70,13 +70,26 @@ class _AppLoginWidgetState extends State<AppLoginWidget> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(8.0),
-                            child: Image.asset(
-                              'assets/images/Tukafe_Identidad-31.png',
-                              height: 80.0,
-                              fit: BoxFit.cover,
-                            ),
+                          Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(8.0),
+                                child: Image.asset(
+                                  'assets/images/Tukafe_Identidad-31.png',
+                                  height: 50.0,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(8.0),
+                                child: Image.asset(
+                                  'assets/images/Tukafe_Identidad_24.png',
+                                  height: 50.0,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ].divide(SizedBox(width: 16.0)),
                           ),
                           Padding(
                             padding: EdgeInsetsDirectional.fromSTEB(
@@ -213,18 +226,6 @@ class _AppLoginWidgetState extends State<AppLoginWidget> {
                           ),
                         ],
                       ),
-                    ),
-                  ),
-                  Container(
-                    width: 663.0,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: Image.asset(
-                          'assets/images/home_background.jpg',
-                        ).image,
-                      ),
-                      borderRadius: BorderRadius.circular(20.0),
                     ),
                   ),
                 ],

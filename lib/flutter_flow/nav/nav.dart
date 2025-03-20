@@ -97,6 +97,10 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               'customer',
               ParamType.JSON,
             ),
+            hasFree: params.getParam(
+              'hasFree',
+              ParamType.bool,
+            ),
           ),
         ),
         FFRoute(
