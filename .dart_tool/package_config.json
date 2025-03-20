@@ -674,7 +674,11 @@
       "languageVersion": "3.0"
     }
   ],
-  "generated": "2025-03-18T15:58:40.017562Z",
+<<<<<<< HEAD
+  "generated": "2025-03-20T21:54:37.744675Z",
+=======
+  "generated": "2025-03-18T16:06:04.630117Z",
+>>>>>>> 06a076faca0ac66d06ef2e64c38513bfcaa0b95a
   "generator": "pub",
   "generatorVersion": "3.5.2",
   "flutterRoot": "file:///Users/andresmurillo/tools/flutter",
