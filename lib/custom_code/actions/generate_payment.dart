@@ -26,9 +26,10 @@ Future generatePayment(
   try {
     final response = await Zettle.requestPayment(request);
 
-    if (response.status == 'ZettlePluginPaymentStatus.failed') {
+    if (response.status == 'ZettlePluginPaymentStatus.failed' ||
+        response.status == 'ZettlePluginPaymentStatus.cancelled') {
       onCancel();
-    } else {
+    }  else {
       onSuccess();
     }
   } catch (error) {
