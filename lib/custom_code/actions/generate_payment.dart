@@ -30,7 +30,7 @@ Future generatePayment(
         response.status == 'ZettlePluginPaymentStatus.cancelled' ||
         response.amount == null) {
       onCancel();
-    } else {
+    }  else {
       onSuccess();
     }
   } catch (error) {
