@@ -1917,28 +1917,6 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                     100)
                                                 .toInt(),
                                             () async {
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(
-                                                SnackBar(
-                                                  content: Text(
-                                                    'tester sandbox',
-                                                    style: TextStyle(
-                                                      color:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .primaryText,
-                                                    ),
-                                                  ),
-                                                  duration: Duration(
-                                                      milliseconds: 4000),
-                                                  backgroundColor:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .secondary,
-                                                ),
-                                              );
-                                            },
-                                            () async {
                                               var _shouldSetState = false;
                                               ScaffoldMessenger.of(context)
                                                   .showSnackBar(
@@ -2179,6 +2157,7 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                   .LastCustomerOrdersProducts = [];
                                               FFAppState().OrderItems = [];
                                             },
+                                            () async {},
                                           );
                                           if (_shouldSetState)
                                             safeSetState(() {});
