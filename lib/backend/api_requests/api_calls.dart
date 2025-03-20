@@ -198,7 +198,7 @@ class CloseOrderCall {
   "spot_id": 1,
   "spot_tablet_id": 1,
   "transaction_id": ${orderId},
-  "payed_card": 60
+  "payed_card": ${amount}
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'Close Order',

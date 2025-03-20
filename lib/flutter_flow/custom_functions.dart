@@ -63,9 +63,12 @@ List<dynamic> parseOrderArray(
       };
     }
 
+    double totalPrice =
+        item.price + item.modification.fold(0, (sum, item) => sum + item.price);
+
     return {
       "id": item.id,
-      "price": item.price,
+      "price": totalPrice,
       "count": item.count,
       "comment": item.comment,
       ...(item.isFree ? {"price": 0} : {}),
