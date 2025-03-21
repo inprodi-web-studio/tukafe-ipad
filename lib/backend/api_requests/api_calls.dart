@@ -449,6 +449,138 @@ ${items}''';
 
 /// End Own Routes Group Code
 
+/// Start Zettle Auth Group Code
+
+class ZettleAuthGroup {
+  static String getBaseUrl({
+    String? client = '4b868766-0686-11f0-b0e4-4496a6639be0',
+    String? secret =
+        'eyJraWQiOiIwIiwidHlwIjoiSldUIiwiYWxnIjoiUlMyNTYifQ.eyJpc3MiOiJpWmV0dGxlIiwiYXVkIjoiQVBJIiwiZXhwIjoyNjg5MjkxMjA3LCJzdWIiOiI1NDJlM2I1MS05OGQzLTExZWYtYjY4MS0wODIzMzliZmZjYTkiLCJpYXQiOjE3NDI1ODM0MzEsImNsaWVudF9pZCI6IjRiODY4NzY2LTA2ODYtMTFmMC1iMGU0LTQ0OTZhNjYzOWJlMCIsInNjb3BlIjpbIlJFQUQ6UFVSQ0hBU0UiLCJXUklURTpQUk9EVUNUIiwiUkVBRDpQUk9EVUNUIiwiUkVBRDpVU0VSSU5GTyIsIlJFQUQ6RklOQU5DRSJdLCJ1c2VyIjp7InVzZXJUeXBlIjoiVVNFUiIsInV1aWQiOiI1NDJlM2I1MS05OGQzLTExZWYtYjY4MS0wODIzMzliZmZjYTkiLCJvcmdVdWlkIjoiNTQyYjE2NDQtOThkMy0xMWVmLTlmOWUtNTM3OTY4ZTdiOGU1IiwidXNlclJvbGUiOiJPV05FUiJ9LCJ0eXBlIjoidXNlci1hc3NlcnRpb24ifQ.yHZ8LdHt5gggk5euVNXdVK_RBzrhnvyWYlx7u1kyeoyO9meOXfTJPl85blKReassyqHOUTjGTypPS0HhLq0Pykas2uI3WsJpR-GaAenIRKe35tr9h5Nn3L1VaVlU3tZH9IaNtY6wnGH40FY-0BubTuo-ajJR-GqI-6wFTMHJRNmRPUMg0U1GflTuTLbx0Zf3jc1WEuEl4teoj2QZLof9LrFLpDTts-kaSDCFhmwvXxjvuaxJyM9symrXfNgyR-1I0V5N0I-KPKTzFYscQjZV2ws31vdeNh-9IJwR4PXUKziW7RsiGIyUpOIm3kMaXFdpGoNPkwwbG166ZxzPpEq-gw',
+  }) =>
+      'https://oauth.zettle.com';
+  static Map<String, String> headers = {};
+  static GetTokenCall getTokenCall = GetTokenCall();
+  static UserInfoCall userInfoCall = UserInfoCall();
+}
+
+class GetTokenCall {
+  Future<ApiCallResponse> call({
+    String? client = '4b868766-0686-11f0-b0e4-4496a6639be0',
+    String? secret =
+        'eyJraWQiOiIwIiwidHlwIjoiSldUIiwiYWxnIjoiUlMyNTYifQ.eyJpc3MiOiJpWmV0dGxlIiwiYXVkIjoiQVBJIiwiZXhwIjoyNjg5MjkxMjA3LCJzdWIiOiI1NDJlM2I1MS05OGQzLTExZWYtYjY4MS0wODIzMzliZmZjYTkiLCJpYXQiOjE3NDI1ODM0MzEsImNsaWVudF9pZCI6IjRiODY4NzY2LTA2ODYtMTFmMC1iMGU0LTQ0OTZhNjYzOWJlMCIsInNjb3BlIjpbIlJFQUQ6UFVSQ0hBU0UiLCJXUklURTpQUk9EVUNUIiwiUkVBRDpQUk9EVUNUIiwiUkVBRDpVU0VSSU5GTyIsIlJFQUQ6RklOQU5DRSJdLCJ1c2VyIjp7InVzZXJUeXBlIjoiVVNFUiIsInV1aWQiOiI1NDJlM2I1MS05OGQzLTExZWYtYjY4MS0wODIzMzliZmZjYTkiLCJvcmdVdWlkIjoiNTQyYjE2NDQtOThkMy0xMWVmLTlmOWUtNTM3OTY4ZTdiOGU1IiwidXNlclJvbGUiOiJPV05FUiJ9LCJ0eXBlIjoidXNlci1hc3NlcnRpb24ifQ.yHZ8LdHt5gggk5euVNXdVK_RBzrhnvyWYlx7u1kyeoyO9meOXfTJPl85blKReassyqHOUTjGTypPS0HhLq0Pykas2uI3WsJpR-GaAenIRKe35tr9h5Nn3L1VaVlU3tZH9IaNtY6wnGH40FY-0BubTuo-ajJR-GqI-6wFTMHJRNmRPUMg0U1GflTuTLbx0Zf3jc1WEuEl4teoj2QZLof9LrFLpDTts-kaSDCFhmwvXxjvuaxJyM9symrXfNgyR-1I0V5N0I-KPKTzFYscQjZV2ws31vdeNh-9IJwR4PXUKziW7RsiGIyUpOIm3kMaXFdpGoNPkwwbG166ZxzPpEq-gw',
+  }) async {
+    final baseUrl = ZettleAuthGroup.getBaseUrl(
+      client: client,
+      secret: secret,
+    );
+
+    return ApiManager.instance.makeApiCall(
+      callName: 'Get Token',
+      apiUrl: '${baseUrl}/token',
+      callType: ApiCallType.POST,
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      params: {
+        'grant_type': "urn:ietf:params:oauth:grant-type:jwt-bearer",
+        'client_id': client,
+        'assertion': secret,
+      },
+      bodyType: BodyType.X_WWW_FORM_URL_ENCODED,
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+
+  String? token(dynamic response) => castToType<String>(getJsonField(
+        response,
+        r'''$.access_token''',
+      ));
+}
+
+class UserInfoCall {
+  Future<ApiCallResponse> call({
+    String? token = '',
+    String? client = '4b868766-0686-11f0-b0e4-4496a6639be0',
+    String? secret =
+        'eyJraWQiOiIwIiwidHlwIjoiSldUIiwiYWxnIjoiUlMyNTYifQ.eyJpc3MiOiJpWmV0dGxlIiwiYXVkIjoiQVBJIiwiZXhwIjoyNjg5MjkxMjA3LCJzdWIiOiI1NDJlM2I1MS05OGQzLTExZWYtYjY4MS0wODIzMzliZmZjYTkiLCJpYXQiOjE3NDI1ODM0MzEsImNsaWVudF9pZCI6IjRiODY4NzY2LTA2ODYtMTFmMC1iMGU0LTQ0OTZhNjYzOWJlMCIsInNjb3BlIjpbIlJFQUQ6UFVSQ0hBU0UiLCJXUklURTpQUk9EVUNUIiwiUkVBRDpQUk9EVUNUIiwiUkVBRDpVU0VSSU5GTyIsIlJFQUQ6RklOQU5DRSJdLCJ1c2VyIjp7InVzZXJUeXBlIjoiVVNFUiIsInV1aWQiOiI1NDJlM2I1MS05OGQzLTExZWYtYjY4MS0wODIzMzliZmZjYTkiLCJvcmdVdWlkIjoiNTQyYjE2NDQtOThkMy0xMWVmLTlmOWUtNTM3OTY4ZTdiOGU1IiwidXNlclJvbGUiOiJPV05FUiJ9LCJ0eXBlIjoidXNlci1hc3NlcnRpb24ifQ.yHZ8LdHt5gggk5euVNXdVK_RBzrhnvyWYlx7u1kyeoyO9meOXfTJPl85blKReassyqHOUTjGTypPS0HhLq0Pykas2uI3WsJpR-GaAenIRKe35tr9h5Nn3L1VaVlU3tZH9IaNtY6wnGH40FY-0BubTuo-ajJR-GqI-6wFTMHJRNmRPUMg0U1GflTuTLbx0Zf3jc1WEuEl4teoj2QZLof9LrFLpDTts-kaSDCFhmwvXxjvuaxJyM9symrXfNgyR-1I0V5N0I-KPKTzFYscQjZV2ws31vdeNh-9IJwR4PXUKziW7RsiGIyUpOIm3kMaXFdpGoNPkwwbG166ZxzPpEq-gw',
+  }) async {
+    final baseUrl = ZettleAuthGroup.getBaseUrl(
+      client: client,
+      secret: secret,
+    );
+
+    return ApiManager.instance.makeApiCall(
+      callName: 'User Info',
+      apiUrl: '${baseUrl}/users/self',
+      callType: ApiCallType.GET,
+      headers: {
+        'Authorization': 'Bearer ${token}',
+      },
+      params: {},
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+}
+
+/// End Zettle Auth Group Code
+
+/// Start Zettle Purchase Group Code
+
+class ZettlePurchaseGroup {
+  static String getBaseUrl({
+    String? token = '',
+  }) =>
+      'https://purchase.izettle.com';
+  static Map<String, String> headers = {
+    'Authorization': 'Bearer [token]',
+  };
+  static GetPurchasesCall getPurchasesCall = GetPurchasesCall();
+}
+
+class GetPurchasesCall {
+  Future<ApiCallResponse> call({
+    String? token = '',
+  }) async {
+    final baseUrl = ZettlePurchaseGroup.getBaseUrl(
+      token: token,
+    );
+
+    return ApiManager.instance.makeApiCall(
+      callName: 'Get Purchases',
+      apiUrl: '${baseUrl}/purchases/v2?descending=true',
+      callType: ApiCallType.GET,
+      headers: {
+        'Authorization': 'Bearer ${token}',
+      },
+      params: {},
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+
+  List? references(dynamic response) => getJsonField(
+        response,
+        r'''$.purchases[:].payments[:].references''',
+        true,
+      ) as List?;
+}
+
+/// End Zettle Purchase Group Code
+
 class ApiPagingParams {
   int nextPageNumber = 0;
   int numItems = 0;

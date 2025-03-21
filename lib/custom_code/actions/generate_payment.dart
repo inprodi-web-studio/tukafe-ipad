@@ -9,31 +9,28 @@ import 'package:flutter/material.dart';
 // Begin custom action code
 // DO NOT REMOVE OR MODIFY THE CODE ABOVE!
 
+import 'package:uuid/uuid.dart';
 import 'package:zettle/zettle.dart';
 
-Future generatePayment(
+Future<String> generatePayment(
   int amount,
-  Future Function() onSuccess,
   Future Function() onCancel,
 ) async {
+  var uuid = Uuid();
+  var referenceUuid = uuid.v4();
+
   var request = ZettlePaymentRequest(
       amount: amount,
-      reference: "tukafe order",
+      reference: referenceUuid,
       enableLogin: true,
       enableTipping: false,
       enableInstalments: false);
 
   try {
-    final response = await Zettle.requestPayment(request);
-
-    if (response.status == 'ZettlePluginPaymentStatus.failed' ||
-        response.status == 'ZettlePluginPaymentStatus.cancelled' ||
-        response.amount == null) {
-      onCancel();
-    }  else {
-      onSuccess();
-    }
+    await Zettle.requestPayment(request);
   } catch (error) {
     onCancel();
   }
+
+  return referenceUuid;
 }

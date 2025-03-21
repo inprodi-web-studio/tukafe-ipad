@@ -1906,7 +1906,8 @@ class _OrderWidgetState extends State<OrderWidget> {
                                             safeSetState(() {});
                                           return;
                                         } else {
-                                          await actions.generatePayment(
+                                          _model.paymentOutput =
+                                              await actions.generatePayment(
                                             (functions.sumUnitaryPrices(
                                                         FFAppState()
                                                             .OrderItems
@@ -1916,247 +1917,6 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                             .toList()) *
                                                     100)
                                                 .toInt(),
-                                            () async {
-                                              var _shouldSetState = false;
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(
-                                                SnackBar(
-                                                  content: Text(
-                                                    'Estamos creando tu orden...',
-                                                    style: TextStyle(
-                                                      color: FlutterFlowTheme
-                                                              .of(context)
-                                                          .secondaryBackground,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                    ),
-                                                  ),
-                                                  duration: Duration(
-                                                      milliseconds: 4000),
-                                                  backgroundColor:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .secondary,
-                                                ),
-                                              );
-                                              if (FFAppState()
-                                                      .OrderItems
-                                                      .where(
-                                                          (e) => e.price == 0.0)
-                                                      .toList()
-                                                      .length >
-                                                  0) {
-                                                _model.orderOutputPromo =
-                                                    await OrderGroup
-                                                        .createOrderCall
-                                                        .call(
-                                                  customerJson: <String,
-                                                      dynamic>{
-                                                    'id': getJsonField(
-                                                      widget.customer,
-                                                      r'''$.client_id''',
-                                                    ),
-                                                  },
-                                                  productsJson:
-                                                      functions.parseOrderArray(
-                                                          FFAppState()
-                                                              .OrderItems
-                                                              .where((e) =>
-                                                                  e.price ==
-                                                                  0.0)
-                                                              .toList(),
-                                                          false),
-                                                );
-
-                                                _shouldSetState = true;
-                                                if ((_model.orderOutputPromo
-                                                        ?.succeeded ??
-                                                    true)) {
-                                                  unawaited(
-                                                    () async {
-                                                      _model.closePromoOrder =
-                                                          await OrderGroup
-                                                              .closeOrderCall
-                                                              .call(
-                                                        orderId: getJsonField(
-                                                          (_model.orderOutputPromo
-                                                                  ?.jsonBody ??
-                                                              ''),
-                                                          r'''$.response.id''',
-                                                        ),
-                                                        amount: 0,
-                                                      );
-                                                    }(),
-                                                  );
-                                                  _shouldSetState = true;
-                                                } else {
-                                                  await showDialog(
-                                                    context: context,
-                                                    builder:
-                                                        (alertDialogContext) {
-                                                      return AlertDialog(
-                                                        title: Text(
-                                                            'Ocurrió un error inesperado'),
-                                                        content: Text(
-                                                            'Parece que hay un error de servidor. Por favor, intenta nuevamente o notifícale a nuestro barista de este error.'),
-                                                        actions: [
-                                                          TextButton(
-                                                            onPressed: () =>
-                                                                Navigator.pop(
-                                                                    alertDialogContext),
-                                                            child:
-                                                                Text('Aceptar'),
-                                                          ),
-                                                        ],
-                                                      );
-                                                    },
-                                                  );
-                                                  return;
-                                                }
-                                              }
-                                              if (FFAppState()
-                                                      .OrderItems
-                                                      .where(
-                                                          (e) => e.price != 0.0)
-                                                      .toList()
-                                                      .length >
-                                                  0) {
-                                                _model.orderOutput =
-                                                    await OrderGroup
-                                                        .createOrderCall
-                                                        .call(
-                                                  customerJson: <String,
-                                                      dynamic>{
-                                                    'id': getJsonField(
-                                                      widget.customer,
-                                                      r'''$.client_id''',
-                                                    ),
-                                                  },
-                                                  productsJson:
-                                                      functions.parseOrderArray(
-                                                          FFAppState()
-                                                              .OrderItems
-                                                              .where((e) =>
-                                                                  e.price !=
-                                                                  0.0)
-                                                              .toList(),
-                                                          false),
-                                                );
-
-                                                _shouldSetState = true;
-                                                if ((_model.orderOutput
-                                                        ?.succeeded ??
-                                                    true)) {
-                                                  unawaited(
-                                                    () async {
-                                                      _model.closeOrder =
-                                                          await OrderGroup
-                                                              .closeOrderCall
-                                                              .call(
-                                                        orderId: getJsonField(
-                                                          (_model.orderOutput
-                                                                  ?.jsonBody ??
-                                                              ''),
-                                                          r'''$.response.id''',
-                                                        ),
-                                                        amount: getJsonField(
-                                                          (_model.orderOutput
-                                                                  ?.jsonBody ??
-                                                              ''),
-                                                          r'''$.response.sum''',
-                                                        ),
-                                                      );
-                                                    }(),
-                                                  );
-                                                  _shouldSetState = true;
-                                                } else {
-                                                  await showDialog(
-                                                    context: context,
-                                                    builder:
-                                                        (alertDialogContext) {
-                                                      return AlertDialog(
-                                                        title: Text(
-                                                            'Ocurrió un error inesperado'),
-                                                        content: Text(
-                                                            'Parece que hay un error de servidor. Por favor, intenta nuevamente o notifícale a nuestro barista de este error.'),
-                                                        actions: [
-                                                          TextButton(
-                                                            onPressed: () =>
-                                                                Navigator.pop(
-                                                                    alertDialogContext),
-                                                            child:
-                                                                Text('Aceptar'),
-                                                          ),
-                                                        ],
-                                                      );
-                                                    },
-                                                  );
-                                                  return;
-                                                }
-                                              }
-                                              unawaited(
-                                                () async {
-                                                  await OwnRoutesGroup
-                                                      .createCustomerOrderCall
-                                                      .call(
-                                                    customerId: getJsonField(
-                                                      widget.customer,
-                                                      r'''$.client_id''',
-                                                    ).toString(),
-                                                    productsJson: functions
-                                                        .parseOrderArray(
-                                                            FFAppState()
-                                                                .OrderItems
-                                                                .toList(),
-                                                            true),
-                                                    hasFree: FFAppState()
-                                                                .OrderItems
-                                                                .where((e) =>
-                                                                    e.isFree)
-                                                                .toList()
-                                                                .length >
-                                                            0
-                                                        ? true
-                                                        : false,
-                                                  );
-                                                }(),
-                                              );
-                                              unawaited(
-                                                () async {
-                                                  _model.workOutput =
-                                                      await OwnRoutesGroup
-                                                          .createWorkCall
-                                                          .call(
-                                                    itemsJson: functions
-                                                        .parseWorkArray(
-                                                            FFAppState()
-                                                                .OrderItems
-                                                                .toList(),
-                                                            _model
-                                                                .nameTextController
-                                                                .text),
-                                                  );
-                                                }(),
-                                              );
-                                              _shouldSetState = true;
-
-                                              context.goNamed(
-                                                ConfirmationWidget.routeName,
-                                                extra: <String, dynamic>{
-                                                  kTransitionInfoKey:
-                                                      TransitionInfo(
-                                                    hasTransition: true,
-                                                    transitionType:
-                                                        PageTransitionType
-                                                            .bottomToTop,
-                                                  ),
-                                                },
-                                              );
-
-                                              FFAppState()
-                                                  .LastCustomerOrdersProducts = [];
-                                              FFAppState().OrderItems = [];
-                                            },
                                             () async {
                                               ScaffoldMessenger.of(context)
                                                   .showSnackBar(
@@ -2179,9 +1939,299 @@ class _OrderWidgetState extends State<OrderWidget> {
                                               );
                                             },
                                           );
-                                          if (_shouldSetState)
-                                            safeSetState(() {});
-                                          return;
+                                          _shouldSetState = true;
+                                          _model.tokenOutput =
+                                              await ZettleAuthGroup.getTokenCall
+                                                  .call();
+
+                                          _shouldSetState = true;
+                                          _model.purchasesOutput =
+                                              await ZettlePurchaseGroup
+                                                  .getPurchasesCall
+                                                  .call(
+                                            token: ZettleAuthGroup.getTokenCall
+                                                .token(
+                                              (_model.tokenOutput?.jsonBody ??
+                                                  ''),
+                                            ),
+                                          );
+
+                                          _shouldSetState = true;
+                                          if (ZettlePurchaseGroup
+                                                  .getPurchasesCall
+                                                  .references(
+                                                    (_model.purchasesOutput
+                                                            ?.jsonBody ??
+                                                        ''),
+                                                  )
+                                                  ?.where((e) =>
+                                                      _model.paymentOutput ==
+                                                      getJsonField(
+                                                        e,
+                                                        r'''$.apiReference''',
+                                                      ).toString())
+                                                  .toList()
+                                                  .length ==
+                                              1) {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              SnackBar(
+                                                content: Text(
+                                                  'Estamos creando tu orden...',
+                                                  style: TextStyle(
+                                                    color: FlutterFlowTheme.of(
+                                                            context)
+                                                        .secondaryBackground,
+                                                    fontWeight: FontWeight.w500,
+                                                  ),
+                                                ),
+                                                duration: Duration(
+                                                    milliseconds: 4000),
+                                                backgroundColor:
+                                                    FlutterFlowTheme.of(context)
+                                                        .secondary,
+                                              ),
+                                            );
+                                            if (FFAppState()
+                                                    .OrderItems
+                                                    .where(
+                                                        (e) => e.price == 0.0)
+                                                    .toList()
+                                                    .length >
+                                                0) {
+                                              _model.orderOutputPromo =
+                                                  await OrderGroup
+                                                      .createOrderCall
+                                                      .call(
+                                                customerJson: <String, dynamic>{
+                                                  'id': getJsonField(
+                                                    widget.customer,
+                                                    r'''$.client_id''',
+                                                  ),
+                                                },
+                                                productsJson:
+                                                    functions.parseOrderArray(
+                                                        FFAppState()
+                                                            .OrderItems
+                                                            .where((e) =>
+                                                                e.price == 0.0)
+                                                            .toList(),
+                                                        false),
+                                              );
+
+                                              _shouldSetState = true;
+                                              if ((_model.orderOutputPromo
+                                                      ?.succeeded ??
+                                                  true)) {
+                                                unawaited(
+                                                  () async {
+                                                    _model.closePromoOrder =
+                                                        await OrderGroup
+                                                            .closeOrderCall
+                                                            .call(
+                                                      orderId: getJsonField(
+                                                        (_model.orderOutputPromo
+                                                                ?.jsonBody ??
+                                                            ''),
+                                                        r'''$.response.id''',
+                                                      ),
+                                                      amount: 0,
+                                                    );
+                                                  }(),
+                                                );
+                                                _shouldSetState = true;
+                                              } else {
+                                                await showDialog(
+                                                  context: context,
+                                                  builder:
+                                                      (alertDialogContext) {
+                                                    return AlertDialog(
+                                                      title: Text(
+                                                          'Ocurrió un error inesperado'),
+                                                      content: Text(
+                                                          'Parece que hay un error de servidor. Por favor, intenta nuevamente o notifícale a nuestro barista de este error.'),
+                                                      actions: [
+                                                        TextButton(
+                                                          onPressed: () =>
+                                                              Navigator.pop(
+                                                                  alertDialogContext),
+                                                          child:
+                                                              Text('Aceptar'),
+                                                        ),
+                                                      ],
+                                                    );
+                                                  },
+                                                );
+                                                if (_shouldSetState)
+                                                  safeSetState(() {});
+                                                return;
+                                              }
+                                            }
+                                            if (FFAppState()
+                                                    .OrderItems
+                                                    .where(
+                                                        (e) => e.price != 0.0)
+                                                    .toList()
+                                                    .length >
+                                                0) {
+                                              _model.orderOutput =
+                                                  await OrderGroup
+                                                      .createOrderCall
+                                                      .call(
+                                                customerJson: <String, dynamic>{
+                                                  'id': getJsonField(
+                                                    widget.customer,
+                                                    r'''$.client_id''',
+                                                  ),
+                                                },
+                                                productsJson:
+                                                    functions.parseOrderArray(
+                                                        FFAppState()
+                                                            .OrderItems
+                                                            .where((e) =>
+                                                                e.price != 0.0)
+                                                            .toList(),
+                                                        false),
+                                              );
+
+                                              _shouldSetState = true;
+                                              if ((_model
+                                                      .orderOutput?.succeeded ??
+                                                  true)) {
+                                                unawaited(
+                                                  () async {
+                                                    _model.closeOrder =
+                                                        await OrderGroup
+                                                            .closeOrderCall
+                                                            .call(
+                                                      orderId: getJsonField(
+                                                        (_model.orderOutput
+                                                                ?.jsonBody ??
+                                                            ''),
+                                                        r'''$.response.id''',
+                                                      ),
+                                                      amount: getJsonField(
+                                                        (_model.orderOutput
+                                                                ?.jsonBody ??
+                                                            ''),
+                                                        r'''$.response.sum''',
+                                                      ),
+                                                    );
+                                                  }(),
+                                                );
+                                                _shouldSetState = true;
+                                              } else {
+                                                await showDialog(
+                                                  context: context,
+                                                  builder:
+                                                      (alertDialogContext) {
+                                                    return AlertDialog(
+                                                      title: Text(
+                                                          'Ocurrió un error inesperado'),
+                                                      content: Text(
+                                                          'Parece que hay un error de servidor. Por favor, intenta nuevamente o notifícale a nuestro barista de este error.'),
+                                                      actions: [
+                                                        TextButton(
+                                                          onPressed: () =>
+                                                              Navigator.pop(
+                                                                  alertDialogContext),
+                                                          child:
+                                                              Text('Aceptar'),
+                                                        ),
+                                                      ],
+                                                    );
+                                                  },
+                                                );
+                                                if (_shouldSetState)
+                                                  safeSetState(() {});
+                                                return;
+                                              }
+                                            }
+                                            unawaited(
+                                              () async {
+                                                await OwnRoutesGroup
+                                                    .createCustomerOrderCall
+                                                    .call(
+                                                  customerId: getJsonField(
+                                                    widget.customer,
+                                                    r'''$.client_id''',
+                                                  ).toString(),
+                                                  productsJson:
+                                                      functions.parseOrderArray(
+                                                          FFAppState()
+                                                              .OrderItems
+                                                              .toList(),
+                                                          true),
+                                                  hasFree: FFAppState()
+                                                              .OrderItems
+                                                              .where((e) =>
+                                                                  e.isFree)
+                                                              .toList()
+                                                              .length >
+                                                          0
+                                                      ? true
+                                                      : false,
+                                                );
+                                              }(),
+                                            );
+                                            unawaited(
+                                              () async {
+                                                _model.workOutput =
+                                                    await OwnRoutesGroup
+                                                        .createWorkCall
+                                                        .call(
+                                                  itemsJson:
+                                                      functions.parseWorkArray(
+                                                          FFAppState()
+                                                              .OrderItems
+                                                              .toList(),
+                                                          _model
+                                                              .nameTextController
+                                                              .text),
+                                                );
+                                              }(),
+                                            );
+                                            _shouldSetState = true;
+
+                                            context.goNamed(
+                                              ConfirmationWidget.routeName,
+                                              extra: <String, dynamic>{
+                                                kTransitionInfoKey:
+                                                    TransitionInfo(
+                                                  hasTransition: true,
+                                                  transitionType:
+                                                      PageTransitionType
+                                                          .bottomToTop,
+                                                ),
+                                              },
+                                            );
+
+                                            FFAppState()
+                                                .LastCustomerOrdersProducts = [];
+                                            FFAppState().OrderItems = [];
+                                            if (_shouldSetState)
+                                              safeSetState(() {});
+                                            return;
+                                          } else {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              SnackBar(
+                                                content: Text(
+                                                  'No se pudo procesar correctamente tu orden',
+                                                  style: TextStyle(
+                                                    color: FlutterFlowTheme.of(
+                                                            context)
+                                                        .secondaryBackground,
+                                                  ),
+                                                ),
+                                                duration: Duration(
+                                                    milliseconds: 4000),
+                                                backgroundColor:
+                                                    FlutterFlowTheme.of(context)
+                                                        .error,
+                                              ),
+                                            );
+                                          }
                                         }
 
                                         if (_shouldSetState)
