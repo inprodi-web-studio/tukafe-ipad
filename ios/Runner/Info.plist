@@ -22,25 +22,41 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
-	<array>        <dict>
-        <key>CFBundleTypeRole</key>
-        <string>Editor</string>
-        <key>CFBundleURLName</key>
-        <string>tukafeinplace.com</string>
-        <key>CFBundleURLSchemes</key>
-        <array>
-        <string>tukafeinplace</string>
-        </array>
-        </dict>
-    </array>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+        	<string>tukafeinplace.com</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>tukafeinplace</string>
+			</array>
+		</dict>
+	</array>
     <key>FlutterDeepLinkingEnabled</key>
     <true/>
 
 
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
+
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>bluetooth-central</string>
+		<string>external-accessory</string>
+	</array>
+
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>Our app uses bluetooth to find, connect and transfer data with Zettle card reader devices.</string>
+
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+
+	<key>UISupportedExternalAccessoryProtocols</key>
+	<array>
+		<string>com.izettle.cardreader-one</string>
+	</array>
 
 	<key>NSCameraUsageDescription</key>
     <string>In order to scan for barcodes and QR codes, this app requires permission to access the camera.</string>
@@ -70,5 +86,9 @@
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 
+	<key>CADisableMinimumFrameDurationOnPhone</key>
+	<true/>
+	<key>UIApplicationSupportsIndirectInputEvents</key>
+	<true/>
 </dict>
 </plist>
