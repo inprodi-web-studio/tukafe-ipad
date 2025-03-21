@@ -1917,36 +1917,21 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                             .toList()) *
                                                     100)
                                                 .toInt(),
-                                            () async {
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(
-                                                SnackBar(
-                                                  content: Text(
-                                                    'No se pudo procesar correctamente tu orden',
-                                                    style: TextStyle(
-                                                      color: FlutterFlowTheme
-                                                              .of(context)
-                                                          .secondaryBackground,
-                                                    ),
-                                                  ),
-                                                  duration: Duration(
-                                                      milliseconds: 4000),
-                                                  backgroundColor:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .error,
-                                                ),
-                                              );
-                                            },
                                           );
                                           _shouldSetState = true;
                                           _model.tokenOutput =
                                               await ZettleAuthGroup.getTokenCall
                                                   .call();
+                                          print("token----");
+                                          print(ZettleAuthGroup.getTokenCall
+                                                .token(
+                                              (_model.tokenOutput?.jsonBody ??
+                                                  ''),
+                                          ));
 
                                           _shouldSetState = true;
-                                          await Future.delayed(const Duration(
-                                              milliseconds: 6000));
+                                          // await Future.delayed(const Duration(
+                                          //     milliseconds: 10000));
                                           _model.purchasesOutput =
                                               await ZettlePurchaseGroup
                                                   .getPurchasesCall
@@ -1957,6 +1942,9 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                   ''),
                                             ),
                                           );
+
+                                          print(_model.purchasesOutput
+                                                            ?.jsonBody);
 
                                           _shouldSetState = true;
                                           if (ZettlePurchaseGroup
@@ -2214,25 +2202,6 @@ class _OrderWidgetState extends State<OrderWidget> {
                                             if (_shouldSetState)
                                               safeSetState(() {});
                                             return;
-                                          } else {
-                                            ScaffoldMessenger.of(context)
-                                                .showSnackBar(
-                                              SnackBar(
-                                                content: Text(
-                                                  'No se pudo procesar correctamente tu orden',
-                                                  style: TextStyle(
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .secondaryBackground,
-                                                  ),
-                                                ),
-                                                duration: Duration(
-                                                    milliseconds: 4000),
-                                                backgroundColor:
-                                                    FlutterFlowTheme.of(context)
-                                                        .error,
-                                              ),
-                                            );
                                           }
                                         }
 
