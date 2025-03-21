@@ -1945,6 +1945,8 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                   .call();
 
                                           _shouldSetState = true;
+                                          await Future.delayed(const Duration(
+                                              milliseconds: 6000));
                                           _model.purchasesOutput =
                                               await ZettlePurchaseGroup
                                                   .getPurchasesCall
@@ -1963,16 +1965,16 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                     (_model.purchasesOutput
                                                             ?.jsonBody ??
                                                         ''),
-                                                  )
-                                                  ?.where((e) =>
+                                                  )!
+                                                  .where((e) =>
                                                       _model.paymentOutput ==
                                                       getJsonField(
                                                         e,
                                                         r'''$.apiReference''',
                                                       ).toString())
                                                   .toList()
-                                                  .length ==
-                                              1) {
+                                                  .length >
+                                              0) {
                                             ScaffoldMessenger.of(context)
                                                 .showSnackBar(
                                               SnackBar(
