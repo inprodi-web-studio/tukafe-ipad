@@ -13,8 +13,7 @@ import 'package:uuid/uuid.dart';
 import 'package:zettle/zettle.dart';
 
 Future<String> generatePayment(
-  int amount,
-  Future Function() onCancel,
+  int amount
 ) async {
   var uuid = Uuid();
   var referenceUuid = uuid.v4();
@@ -29,7 +28,7 @@ Future<String> generatePayment(
   try {
     await Zettle.requestPayment(request);
   } catch (error) {
-    onCancel();
+    print(error);
   }
 
   return referenceUuid;

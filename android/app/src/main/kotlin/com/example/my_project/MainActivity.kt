@@ -1,4 +1,4 @@
-package com.inprodi.tukafeinplace
+package com.mycompany.tukafeinplace
 
 import io.flutter.embedding.android.FlutterActivity
 
