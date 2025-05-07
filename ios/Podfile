@@ -60,7 +60,7 @@ post_install do |installer|
   framework_paths = [
     "Pods/iZettleSDK/iZettleSDK/iZettlePayments.xcframework/ios-arm64/iZettlePayments.framework/iZettlePayments",
     "Pods/iZettleSDK/iZettleSDK/iZettlePayments.xcframework/ios-arm64_x86_64-simulator/iZettlePayments.framework/iZettlePayments",
-    "Pods/iZettleSDK/iZettleSDK/iZettleSDK.xcframework/ios-arm64/iZettleSDK.framework/iZettleSDK"
+    "Pods/iZettleSDK/iZettleSDK/iZettleSDK.xcframework/ios-arm64/iZettleSDK.framework/iZettleSDK",
     "Pods/iZettleSDK/iZettleSDK/iZettleSDK.xcframework/ios-arm64_x86_64-simulator/iZettleSDK.framework/iZettleSDK"
   ]
 
