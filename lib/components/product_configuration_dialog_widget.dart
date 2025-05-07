@@ -1,16 +1,16 @@
-import '';
 import '/backend/api_requests/api_calls.dart';
 import '/backend/schema/structs/index.dart';
 import '/flutter_flow/flutter_flow_count_controller.dart';
-import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:smooth_page_indicator/smooth_page_indicator.dart'
     as smooth_page_indicator;
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'product_configuration_dialog_model.dart';
 export 'product_configuration_dialog_model.dart';
@@ -90,19 +90,54 @@ class _ProductConfigurationDialogWidgetState
               mainAxisSize: MainAxisSize.max,
               children: [
                 Expanded(
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(8.0),
-                    child: CachedNetworkImage(
-                      fadeInDuration: Duration(milliseconds: 500),
-                      fadeOutDuration: Duration(milliseconds: 500),
-                      imageUrl:
-                          '${FFAppConstants.BaseURL}${ProductsGroup.singleProductCall.data(
-                                rowSingleProductResponse.jsonBody,
-                              )?.photoOrigin}',
-                      height: double.infinity,
-                      fit: BoxFit.none,
-                      alignment: Alignment(0.0, 0.0),
-                    ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(8.0),
+                        child: CachedNetworkImage(
+                          fadeInDuration: Duration(milliseconds: 500),
+                          fadeOutDuration: Duration(milliseconds: 500),
+                          imageUrl:
+                              '${FFAppConstants.BaseURL}${ProductsGroup.singleProductCall.data(
+                                    rowSingleProductResponse.jsonBody,
+                                  )?.photoOrigin}',
+                          width: double.infinity,
+                          height: MediaQuery.sizeOf(context).height * 0.6,
+                          fit: BoxFit.none,
+                          alignment: Alignment(0.0, 0.0),
+                        ),
+                      ),
+                      Padding(
+                        padding:
+                            EdgeInsetsDirectional.fromSTEB(0.0, 20.0, 0.0, 0.0),
+                        child: Text(
+                          '* Imagen con propositos ilustrativos',
+                          style: FlutterFlowTheme.of(context)
+                              .bodyMedium
+                              .override(
+                                font: GoogleFonts.montserrat(
+                                  fontWeight: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .fontWeight,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .fontStyle,
+                                ),
+                                color:
+                                    FlutterFlowTheme.of(context).secondaryText,
+                                letterSpacing: 0.0,
+                                fontWeight: FlutterFlowTheme.of(context)
+                                    .bodyMedium
+                                    .fontWeight,
+                                fontStyle: FlutterFlowTheme.of(context)
+                                    .bodyMedium
+                                    .fontStyle,
+                              ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 Expanded(
@@ -121,10 +156,18 @@ class _ProductConfigurationDialogWidgetState
                           '[PRODUCT]',
                         ),
                         style: FlutterFlowTheme.of(context).bodyMedium.override(
-                              fontFamily: 'Montserrat',
+                              font: GoogleFonts.montserrat(
+                                fontWeight: FontWeight.w600,
+                                fontStyle: FlutterFlowTheme.of(context)
+                                    .bodyMedium
+                                    .fontStyle,
+                              ),
                               fontSize: 40.0,
                               letterSpacing: 0.0,
                               fontWeight: FontWeight.w600,
+                              fontStyle: FlutterFlowTheme.of(context)
+                                  .bodyMedium
+                                  .fontStyle,
                             ),
                       ),
                       Padding(
@@ -173,10 +216,19 @@ class _ProductConfigurationDialogWidgetState
                                   style: FlutterFlowTheme.of(context)
                                       .bodyMedium
                                       .override(
-                                        fontFamily: 'Montserrat',
+                                        font: GoogleFonts.montserrat(
+                                          fontWeight: FontWeight.w500,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontStyle,
+                                        ),
                                         fontSize: 16.0,
                                         letterSpacing: 0.0,
                                         fontWeight: FontWeight.w500,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .fontStyle,
                                       ),
                                 ),
                               ].divide(SizedBox(width: 10.0)),
@@ -204,11 +256,19 @@ class _ProductConfigurationDialogWidgetState
                                 ),
                           style:
                               FlutterFlowTheme.of(context).bodyMedium.override(
-                                    fontFamily: 'Montserrat',
+                                    font: GoogleFonts.montserrat(
+                                      fontWeight: FontWeight.w600,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontStyle,
+                                    ),
                                     color: FlutterFlowTheme.of(context).primary,
                                     fontSize: 35.0,
                                     letterSpacing: 0.0,
                                     fontWeight: FontWeight.w600,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontStyle,
                                   ),
                         ),
                       ),
@@ -271,8 +331,16 @@ class _ProductConfigurationDialogWidgetState
                                                             context)
                                                         .bodyMedium
                                                         .override(
-                                                          fontFamily:
-                                                              'Montserrat',
+                                                          font: GoogleFonts
+                                                              .montserrat(
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                            fontStyle:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontStyle,
+                                                          ),
                                                           color: FlutterFlowTheme
                                                                   .of(context)
                                                               .primaryText,
@@ -280,6 +348,11 @@ class _ProductConfigurationDialogWidgetState
                                                           letterSpacing: 0.0,
                                                           fontWeight:
                                                               FontWeight.w600,
+                                                          fontStyle:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyMedium
+                                                                  .fontStyle,
                                                         ),
                                                   ),
                                                   Builder(
@@ -435,8 +508,11 @@ class _ProductConfigurationDialogWidgetState
                                                                               context)
                                                                           .bodyMedium
                                                                           .override(
-                                                                            fontFamily:
-                                                                                'Montserrat',
+                                                                            font:
+                                                                                GoogleFonts.montserrat(
+                                                                              fontWeight: FontWeight.w500,
+                                                                              fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                            ),
                                                                             color:
                                                                                 valueOrDefault<Color>(
                                                                               (_model.product?.modification.elementAtOrNull(modificatorsIndex))?.id == valueItem.dishModificationId ? FlutterFlowTheme.of(context).secondaryBackground : Color(0xFF57636C),
@@ -448,6 +524,8 @@ class _ProductConfigurationDialogWidgetState
                                                                                 0.0,
                                                                             fontWeight:
                                                                                 FontWeight.w500,
+                                                                            fontStyle:
+                                                                                FlutterFlowTheme.of(context).bodyMedium.fontStyle,
                                                                           ),
                                                                     ),
                                                                   ),
@@ -466,7 +544,10 @@ class _ProductConfigurationDialogWidgetState
                                                                         style: FlutterFlowTheme.of(context)
                                                                             .bodyMedium
                                                                             .override(
-                                                                              fontFamily: 'Montserrat',
+                                                                              font: GoogleFonts.montserrat(
+                                                                                fontWeight: FontWeight.w500,
+                                                                                fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                              ),
                                                                               color: valueOrDefault<Color>(
                                                                                 (_model.product?.modification.elementAtOrNull(modificatorsIndex))?.id == valueItem.dishModificationId ? FlutterFlowTheme.of(context).secondaryBackground : Color(0xFF57636C),
                                                                                 Color(0xFF57636C),
@@ -474,6 +555,7 @@ class _ProductConfigurationDialogWidgetState
                                                                               fontSize: 18.0,
                                                                               letterSpacing: 0.0,
                                                                               fontWeight: FontWeight.w500,
+                                                                              fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
                                                                             ),
                                                                       ),
                                                                     ),
@@ -587,9 +669,22 @@ class _ProductConfigurationDialogWidgetState
                                 style: FlutterFlowTheme.of(context)
                                     .titleLarge
                                     .override(
-                                      fontFamily: 'Montserrat',
+                                      font: GoogleFonts.montserrat(
+                                        fontWeight: FlutterFlowTheme.of(context)
+                                            .titleLarge
+                                            .fontWeight,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .titleLarge
+                                            .fontStyle,
+                                      ),
                                       fontSize: 25.0,
                                       letterSpacing: 0.0,
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .titleLarge
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .titleLarge
+                                          .fontStyle,
                                     ),
                               ),
                               count: _model.countControllerValue ??= 1,
@@ -842,6 +937,12 @@ class _ProductConfigurationDialogWidgetState
                                                   .firstOrNull!
                                                   .price) /
                                               100)),
+                                      nodiscount: ProductsGroup
+                                          .singleProductCall
+                                          .data(
+                                            rowSingleProductResponse.jsonBody,
+                                          )
+                                          ?.nodiscount,
                                     ));
                                     FFAppState().update(() {});
                                   }
@@ -905,15 +1006,71 @@ class _ProductConfigurationDialogWidgetState
                             textStyle: FlutterFlowTheme.of(context)
                                 .titleSmall
                                 .override(
-                                  fontFamily: 'Montserrat',
+                                  font: GoogleFonts.montserrat(
+                                    fontWeight: FlutterFlowTheme.of(context)
+                                        .titleSmall
+                                        .fontWeight,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .titleSmall
+                                        .fontStyle,
+                                  ),
                                   color: Colors.white,
                                   letterSpacing: 0.0,
+                                  fontWeight: FlutterFlowTheme.of(context)
+                                      .titleSmall
+                                      .fontWeight,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .titleSmall
+                                      .fontStyle,
                                 ),
                             elevation: 0.0,
                             borderRadius: BorderRadius.circular(8.0),
                             disabledColor: Color(0x73ECB169),
                             disabledTextColor: Color(0x72FFFFFF),
                           ),
+                        ),
+                      ),
+                      FFButtonWidget(
+                        onPressed: () async {
+                          Navigator.pop(context);
+                        },
+                        text: 'Regresar',
+                        icon: Icon(
+                          FFIcons.karrowArcLeft,
+                          size: 18.0,
+                        ),
+                        options: FFButtonOptions(
+                          width: double.infinity,
+                          height: 45.0,
+                          padding: EdgeInsetsDirectional.fromSTEB(
+                              16.0, 0.0, 16.0, 0.0),
+                          iconAlignment: IconAlignment.start,
+                          iconPadding: EdgeInsetsDirectional.fromSTEB(
+                              0.0, 0.0, 10.0, 0.0),
+                          color:
+                              FlutterFlowTheme.of(context).secondaryBackground,
+                          textStyle: FlutterFlowTheme.of(context)
+                              .titleSmall
+                              .override(
+                                font: GoogleFonts.montserrat(
+                                  fontWeight: FontWeight.w500,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .titleSmall
+                                      .fontStyle,
+                                ),
+                                color: FlutterFlowTheme.of(context).primaryText,
+                                letterSpacing: 0.0,
+                                fontWeight: FontWeight.w500,
+                                fontStyle: FlutterFlowTheme.of(context)
+                                    .titleSmall
+                                    .fontStyle,
+                              ),
+                          elevation: 0.0,
+                          borderSide: BorderSide(
+                            color: FlutterFlowTheme.of(context).accent4,
+                            width: 1.0,
+                          ),
+                          borderRadius: BorderRadius.circular(8.0),
                         ),
                       ),
                     ],

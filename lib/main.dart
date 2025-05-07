@@ -18,8 +18,12 @@ void main() async {
   final appState = FFAppState(); // Initialize FFAppState
   await appState.initializePersistedState();
 
-  runApp(ChangeNotifierProvider(
-    create: (context) => appState,
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(
+        create: (context) => appState,
+      ),
+    ],
     child: MyApp(),
   ));
 }

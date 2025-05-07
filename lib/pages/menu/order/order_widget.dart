@@ -1,4 +1,3 @@
-import '';
 import '/backend/api_requests/api_calls.dart';
 import '/backend/schema/enums/enums.dart';
 import '/components/empty_order_widget.dart';
@@ -6,7 +5,6 @@ import '/components/free_alert_widget.dart';
 import '/components/orders_count_widget.dart';
 import '/components/product_configuration_dialog_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
-import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'dart:async';
@@ -16,9 +14,12 @@ import '/index.dart';
 import 'package:styled_divider/styled_divider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_debounce/easy_debounce.dart';
+import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'order_model.dart';
 export 'order_model.dart';
@@ -70,7 +71,7 @@ class _OrderWidgetState extends State<OrderWidget> {
                   FocusManager.instance.primaryFocus?.unfocus();
                 },
                 child: Container(
-                  height: 600.0,
+                  height: 650.0,
                   child: FreeAlertWidget(),
                 ),
               ),
@@ -163,6 +164,29 @@ class _OrderWidgetState extends State<OrderWidget> {
                                   Row(
                                     mainAxisSize: MainAxisSize.max,
                                     children: [
+                                      if ((widget.userType !=
+                                              UserTypes.guest) &&
+                                          (FFAppState()
+                                                  .OrderItems
+                                                  .where(
+                                                      (e) => e.isFree == true)
+                                                  .toList()
+                                                  .length ==
+                                              0))
+                                        wrapWithModel(
+                                          model: _model.ordersCountModel,
+                                          updateCallback: () =>
+                                              safeSetState(() {}),
+                                          child: OrdersCountWidget(
+                                            count: valueOrDefault<int>(
+                                              functions.sumProductsCounts(
+                                                  FFAppState()
+                                                      .LastCustomerOrdersProducts
+                                                      .toList()),
+                                              0,
+                                            ),
+                                          ),
+                                        ),
                                       if (widget.userType != UserTypes.guest)
                                         Container(
                                           decoration: BoxDecoration(
@@ -214,38 +238,28 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                           context)
                                                       .bodyMedium
                                                       .override(
-                                                        fontFamily:
-                                                            'Montserrat',
+                                                        font: GoogleFonts
+                                                            .montserrat(
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          fontStyle:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyMedium
+                                                                  .fontStyle,
+                                                        ),
                                                         fontSize: 14.0,
                                                         letterSpacing: 0.0,
                                                         fontWeight:
                                                             FontWeight.w600,
+                                                        fontStyle:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .fontStyle,
                                                       ),
                                                 ),
                                               ].divide(SizedBox(width: 12.0)),
-                                            ),
-                                          ),
-                                        ),
-                                      if ((widget.userType !=
-                                              UserTypes.guest) &&
-                                          (FFAppState()
-                                                  .OrderItems
-                                                  .where(
-                                                      (e) => e.isFree == true)
-                                                  .toList()
-                                                  .length ==
-                                              0))
-                                        wrapWithModel(
-                                          model: _model.ordersCountModel,
-                                          updateCallback: () =>
-                                              safeSetState(() {}),
-                                          child: OrdersCountWidget(
-                                            count: valueOrDefault<int>(
-                                              functions.sumProductsCounts(
-                                                  FFAppState()
-                                                      .LastCustomerOrdersProducts
-                                                      .toList()),
-                                              0,
                                             ),
                                           ),
                                         ),
@@ -300,12 +314,24 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                     context)
                                                 .titleSmall
                                                 .override(
-                                                  fontFamily: 'Montserrat',
+                                                  font: GoogleFonts.montserrat(
+                                                    fontWeight: FontWeight.w500,
+                                                    fontStyle:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .titleSmall
+                                                            .fontStyle,
+                                                  ),
                                                   color: FlutterFlowTheme.of(
                                                           context)
                                                       .primaryText,
                                                   letterSpacing: 0.0,
                                                   fontWeight: FontWeight.w500,
+                                                  fontStyle:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .titleSmall
+                                                          .fontStyle,
                                                 ),
                                             elevation: 0.0,
                                             borderSide: BorderSide(
@@ -322,7 +348,7 @@ class _OrderWidgetState extends State<OrderWidget> {
                                     if (_model.path == 'categories')
                                       Padding(
                                         padding: EdgeInsetsDirectional.fromSTEB(
-                                            30.0, 0.0, 30.0, 0.0),
+                                            30.0, 20.0, 30.0, 0.0),
                                         child: FutureBuilder<ApiCallResponse>(
                                           future: ProductsGroup
                                               .productCategoriesCall
@@ -355,7 +381,9 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                               .jsonBody,
                                                         )
                                                         ?.where((e) =>
-                                                            e.level == '1')
+                                                            (e.level == '1') &&
+                                                            (e.categoryHidden ==
+                                                                '0'))
                                                         .toList()
                                                         .toList() ??
                                                     [];
@@ -364,7 +392,7 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                   padding: EdgeInsets.zero,
                                                   gridDelegate:
                                                       SliverGridDelegateWithFixedCrossAxisCount(
-                                                    crossAxisCount: 5,
+                                                    crossAxisCount: 4,
                                                     crossAxisSpacing: 14.0,
                                                     mainAxisSpacing: 14.0,
                                                     childAspectRatio: 1.0,
@@ -475,8 +503,14 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                                         context)
                                                                     .bodyMedium
                                                                     .override(
-                                                                      fontFamily:
-                                                                          'Montserrat',
+                                                                      font: GoogleFonts
+                                                                          .montserrat(
+                                                                        fontWeight:
+                                                                            FontWeight.w600,
+                                                                        fontStyle: FlutterFlowTheme.of(context)
+                                                                            .bodyMedium
+                                                                            .fontStyle,
+                                                                      ),
                                                                       fontSize:
                                                                           16.0,
                                                                       letterSpacing:
@@ -484,6 +518,10 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                                       fontWeight:
                                                                           FontWeight
                                                                               .w600,
+                                                                      fontStyle: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .bodyMedium
+                                                                          .fontStyle,
                                                                       lineHeight:
                                                                           1.5,
                                                                     ),
@@ -543,8 +581,11 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                                     .jsonBody,
                                                               )
                                                               ?.where((e) =>
-                                                                  e.parentCategory ==
-                                                                  _model.entity)
+                                                                  (e.parentCategory ==
+                                                                      _model
+                                                                          .entity) &&
+                                                                  (e.categoryHidden ==
+                                                                      '0'))
                                                               .toList()
                                                               .toList() ??
                                                           [];
@@ -554,7 +595,7 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                             EdgeInsets.zero,
                                                         gridDelegate:
                                                             SliverGridDelegateWithFixedCrossAxisCount(
-                                                          crossAxisCount: 5,
+                                                          crossAxisCount: 4,
                                                           crossAxisSpacing:
                                                               14.0,
                                                           mainAxisSpacing: 14.0,
@@ -608,56 +649,53 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                                   width: 1.0,
                                                                 ),
                                                               ),
-                                                              child: Padding(
-                                                                padding: EdgeInsetsDirectional
-                                                                    .fromSTEB(
-                                                                        16.0,
-                                                                        16.0,
-                                                                        16.0,
-                                                                        10.0),
-                                                                child: Column(
-                                                                  mainAxisSize:
-                                                                      MainAxisSize
-                                                                          .max,
-                                                                  mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .spaceBetween,
-                                                                  crossAxisAlignment:
-                                                                      CrossAxisAlignment
-                                                                          .start,
-                                                                  children: [
-                                                                    Align(
-                                                                      alignment: AlignmentDirectional(
-                                                                          -1.0,
-                                                                          -1.0),
+                                                              child: Column(
+                                                                mainAxisSize:
+                                                                    MainAxisSize
+                                                                        .max,
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .spaceBetween,
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                children: [
+                                                                  Expanded(
+                                                                    child:
+                                                                        Padding(
+                                                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                                                          6.0,
+                                                                          6.0,
+                                                                          6.0,
+                                                                          0.0),
                                                                       child:
-                                                                          Container(
-                                                                        width:
-                                                                            45.0,
-                                                                        height:
-                                                                            45.0,
-                                                                        decoration:
-                                                                            BoxDecoration(
-                                                                          color:
-                                                                              FlutterFlowTheme.of(context).primary,
-                                                                          borderRadius:
-                                                                              BorderRadius.circular(100.0),
-                                                                        ),
-                                                                        alignment: AlignmentDirectional(
-                                                                            0.0,
-                                                                            0.0),
+                                                                          ClipRRect(
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(8.0),
                                                                         child:
-                                                                            Icon(
-                                                                          FFIcons
-                                                                              .kcoffeeBean1,
-                                                                          color:
-                                                                              FlutterFlowTheme.of(context).secondaryBackground,
-                                                                          size:
-                                                                              24.0,
+                                                                            CachedNetworkImage(
+                                                                          fadeInDuration:
+                                                                              Duration(milliseconds: 500),
+                                                                          fadeOutDuration:
+                                                                              Duration(milliseconds: 500),
+                                                                          imageUrl:
+                                                                              '${FFAppConstants.BaseURL}${subcategoryItem.categoryPhoto}',
+                                                                          width:
+                                                                              double.infinity,
+                                                                          fit: BoxFit
+                                                                              .cover,
                                                                         ),
                                                                       ),
                                                                     ),
-                                                                    Text(
+                                                                  ),
+                                                                  Padding(
+                                                                    padding: EdgeInsetsDirectional
+                                                                        .fromSTEB(
+                                                                            16.0,
+                                                                            10.0,
+                                                                            16.0,
+                                                                            10.0),
+                                                                    child: Text(
                                                                       subcategoryItem
                                                                           .categoryName,
                                                                       textAlign:
@@ -667,20 +705,25 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                                               context)
                                                                           .bodyMedium
                                                                           .override(
-                                                                            fontFamily:
-                                                                                'Montserrat',
+                                                                            font:
+                                                                                GoogleFonts.montserrat(
+                                                                              fontWeight: FontWeight.w600,
+                                                                              fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                            ),
                                                                             fontSize:
                                                                                 16.0,
                                                                             letterSpacing:
                                                                                 0.0,
                                                                             fontWeight:
                                                                                 FontWeight.w600,
+                                                                            fontStyle:
+                                                                                FlutterFlowTheme.of(context).bodyMedium.fontStyle,
                                                                             lineHeight:
                                                                                 1.5,
                                                                           ),
                                                                     ),
-                                                                  ],
-                                                                ),
+                                                                  ),
+                                                                ],
                                                               ),
                                                             ),
                                                           );
@@ -746,7 +789,7 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                       padding: EdgeInsets.zero,
                                                       gridDelegate:
                                                           SliverGridDelegateWithFixedCrossAxisCount(
-                                                        crossAxisCount: 4,
+                                                        crossAxisCount: 3,
                                                         crossAxisSpacing: 14.0,
                                                         mainAxisSpacing: 14.0,
                                                         childAspectRatio: 1.02,
@@ -870,10 +913,10 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                                             Duration(milliseconds: 500),
                                                                         imageUrl:
                                                                             '${FFAppConstants.BaseURL}${productItem.photo}',
-                                                                        width:
-                                                                            200.0,
+                                                                        width: double
+                                                                            .infinity,
                                                                         height:
-                                                                            125.0,
+                                                                            199.0,
                                                                         fit: BoxFit
                                                                             .fitHeight,
                                                                         alignment: Alignment(
@@ -901,15 +944,19 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                                               [
                                                                             Text(
                                                                               productItem.productName.maybeHandleOverflow(
-                                                                                maxChars: 21,
+                                                                                maxChars: 35,
                                                                                 replacement: '…',
                                                                               ),
                                                                               maxLines: 1,
                                                                               style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                                                    fontFamily: 'Montserrat',
+                                                                                    font: GoogleFonts.montserrat(
+                                                                                      fontWeight: FontWeight.w600,
+                                                                                      fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                                    ),
                                                                                     fontSize: 15.0,
                                                                                     letterSpacing: 0.0,
                                                                                     fontWeight: FontWeight.w600,
+                                                                                    fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
                                                                                   ),
                                                                             ),
                                                                             Row(
@@ -919,11 +966,15 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                                                 Text(
                                                                                   'Desde',
                                                                                   style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                                                        fontFamily: 'Montserrat',
+                                                                                        font: GoogleFonts.montserrat(
+                                                                                          fontWeight: FontWeight.normal,
+                                                                                          fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                                        ),
                                                                                         color: FlutterFlowTheme.of(context).secondaryText,
                                                                                         fontSize: 12.0,
                                                                                         letterSpacing: 0.0,
                                                                                         fontWeight: FontWeight.normal,
+                                                                                        fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
                                                                                       ),
                                                                                 ),
                                                                                 Text(
@@ -934,16 +985,20 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                                                       ),
                                                                                       0.0),
                                                                                   style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                                                        fontFamily: 'Montserrat',
+                                                                                        font: GoogleFonts.montserrat(
+                                                                                          fontWeight: FontWeight.w600,
+                                                                                          fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                                        ),
                                                                                         color: FlutterFlowTheme.of(context).primary,
                                                                                         fontSize: 14.0,
                                                                                         letterSpacing: 0.0,
                                                                                         fontWeight: FontWeight.w600,
+                                                                                        fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
                                                                                       ),
                                                                                 ),
                                                                               ].divide(SizedBox(width: 4.0)),
                                                                             ),
-                                                                          ].divide(SizedBox(height: 6.0)),
+                                                                          ].divide(SizedBox(height: 3.0)),
                                                                         ),
                                                                       ),
                                                                     ),
@@ -1014,10 +1069,20 @@ class _OrderWidgetState extends State<OrderWidget> {
                                     style: FlutterFlowTheme.of(context)
                                         .bodyMedium
                                         .override(
-                                          fontFamily: 'Montserrat',
+                                          font: GoogleFonts.montserrat(
+                                            fontWeight: FontWeight.w600,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontStyle,
+                                          ),
                                           fontSize: 20.0,
                                           letterSpacing: 0.0,
                                           fontWeight: FontWeight.w600,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontStyle,
                                         ),
                                   ),
                                 ),
@@ -1114,8 +1179,14 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                                         context)
                                                                     .bodyMedium
                                                                     .override(
-                                                                      fontFamily:
-                                                                          'Montserrat',
+                                                                      font: GoogleFonts
+                                                                          .montserrat(
+                                                                        fontWeight:
+                                                                            FontWeight.w600,
+                                                                        fontStyle: FlutterFlowTheme.of(context)
+                                                                            .bodyMedium
+                                                                            .fontStyle,
+                                                                      ),
                                                                       fontSize:
                                                                           16.0,
                                                                       letterSpacing:
@@ -1123,6 +1194,10 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                                       fontWeight:
                                                                           FontWeight
                                                                               .w600,
+                                                                      fontStyle: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .bodyMedium
+                                                                          .fontStyle,
                                                                     ),
                                                               ),
                                                               Builder(
@@ -1178,22 +1253,30 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                                               Text(
                                                                                 modificatorsItem.name,
                                                                                 style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                                                      fontFamily: 'Montserrat',
+                                                                                      font: GoogleFonts.montserrat(
+                                                                                        fontWeight: FontWeight.w500,
+                                                                                        fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                                      ),
                                                                                       color: FlutterFlowTheme.of(context).secondaryText,
                                                                                       fontSize: 12.0,
                                                                                       letterSpacing: 0.0,
                                                                                       fontWeight: FontWeight.w500,
+                                                                                      fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
                                                                                     ),
                                                                               ),
                                                                               if (modificatorsItem.price != 0.0)
                                                                                 Text(
                                                                                   '+ \$${modificatorsItem.price.toString()}',
                                                                                   style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                                                        fontFamily: 'Montserrat',
+                                                                                        font: GoogleFonts.montserrat(
+                                                                                          fontWeight: FontWeight.w600,
+                                                                                          fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                                        ),
                                                                                         color: FlutterFlowTheme.of(context).secondaryText,
                                                                                         fontSize: 12.0,
                                                                                         letterSpacing: 0.0,
                                                                                         fontWeight: FontWeight.w600,
+                                                                                        fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
                                                                                       ),
                                                                                 ),
                                                                             ].divide(SizedBox(width: 6.0)),
@@ -1359,14 +1442,26 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                                   .of(context)
                                                               .bodyMedium
                                                               .override(
-                                                                fontFamily:
-                                                                    'Montserrat',
+                                                                font: GoogleFonts
+                                                                    .montserrat(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600,
+                                                                  fontStyle: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .fontStyle,
+                                                                ),
                                                                 fontSize: 16.0,
                                                                 letterSpacing:
                                                                     0.0,
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .w600,
+                                                                fontStyle: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontStyle,
                                                               ),
                                                         ),
                                                         Text(
@@ -1378,8 +1473,16 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                                   .of(context)
                                                               .bodyMedium
                                                               .override(
-                                                                fontFamily:
-                                                                    'Montserrat',
+                                                                font: GoogleFonts
+                                                                    .montserrat(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600,
+                                                                  fontStyle: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .fontStyle,
+                                                                ),
                                                                 color: FlutterFlowTheme.of(
                                                                         context)
                                                                     .primary,
@@ -1389,6 +1492,10 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .w600,
+                                                                fontStyle: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontStyle,
                                                               ),
                                                         ),
                                                       ],
@@ -1408,97 +1515,187 @@ class _OrderWidgetState extends State<OrderWidget> {
                             ),
                             Padding(
                               padding: EdgeInsetsDirectional.fromSTEB(
-                                  0.0, 10.0, 0.0, 16.0),
-                              child: Container(
-                                width: double.infinity,
-                                child: TextFormField(
-                                  controller: _model.nameTextController,
-                                  focusNode: _model.nameFocusNode,
-                                  onChanged: (_) => EasyDebounce.debounce(
-                                    '_model.nameTextController',
-                                    Duration(milliseconds: 500),
-                                    () => safeSetState(() {}),
-                                  ),
-                                  autofocus: false,
-                                  textCapitalization: TextCapitalization.none,
-                                  obscureText: false,
-                                  decoration: InputDecoration(
-                                    isDense: true,
-                                    labelStyle: FlutterFlowTheme.of(context)
-                                        .labelMedium
+                                  0.0, 12.0, 0.0, 16.0),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.max,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Ingresa tu nombre\npara continuar con tu pedido:',
+                                    style: FlutterFlowTheme.of(context)
+                                        .bodyMedium
                                         .override(
-                                          fontFamily: 'Montserrat',
+                                          font: GoogleFonts.montserrat(
+                                            fontWeight: FontWeight.w600,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontStyle,
+                                          ),
+                                          fontSize: 17.0,
                                           letterSpacing: 0.0,
-                                        ),
-                                    hintText: 'Ingresa tu Nombre',
-                                    hintStyle: FlutterFlowTheme.of(context)
-                                        .labelMedium
-                                        .override(
-                                          fontFamily: 'Montserrat',
-                                          color: Color(0xA657636C),
-                                          fontSize: 16.0,
-                                          letterSpacing: 0.0,
+                                          fontWeight: FontWeight.w600,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontStyle,
                                           lineHeight: 1.5,
                                         ),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: FlutterFlowTheme.of(context)
-                                            .accent4,
-                                        width: 1.0,
+                                  ),
+                                  Container(
+                                    width: double.infinity,
+                                    child: TextFormField(
+                                      controller: _model.nameTextController,
+                                      focusNode: _model.nameFocusNode,
+                                      onChanged: (_) => EasyDebounce.debounce(
+                                        '_model.nameTextController',
+                                        Duration(milliseconds: 500),
+                                        () => safeSetState(() {}),
                                       ),
-                                      borderRadius: BorderRadius.circular(8.0),
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: FlutterFlowTheme.of(context)
-                                            .primary,
-                                        width: 1.0,
+                                      autofocus: false,
+                                      textCapitalization:
+                                          TextCapitalization.none,
+                                      obscureText: false,
+                                      decoration: InputDecoration(
+                                        isDense: true,
+                                        labelStyle: FlutterFlowTheme.of(context)
+                                            .labelMedium
+                                            .override(
+                                              font: GoogleFonts.montserrat(
+                                                fontWeight:
+                                                    FlutterFlowTheme.of(context)
+                                                        .labelMedium
+                                                        .fontWeight,
+                                                fontStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .labelMedium
+                                                        .fontStyle,
+                                              ),
+                                              letterSpacing: 0.0,
+                                              fontWeight:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMedium
+                                                      .fontWeight,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMedium
+                                                      .fontStyle,
+                                            ),
+                                        hintText: 'Ingresa tu Nombre',
+                                        hintStyle: FlutterFlowTheme.of(context)
+                                            .labelMedium
+                                            .override(
+                                              font: GoogleFonts.montserrat(
+                                                fontWeight:
+                                                    FlutterFlowTheme.of(context)
+                                                        .labelMedium
+                                                        .fontWeight,
+                                                fontStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .labelMedium
+                                                        .fontStyle,
+                                              ),
+                                              color: Color(0xA657636C),
+                                              fontSize: 16.0,
+                                              letterSpacing: 0.0,
+                                              fontWeight:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMedium
+                                                      .fontWeight,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMedium
+                                                      .fontStyle,
+                                              lineHeight: 1.5,
+                                            ),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: FlutterFlowTheme.of(context)
+                                                .accent4,
+                                            width: 1.0,
+                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(8.0),
+                                        ),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: FlutterFlowTheme.of(context)
+                                                .primary,
+                                            width: 1.0,
+                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(8.0),
+                                        ),
+                                        errorBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: FlutterFlowTheme.of(context)
+                                                .error,
+                                            width: 1.0,
+                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(8.0),
+                                        ),
+                                        focusedErrorBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: FlutterFlowTheme.of(context)
+                                                .error,
+                                            width: 1.0,
+                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(8.0),
+                                        ),
+                                        filled: true,
+                                        fillColor: FlutterFlowTheme.of(context)
+                                            .secondaryBackground,
+                                        contentPadding:
+                                            EdgeInsetsDirectional.fromSTEB(
+                                                16.0, 16.0, 16.0, 16.0),
+                                        prefixIcon: Icon(
+                                          FFIcons.kuser,
+                                          color: FlutterFlowTheme.of(context)
+                                              .secondaryText,
+                                          size: 20.0,
+                                        ),
                                       ),
-                                      borderRadius: BorderRadius.circular(8.0),
-                                    ),
-                                    errorBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color:
-                                            FlutterFlowTheme.of(context).error,
-                                        width: 1.0,
-                                      ),
-                                      borderRadius: BorderRadius.circular(8.0),
-                                    ),
-                                    focusedErrorBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color:
-                                            FlutterFlowTheme.of(context).error,
-                                        width: 1.0,
-                                      ),
-                                      borderRadius: BorderRadius.circular(8.0),
-                                    ),
-                                    filled: true,
-                                    fillColor: FlutterFlowTheme.of(context)
-                                        .secondaryBackground,
-                                    contentPadding:
-                                        EdgeInsetsDirectional.fromSTEB(
-                                            16.0, 16.0, 16.0, 16.0),
-                                    prefixIcon: Icon(
-                                      FFIcons.kuser,
-                                      color: FlutterFlowTheme.of(context)
-                                          .secondaryText,
-                                      size: 20.0,
+                                      style: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .override(
+                                            font: GoogleFonts.montserrat(
+                                              fontWeight: FontWeight.w600,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMedium
+                                                      .fontStyle,
+                                            ),
+                                            fontSize: 16.0,
+                                            letterSpacing: 0.0,
+                                            fontWeight: FontWeight.w600,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontStyle,
+                                            lineHeight: 1.5,
+                                          ),
+                                      cursorColor: FlutterFlowTheme.of(context)
+                                          .primaryText,
+                                      validator: _model
+                                          .nameTextControllerValidator
+                                          .asValidator(context),
+                                      inputFormatters: [
+                                        if (!isAndroid && !isiOS)
+                                          TextInputFormatter.withFunction(
+                                              (oldValue, newValue) {
+                                            return TextEditingValue(
+                                              selection: newValue.selection,
+                                              text: newValue.text
+                                                  .toCapitalization(
+                                                      TextCapitalization.none),
+                                            );
+                                          }),
+                                      ],
                                     ),
                                   ),
-                                  style: FlutterFlowTheme.of(context)
-                                      .bodyMedium
-                                      .override(
-                                        fontFamily: 'Montserrat',
-                                        fontSize: 16.0,
-                                        letterSpacing: 0.0,
-                                        fontWeight: FontWeight.w600,
-                                        lineHeight: 1.5,
-                                      ),
-                                  cursorColor:
-                                      FlutterFlowTheme.of(context).primaryText,
-                                  validator: _model.nameTextControllerValidator
-                                      .asValidator(context),
-                                ),
+                                ].divide(SizedBox(height: 8.0)),
                               ),
                             ),
                             Container(
@@ -1528,10 +1725,21 @@ class _OrderWidgetState extends State<OrderWidget> {
                                           style: FlutterFlowTheme.of(context)
                                               .bodyMedium
                                               .override(
-                                                fontFamily: 'Montserrat',
+                                                font: GoogleFonts.montserrat(
+                                                  fontWeight: FontWeight.w500,
+                                                  fontStyle:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .bodyMedium
+                                                          .fontStyle,
+                                                ),
                                                 fontSize: 16.0,
                                                 letterSpacing: 0.0,
                                                 fontWeight: FontWeight.w500,
+                                                fontStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .fontStyle,
                                               ),
                                         ),
                                         Text(
@@ -1548,10 +1756,21 @@ class _OrderWidgetState extends State<OrderWidget> {
                                           style: FlutterFlowTheme.of(context)
                                               .bodyMedium
                                               .override(
-                                                fontFamily: 'Montserrat',
+                                                font: GoogleFonts.montserrat(
+                                                  fontWeight: FontWeight.w500,
+                                                  fontStyle:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .bodyMedium
+                                                          .fontStyle,
+                                                ),
                                                 fontSize: 16.0,
                                                 letterSpacing: 0.0,
                                                 fontWeight: FontWeight.w500,
+                                                fontStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .fontStyle,
                                               ),
                                         ),
                                       ],
@@ -1570,10 +1789,21 @@ class _OrderWidgetState extends State<OrderWidget> {
                                           style: FlutterFlowTheme.of(context)
                                               .bodyMedium
                                               .override(
-                                                fontFamily: 'Montserrat',
+                                                font: GoogleFonts.montserrat(
+                                                  fontWeight: FontWeight.w500,
+                                                  fontStyle:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .bodyMedium
+                                                          .fontStyle,
+                                                ),
                                                 fontSize: 16.0,
                                                 letterSpacing: 0.0,
                                                 fontWeight: FontWeight.w500,
+                                                fontStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .fontStyle,
                                               ),
                                         ),
                                         Text(
@@ -1592,10 +1822,21 @@ class _OrderWidgetState extends State<OrderWidget> {
                                           style: FlutterFlowTheme.of(context)
                                               .bodyMedium
                                               .override(
-                                                fontFamily: 'Montserrat',
+                                                font: GoogleFonts.montserrat(
+                                                  fontWeight: FontWeight.w500,
+                                                  fontStyle:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .bodyMedium
+                                                          .fontStyle,
+                                                ),
                                                 fontSize: 16.0,
                                                 letterSpacing: 0.0,
                                                 fontWeight: FontWeight.w500,
+                                                fontStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .fontStyle,
                                               ),
                                         ),
                                       ],
@@ -1619,10 +1860,21 @@ class _OrderWidgetState extends State<OrderWidget> {
                                           style: FlutterFlowTheme.of(context)
                                               .bodyMedium
                                               .override(
-                                                fontFamily: 'Montserrat',
+                                                font: GoogleFonts.montserrat(
+                                                  fontWeight: FontWeight.w600,
+                                                  fontStyle:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .bodyMedium
+                                                          .fontStyle,
+                                                ),
                                                 fontSize: 22.0,
                                                 letterSpacing: 0.0,
                                                 fontWeight: FontWeight.w600,
+                                                fontStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .fontStyle,
                                               ),
                                         ),
                                         Text(
@@ -1641,10 +1893,21 @@ class _OrderWidgetState extends State<OrderWidget> {
                                           style: FlutterFlowTheme.of(context)
                                               .bodyMedium
                                               .override(
-                                                fontFamily: 'Montserrat',
+                                                font: GoogleFonts.montserrat(
+                                                  fontWeight: FontWeight.w600,
+                                                  fontStyle:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .bodyMedium
+                                                          .fontStyle,
+                                                ),
                                                 fontSize: 22.0,
                                                 letterSpacing: 0.0,
                                                 fontWeight: FontWeight.w600,
+                                                fontStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .fontStyle,
                                               ),
                                         ),
                                       ],
@@ -1740,25 +2003,6 @@ class _OrderWidgetState extends State<OrderWidget> {
                                               );
                                               _shouldSetState = true;
                                             } else {
-                                              await showDialog(
-                                                context: context,
-                                                builder: (alertDialogContext) {
-                                                  return AlertDialog(
-                                                    title: Text(
-                                                        'Ocurrió un error inesperado'),
-                                                    content: Text(
-                                                        'Parece que hay un error de servidor. Por favor, intenta nuevamente o notifícale a nuestro barista de este error.'),
-                                                    actions: [
-                                                      TextButton(
-                                                        onPressed: () =>
-                                                            Navigator.pop(
-                                                                alertDialogContext),
-                                                        child: Text('Aceptar'),
-                                                      ),
-                                                    ],
-                                                  );
-                                                },
-                                              );
                                               if (_shouldSetState)
                                                 safeSetState(() {});
                                               return;
@@ -1922,16 +2166,10 @@ class _OrderWidgetState extends State<OrderWidget> {
                                           _model.tokenOutput =
                                               await ZettleAuthGroup.getTokenCall
                                                   .call();
-                                          print("token----");
-                                          print(ZettleAuthGroup.getTokenCall
-                                                .token(
-                                              (_model.tokenOutput?.jsonBody ??
-                                                  ''),
-                                          ));
 
                                           _shouldSetState = true;
-                                          // await Future.delayed(const Duration(
-                                          //     milliseconds: 10000));
+                                          await Future.delayed(const Duration(
+                                              milliseconds: 2000));
                                           _model.purchasesOutput =
                                               await ZettlePurchaseGroup
                                                   .getPurchasesCall
@@ -1942,9 +2180,6 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                   ''),
                                             ),
                                           );
-
-                                          print(_model.purchasesOutput
-                                                            ?.jsonBody);
 
                                           _shouldSetState = true;
                                           if (ZettlePurchaseGroup
@@ -2111,27 +2346,6 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                 );
                                                 _shouldSetState = true;
                                               } else {
-                                                await showDialog(
-                                                  context: context,
-                                                  builder:
-                                                      (alertDialogContext) {
-                                                    return AlertDialog(
-                                                      title: Text(
-                                                          'Ocurrió un error inesperado'),
-                                                      content: Text(
-                                                          'Parece que hay un error de servidor. Por favor, intenta nuevamente o notifícale a nuestro barista de este error.'),
-                                                      actions: [
-                                                        TextButton(
-                                                          onPressed: () =>
-                                                              Navigator.pop(
-                                                                  alertDialogContext),
-                                                          child:
-                                                              Text('Aceptar'),
-                                                        ),
-                                                      ],
-                                                    );
-                                                  },
-                                                );
                                                 if (_shouldSetState)
                                                   safeSetState(() {});
                                                 return;
@@ -2202,6 +2416,26 @@ class _OrderWidgetState extends State<OrderWidget> {
                                             if (_shouldSetState)
                                               safeSetState(() {});
                                             return;
+                                          } else {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              SnackBar(
+                                                content: Text(
+                                                  'La pasarela de pago no devolvió ninguna referencia. Por favor, coméntale a tu barista de este error.',
+                                                  style: TextStyle(
+                                                    color: FlutterFlowTheme.of(
+                                                            context)
+                                                        .secondaryBackground,
+                                                    fontSize: 11.0,
+                                                  ),
+                                                ),
+                                                duration: Duration(
+                                                    milliseconds: 4000),
+                                                backgroundColor:
+                                                    FlutterFlowTheme.of(context)
+                                                        .error,
+                                              ),
+                                            );
                                           }
                                         }
 
@@ -2225,9 +2459,24 @@ class _OrderWidgetState extends State<OrderWidget> {
                                   textStyle: FlutterFlowTheme.of(context)
                                       .titleSmall
                                       .override(
-                                        fontFamily: 'Montserrat',
+                                        font: GoogleFonts.montserrat(
+                                          fontWeight:
+                                              FlutterFlowTheme.of(context)
+                                                  .titleSmall
+                                                  .fontWeight,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .titleSmall
+                                                  .fontStyle,
+                                        ),
                                         color: Colors.white,
                                         letterSpacing: 0.0,
+                                        fontWeight: FlutterFlowTheme.of(context)
+                                            .titleSmall
+                                            .fontWeight,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .titleSmall
+                                            .fontStyle,
                                       ),
                                   elevation: 0.0,
                                   borderRadius: BorderRadius.circular(8.0),
@@ -2267,7 +2516,7 @@ class _OrderWidgetState extends State<OrderWidget> {
                                       false;
                                   if (confirmDialogResponse) {
                                     context.pushNamed(
-                                      GuestOrderWidget.routeName,
+                                      WelcomeWidget.routeName,
                                       extra: <String, dynamic>{
                                         kTransitionInfoKey: TransitionInfo(
                                           hasTransition: true,
@@ -2297,11 +2546,20 @@ class _OrderWidgetState extends State<OrderWidget> {
                                   textStyle: FlutterFlowTheme.of(context)
                                       .titleSmall
                                       .override(
-                                        fontFamily: 'Montserrat',
+                                        font: GoogleFonts.montserrat(
+                                          fontWeight: FontWeight.w500,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .titleSmall
+                                                  .fontStyle,
+                                        ),
                                         color: FlutterFlowTheme.of(context)
                                             .primaryText,
                                         letterSpacing: 0.0,
                                         fontWeight: FontWeight.w500,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .titleSmall
+                                            .fontStyle,
                                       ),
                                   elevation: 0.0,
                                   borderSide: BorderSide(

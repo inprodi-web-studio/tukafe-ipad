@@ -17,6 +17,7 @@ class OrderProductStruct extends BaseStruct {
     String? photo,
     bool? isFree,
     double? price,
+    String? nodiscount,
   })  : _count = count,
         _comment = comment,
         _modification = modification,
@@ -27,7 +28,8 @@ class OrderProductStruct extends BaseStruct {
         _categoryId = categoryId,
         _photo = photo,
         _isFree = isFree,
-        _price = price;
+        _price = price,
+        _nodiscount = nodiscount;
 
   // "count" field.
   int? _count;
@@ -120,6 +122,13 @@ class OrderProductStruct extends BaseStruct {
 
   bool hasPrice() => _price != null;
 
+  // "nodiscount" field.
+  String? _nodiscount;
+  String get nodiscount => _nodiscount ?? '';
+  set nodiscount(String? val) => _nodiscount = val;
+
+  bool hasNodiscount() => _nodiscount != null;
+
   static OrderProductStruct fromMap(Map<String, dynamic> data) =>
       OrderProductStruct(
         count: castToType<int>(data['count']),
@@ -136,6 +145,7 @@ class OrderProductStruct extends BaseStruct {
         photo: data['photo'] as String?,
         isFree: data['isFree'] as bool?,
         price: castToType<double>(data['price']),
+        nodiscount: data['nodiscount'] as String?,
       );
 
   static OrderProductStruct? maybeFromMap(dynamic data) => data is Map
@@ -154,6 +164,7 @@ class OrderProductStruct extends BaseStruct {
         'photo': _photo,
         'isFree': _isFree,
         'price': _price,
+        'nodiscount': _nodiscount,
       }.withoutNulls;
 
   @override
@@ -202,6 +213,10 @@ class OrderProductStruct extends BaseStruct {
         'price': serializeParam(
           _price,
           ParamType.double,
+        ),
+        'nodiscount': serializeParam(
+          _nodiscount,
+          ParamType.String,
         ),
       }.withoutNulls;
 
@@ -263,6 +278,11 @@ class OrderProductStruct extends BaseStruct {
           ParamType.double,
           false,
         ),
+        nodiscount: deserializeParam(
+          data['nodiscount'],
+          ParamType.String,
+          false,
+        ),
       );
 
   @override
@@ -282,7 +302,8 @@ class OrderProductStruct extends BaseStruct {
         categoryId == other.categoryId &&
         photo == other.photo &&
         isFree == other.isFree &&
-        price == other.price;
+        price == other.price &&
+        nodiscount == other.nodiscount;
   }
 
   @override
@@ -297,7 +318,8 @@ class OrderProductStruct extends BaseStruct {
         categoryId,
         photo,
         isFree,
-        price
+        price,
+        nodiscount
       ]);
 }
 
@@ -312,6 +334,7 @@ OrderProductStruct createOrderProductStruct({
   String? photo,
   bool? isFree,
   double? price,
+  String? nodiscount,
 }) =>
     OrderProductStruct(
       count: count,
@@ -324,4 +347,5 @@ OrderProductStruct createOrderProductStruct({
       photo: photo,
       isFree: isFree,
       price: price,
+      nodiscount: nodiscount,
     );

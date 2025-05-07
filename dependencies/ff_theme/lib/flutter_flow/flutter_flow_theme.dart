@@ -160,106 +160,91 @@ class ThemeTypography extends Typography {
   final FlutterFlowTheme theme;
 
   String get displayLargeFamily => 'Montserrat';
-  TextStyle get displayLarge => GoogleFonts.getFont(
-        'Montserrat',
+  TextStyle get displayLarge => GoogleFonts.montserrat(
         color: theme.primaryText,
         fontWeight: FontWeight.w600,
         fontSize: 64.0,
       );
   String get displayMediumFamily => 'Montserrat';
-  TextStyle get displayMedium => GoogleFonts.getFont(
-        'Montserrat',
+  TextStyle get displayMedium => GoogleFonts.montserrat(
         color: theme.primaryText,
         fontWeight: FontWeight.w600,
         fontSize: 44.0,
       );
   String get displaySmallFamily => 'Montserrat';
-  TextStyle get displaySmall => GoogleFonts.getFont(
-        'Montserrat',
+  TextStyle get displaySmall => GoogleFonts.montserrat(
         color: theme.primaryText,
         fontWeight: FontWeight.w600,
         fontSize: 36.0,
       );
   String get headlineLargeFamily => 'Montserrat';
-  TextStyle get headlineLarge => GoogleFonts.getFont(
-        'Montserrat',
+  TextStyle get headlineLarge => GoogleFonts.montserrat(
         color: theme.primaryText,
         fontWeight: FontWeight.w600,
         fontSize: 32.0,
       );
   String get headlineMediumFamily => 'Montserrat';
-  TextStyle get headlineMedium => GoogleFonts.getFont(
-        'Montserrat',
+  TextStyle get headlineMedium => GoogleFonts.montserrat(
         color: theme.primaryText,
         fontWeight: FontWeight.w600,
         fontSize: 28.0,
       );
   String get headlineSmallFamily => 'Montserrat';
-  TextStyle get headlineSmall => GoogleFonts.getFont(
-        'Montserrat',
+  TextStyle get headlineSmall => GoogleFonts.montserrat(
         color: theme.primaryText,
         fontWeight: FontWeight.w600,
         fontSize: 24.0,
       );
   String get titleLargeFamily => 'Montserrat';
-  TextStyle get titleLarge => GoogleFonts.getFont(
-        'Montserrat',
+  TextStyle get titleLarge => GoogleFonts.montserrat(
         color: theme.primaryText,
         fontWeight: FontWeight.w600,
         fontSize: 20.0,
       );
   String get titleMediumFamily => 'Montserrat';
-  TextStyle get titleMedium => GoogleFonts.getFont(
-        'Montserrat',
+  TextStyle get titleMedium => GoogleFonts.montserrat(
         color: theme.primaryText,
         fontWeight: FontWeight.w600,
         fontSize: 18.0,
       );
   String get titleSmallFamily => 'Montserrat';
-  TextStyle get titleSmall => GoogleFonts.getFont(
-        'Montserrat',
+  TextStyle get titleSmall => GoogleFonts.montserrat(
         color: theme.primaryText,
         fontWeight: FontWeight.w600,
         fontSize: 16.0,
       );
   String get labelLargeFamily => 'Montserrat';
-  TextStyle get labelLarge => GoogleFonts.getFont(
-        'Montserrat',
+  TextStyle get labelLarge => GoogleFonts.montserrat(
         color: theme.secondaryText,
         fontWeight: FontWeight.normal,
         fontSize: 16.0,
       );
   String get labelMediumFamily => 'Montserrat';
-  TextStyle get labelMedium => GoogleFonts.getFont(
-        'Montserrat',
+  TextStyle get labelMedium => GoogleFonts.montserrat(
         color: theme.secondaryText,
         fontWeight: FontWeight.normal,
         fontSize: 14.0,
       );
   String get labelSmallFamily => 'Montserrat';
-  TextStyle get labelSmall => GoogleFonts.getFont(
-        'Montserrat',
+  TextStyle get labelSmall => GoogleFonts.montserrat(
         color: theme.secondaryText,
         fontWeight: FontWeight.normal,
         fontSize: 12.0,
       );
   String get bodyLargeFamily => 'Montserrat';
-  TextStyle get bodyLarge => GoogleFonts.getFont(
-        'Montserrat',
+  TextStyle get bodyLarge => GoogleFonts.montserrat(
         color: theme.primaryText,
         fontWeight: FontWeight.normal,
         fontSize: 16.0,
       );
   String get bodyMediumFamily => 'Montserrat';
-  TextStyle get bodyMedium => GoogleFonts.getFont(
-        'Montserrat',
+  TextStyle get bodyMedium => GoogleFonts.montserrat(
         color: theme.primaryText,
         fontWeight: FontWeight.normal,
         fontSize: 14.0,
       );
   String get bodySmallFamily => 'Montserrat';
-  TextStyle get bodySmall => GoogleFonts.getFont(
-        'Montserrat',
+  TextStyle get bodySmall => GoogleFonts.montserrat(
         color: theme.primaryText,
         fontWeight: FontWeight.normal,
         fontSize: 12.0,
@@ -268,38 +253,47 @@ class ThemeTypography extends Typography {
 
 extension TextStyleHelper on TextStyle {
   TextStyle override({
+    TextStyle? font,
     String? fontFamily,
     Color? color,
     double? fontSize,
     FontWeight? fontWeight,
     double? letterSpacing,
     FontStyle? fontStyle,
-    bool useGoogleFonts = true,
+    bool useGoogleFonts = false,
     TextDecoration? decoration,
     double? lineHeight,
     List<Shadow>? shadows,
-  }) =>
-      useGoogleFonts
-          ? GoogleFonts.getFont(
-              fontFamily!,
-              color: color ?? this.color,
-              fontSize: fontSize ?? this.fontSize,
-              letterSpacing: letterSpacing ?? this.letterSpacing,
-              fontWeight: fontWeight ?? this.fontWeight,
-              fontStyle: fontStyle ?? this.fontStyle,
-              decoration: decoration,
-              height: lineHeight,
-              shadows: shadows,
-            )
-          : copyWith(
-              fontFamily: fontFamily,
-              color: color,
-              fontSize: fontSize,
-              letterSpacing: letterSpacing,
-              fontWeight: fontWeight,
-              fontStyle: fontStyle,
-              decoration: decoration,
-              height: lineHeight,
-              shadows: shadows,
-            );
+    String? package,
+  }) {
+    if (useGoogleFonts && fontFamily != null) {
+      font = GoogleFonts.getFont(fontFamily,
+          fontWeight: fontWeight ?? this.fontWeight,
+          fontStyle: fontStyle ?? this.fontStyle);
+    }
+
+    return font != null
+        ? font.copyWith(
+            color: color ?? this.color,
+            fontSize: fontSize ?? this.fontSize,
+            letterSpacing: letterSpacing ?? this.letterSpacing,
+            fontWeight: fontWeight ?? this.fontWeight,
+            fontStyle: fontStyle ?? this.fontStyle,
+            decoration: decoration,
+            height: lineHeight,
+            shadows: shadows,
+          )
+        : copyWith(
+            fontFamily: fontFamily,
+            package: package,
+            color: color,
+            fontSize: fontSize,
+            letterSpacing: letterSpacing,
+            fontWeight: fontWeight,
+            fontStyle: fontStyle,
+            decoration: decoration,
+            height: lineHeight,
+            shadows: shadows,
+          );
+  }
 }

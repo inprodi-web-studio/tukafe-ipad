@@ -1,11 +1,12 @@
-import '';
 import '/backend/api_requests/api_calls.dart';
 import '/components/product_configuration_dialog_widget.dart';
-import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/custom_functions.dart' as functions;
+import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'reward_select_dialog_model.dart';
 export 'reward_select_dialog_model.dart';
@@ -60,10 +61,16 @@ class _RewardSelectDialogWidgetState extends State<RewardSelectDialogWidget> {
               'Selecciona una de tus últimas bebidas',
               textAlign: TextAlign.center,
               style: FlutterFlowTheme.of(context).bodyMedium.override(
-                    fontFamily: 'Montserrat',
+                    font: GoogleFonts.montserrat(
+                      fontWeight: FontWeight.w600,
+                      fontStyle:
+                          FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                    ),
                     fontSize: 24.0,
                     letterSpacing: 0.0,
                     fontWeight: FontWeight.w600,
+                    fontStyle:
+                        FlutterFlowTheme.of(context).bodyMedium.fontStyle,
                     lineHeight: 1.5,
                   ),
             ),
@@ -73,11 +80,17 @@ class _RewardSelectDialogWidgetState extends State<RewardSelectDialogWidget> {
                 '¡Va por nuestra cuenta!',
                 textAlign: TextAlign.center,
                 style: FlutterFlowTheme.of(context).bodyMedium.override(
-                      fontFamily: 'Montserrat',
+                      font: GoogleFonts.montserrat(
+                        fontWeight: FontWeight.w600,
+                        fontStyle:
+                            FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                      ),
                       color: FlutterFlowTheme.of(context).primary,
                       fontSize: 24.0,
                       letterSpacing: 0.0,
                       fontWeight: FontWeight.w600,
+                      fontStyle:
+                          FlutterFlowTheme.of(context).bodyMedium.fontStyle,
                       lineHeight: 1.5,
                     ),
               ),
@@ -217,12 +230,25 @@ class _RewardSelectDialogWidgetState extends State<RewardSelectDialogWidget> {
                                                     FlutterFlowTheme.of(context)
                                                         .bodyMedium
                                                         .override(
-                                                          fontFamily:
-                                                              'Montserrat',
+                                                          font: GoogleFonts
+                                                              .montserrat(
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                            fontStyle:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontStyle,
+                                                          ),
                                                           fontSize: 18.0,
                                                           letterSpacing: 0.0,
                                                           fontWeight:
                                                               FontWeight.w600,
+                                                          fontStyle:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyMedium
+                                                                  .fontStyle,
                                                           lineHeight: 1.5,
                                                         ),
                                               ),
@@ -240,6 +266,46 @@ class _RewardSelectDialogWidgetState extends State<RewardSelectDialogWidget> {
                       ),
                     );
                   },
+                ),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsetsDirectional.fromSTEB(0.0, 40.0, 0.0, 0.0),
+              child: FFButtonWidget(
+                onPressed: () async {
+                  Navigator.pop(context);
+                },
+                text: 'Regresar',
+                icon: Icon(
+                  FFIcons.karrowArcLeft,
+                  size: 18.0,
+                ),
+                options: FFButtonOptions(
+                  width: double.infinity,
+                  height: 45.0,
+                  padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
+                  iconAlignment: IconAlignment.start,
+                  iconPadding:
+                      EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 10.0, 0.0),
+                  color: FlutterFlowTheme.of(context).secondaryBackground,
+                  textStyle: FlutterFlowTheme.of(context).titleSmall.override(
+                        font: GoogleFonts.montserrat(
+                          fontWeight: FontWeight.w500,
+                          fontStyle:
+                              FlutterFlowTheme.of(context).titleSmall.fontStyle,
+                        ),
+                        color: FlutterFlowTheme.of(context).primaryText,
+                        letterSpacing: 0.0,
+                        fontWeight: FontWeight.w500,
+                        fontStyle:
+                            FlutterFlowTheme.of(context).titleSmall.fontStyle,
+                      ),
+                  elevation: 0.0,
+                  borderSide: BorderSide(
+                    color: FlutterFlowTheme.of(context).accent4,
+                    width: 1.0,
+                  ),
+                  borderRadius: BorderRadius.circular(8.0),
                 ),
               ),
             ),

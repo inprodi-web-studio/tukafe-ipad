@@ -14,9 +14,9 @@ import 'package:url_launcher/url_launcher.dart';
 import '../main.dart';
 
 
-export 'lat_lng.dart';
-export 'place.dart';
-export 'uploaded_file.dart';
+export 'package:ff_commons/flutter_flow/lat_lng.dart';
+export 'package:ff_commons/flutter_flow/place.dart';
+export 'package:ff_commons/flutter_flow/uploaded_file.dart';
 export '../app_state.dart';
 export '../app_constants.dart';
 export 'flutter_flow_model.dart';
@@ -305,6 +305,19 @@ extension FFStringExt on String {
       maxChars != null && length > maxChars
           ? replaceRange(maxChars, null, replacement)
           : this;
+
+  String toCapitalization(TextCapitalization textCapitalization) {
+    switch (textCapitalization) {
+      case TextCapitalization.none:
+        return this;
+      case TextCapitalization.words:
+        return split(' ').map(toBeginningOfSentenceCase).join(' ');
+      case TextCapitalization.sentences:
+        return toBeginningOfSentenceCase(this);
+      case TextCapitalization.characters:
+        return toUpperCase();
+    }
+  }
 }
 
 extension ListFilterExt<T> on Iterable<T?> {
@@ -379,7 +392,7 @@ void fixStatusBarOniOS16AndBelow(BuildContext context) {
 }
 
 extension ColorOpacityExt on Color {
-  Color applyAlpha(double val) => this.withOpacity(val);
+  Color applyAlpha(double val) => withValues(alpha: val);
 }
 
 String roundTo(double value, int decimalPoints) {

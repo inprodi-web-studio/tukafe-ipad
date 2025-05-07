@@ -1,6 +1,7 @@
-import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'empty_order_model.dart';
 export 'empty_order_model.dart';
 
@@ -62,10 +63,16 @@ class _EmptyOrderWidgetState extends State<EmptyOrderWidget> {
               Text(
                 '¡Agrega Productos!',
                 style: FlutterFlowTheme.of(context).bodyMedium.override(
-                      fontFamily: 'Montserrat',
+                      font: GoogleFonts.montserrat(
+                        fontWeight: FontWeight.w600,
+                        fontStyle:
+                            FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                      ),
                       fontSize: 18.0,
                       letterSpacing: 0.0,
                       fontWeight: FontWeight.w600,
+                      fontStyle:
+                          FlutterFlowTheme.of(context).bodyMedium.fontStyle,
                       lineHeight: 1.5,
                     ),
               ),
@@ -73,11 +80,17 @@ class _EmptyOrderWidgetState extends State<EmptyOrderWidget> {
                 'No lo pienses mucho. Sea cuál sea tu elección, te vamos a sorprender con nuestro sabor.',
                 textAlign: TextAlign.center,
                 style: FlutterFlowTheme.of(context).bodyMedium.override(
-                      fontFamily: 'Montserrat',
+                      font: GoogleFonts.montserrat(
+                        fontWeight: FontWeight.w500,
+                        fontStyle:
+                            FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                      ),
                       color: FlutterFlowTheme.of(context).secondaryText,
                       fontSize: 13.0,
                       letterSpacing: 0.0,
                       fontWeight: FontWeight.w500,
+                      fontStyle:
+                          FlutterFlowTheme.of(context).bodyMedium.fontStyle,
                       lineHeight: 1.5,
                     ),
               ),

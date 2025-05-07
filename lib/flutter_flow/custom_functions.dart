@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:timeago/timeago.dart' as timeago;
-import 'lat_lng.dart';
-import 'place.dart';
-import 'uploaded_file.dart';
+import 'package:ff_commons/flutter_flow/lat_lng.dart';
+import 'package:ff_commons/flutter_flow/place.dart';
+import 'package:ff_commons/flutter_flow/uploaded_file.dart';
 import '/backend/schema/structs/index.dart';
 import '/backend/schema/enums/enums.dart';
 
@@ -59,7 +59,8 @@ List<dynamic> parseOrderArray(
                   "count": mod.count,
                 })
             .toList(),
-        "category_id": item.categoryId
+        "category_id": item.categoryId,
+        "nodiscount": item.nodiscount
       };
     }
 
@@ -137,4 +138,26 @@ List<dynamic> parseWorkArray(
       "count": item.count
     };
   }).toList();
+}
+
+List<LastCustomerOrdersProductsStruct> parseLastOrders(List<dynamic> orders) {
+  final List<LastCustomerOrdersProductsStruct> allProducts = [];
+
+  for (var item in orders) {
+    if (item is Map<String, dynamic> && item['products'] is List) {
+      final products = item['products'] as List;
+      for (var product in products) {
+        if (product is Map<String, dynamic>) {
+          allProducts.add(LastCustomerOrdersProductsStruct(
+            id: product['id'] as int,
+            productId: product['product_id'] as String,
+            count: product['count'] as int,
+            categoryId: product['category_id'] as String,
+          ));
+        }
+      }
+    }
+  }
+
+  return allProducts;
 }

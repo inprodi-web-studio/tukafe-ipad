@@ -4,9 +4,10 @@ import '../schema/structs/index.dart';
 import 'package:flutter/foundation.dart';
 
 import '/flutter_flow/flutter_flow_util.dart';
-import 'api_manager.dart';
+import 'package:ff_commons/api_requests/api_manager.dart';
 
-export 'api_manager.dart' show ApiCallResponse;
+
+export 'package:ff_commons/api_requests/api_manager.dart' show ApiCallResponse;
 
 const _kPrivateApiFunctionName = 'ffPrivateApiCall';
 
@@ -363,16 +364,11 @@ class GetCustomerLastOrdersCall {
     );
   }
 
-  List<LastCustomerOrdersProductsStruct>? items(dynamic response) =>
-      (getJsonField(
+  List? data(dynamic response) => getJsonField(
         response,
-        r'''$.data[:].products[0]''',
+        r'''$.data''',
         true,
-      ) as List?)
-          ?.withoutNulls
-          .map((x) => LastCustomerOrdersProductsStruct.maybeFromMap(x))
-          .withoutNulls
-          .toList();
+      ) as List?;
 }
 
 class CreateCustomerOrderCall {
@@ -580,22 +576,6 @@ class GetPurchasesCall {
 }
 
 /// End Zettle Purchase Group Code
-
-class ApiPagingParams {
-  int nextPageNumber = 0;
-  int numItems = 0;
-  dynamic lastResponse;
-
-  ApiPagingParams({
-    required this.nextPageNumber,
-    required this.numItems,
-    required this.lastResponse,
-  });
-
-  @override
-  String toString() =>
-      'PagingParams(nextPageNumber: $nextPageNumber, numItems: $numItems, lastResponse: $lastResponse,)';
-}
 
 String _toEncodable(dynamic item) {
   return item;

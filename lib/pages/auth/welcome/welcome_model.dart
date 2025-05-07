@@ -1,10 +1,9 @@
 import '/flutter_flow/flutter_flow_util.dart';
 import '/index.dart';
-import 'customer_identifier_widget.dart' show CustomerIdentifierWidget;
+import 'welcome_widget.dart' show WelcomeWidget;
 import 'package:flutter/material.dart';
 
-class CustomerIdentifierModel
-    extends FlutterFlowModel<CustomerIdentifierWidget> {
+class WelcomeModel extends FlutterFlowModel<WelcomeWidget> {
   @override
   void initState(BuildContext context) {}
 

@@ -11,10 +11,14 @@ class ProductCategoryStruct extends BaseStruct {
     String? categoryName,
     String? level,
     String? parentCategory,
+    String? categoryPhoto,
+    String? categoryHidden,
   })  : _categoryId = categoryId,
         _categoryName = categoryName,
         _level = level,
-        _parentCategory = parentCategory;
+        _parentCategory = parentCategory,
+        _categoryPhoto = categoryPhoto,
+        _categoryHidden = categoryHidden;
 
   // "category_id" field.
   String? _categoryId;
@@ -44,12 +48,28 @@ class ProductCategoryStruct extends BaseStruct {
 
   bool hasParentCategory() => _parentCategory != null;
 
+  // "category_photo" field.
+  String? _categoryPhoto;
+  String get categoryPhoto => _categoryPhoto ?? '';
+  set categoryPhoto(String? val) => _categoryPhoto = val;
+
+  bool hasCategoryPhoto() => _categoryPhoto != null;
+
+  // "category_hidden" field.
+  String? _categoryHidden;
+  String get categoryHidden => _categoryHidden ?? '';
+  set categoryHidden(String? val) => _categoryHidden = val;
+
+  bool hasCategoryHidden() => _categoryHidden != null;
+
   static ProductCategoryStruct fromMap(Map<String, dynamic> data) =>
       ProductCategoryStruct(
         categoryId: data['category_id'] as String?,
         categoryName: data['category_name'] as String?,
         level: data['level'] as String?,
         parentCategory: data['parent_category'] as String?,
+        categoryPhoto: data['category_photo'] as String?,
+        categoryHidden: data['category_hidden'] as String?,
       );
 
   static ProductCategoryStruct? maybeFromMap(dynamic data) => data is Map
@@ -61,6 +81,8 @@ class ProductCategoryStruct extends BaseStruct {
         'category_name': _categoryName,
         'level': _level,
         'parent_category': _parentCategory,
+        'category_photo': _categoryPhoto,
+        'category_hidden': _categoryHidden,
       }.withoutNulls;
 
   @override
@@ -79,6 +101,14 @@ class ProductCategoryStruct extends BaseStruct {
         ),
         'parent_category': serializeParam(
           _parentCategory,
+          ParamType.String,
+        ),
+        'category_photo': serializeParam(
+          _categoryPhoto,
+          ParamType.String,
+        ),
+        'category_hidden': serializeParam(
+          _categoryHidden,
           ParamType.String,
         ),
       }.withoutNulls;
@@ -105,6 +135,16 @@ class ProductCategoryStruct extends BaseStruct {
           ParamType.String,
           false,
         ),
+        categoryPhoto: deserializeParam(
+          data['category_photo'],
+          ParamType.String,
+          false,
+        ),
+        categoryHidden: deserializeParam(
+          data['category_hidden'],
+          ParamType.String,
+          false,
+        ),
       );
 
   @override
@@ -116,12 +156,20 @@ class ProductCategoryStruct extends BaseStruct {
         categoryId == other.categoryId &&
         categoryName == other.categoryName &&
         level == other.level &&
-        parentCategory == other.parentCategory;
+        parentCategory == other.parentCategory &&
+        categoryPhoto == other.categoryPhoto &&
+        categoryHidden == other.categoryHidden;
   }
 
   @override
-  int get hashCode => const ListEquality()
-      .hash([categoryId, categoryName, level, parentCategory]);
+  int get hashCode => const ListEquality().hash([
+        categoryId,
+        categoryName,
+        level,
+        parentCategory,
+        categoryPhoto,
+        categoryHidden
+      ]);
 }
 
 ProductCategoryStruct createProductCategoryStruct({
@@ -129,10 +177,14 @@ ProductCategoryStruct createProductCategoryStruct({
   String? categoryName,
   String? level,
   String? parentCategory,
+  String? categoryPhoto,
+  String? categoryHidden,
 }) =>
     ProductCategoryStruct(
       categoryId: categoryId,
       categoryName: categoryName,
       level: level,
       parentCategory: parentCategory,
+      categoryPhoto: categoryPhoto,
+      categoryHidden: categoryHidden,
     );

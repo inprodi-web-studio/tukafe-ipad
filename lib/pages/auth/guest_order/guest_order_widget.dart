@@ -1,13 +1,15 @@
 import '/backend/api_requests/api_calls.dart';
 import '/backend/schema/enums/enums.dart';
 import '/backend/schema/structs/index.dart';
-import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/custom_functions.dart' as functions;
 import '/index.dart';
 import 'package:easy_debounce/easy_debounce.dart';
+import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'guest_order_model.dart';
 export 'guest_order_model.dart';
@@ -117,10 +119,20 @@ class _GuestOrderWidgetState extends State<GuestOrderWidget> {
                                       style: FlutterFlowTheme.of(context)
                                           .bodyMedium
                                           .override(
-                                            fontFamily: 'Montserrat',
+                                            font: GoogleFonts.montserrat(
+                                              fontWeight: FontWeight.w600,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMedium
+                                                      .fontStyle,
+                                            ),
                                             fontSize: 26.0,
                                             letterSpacing: 0.0,
                                             fontWeight: FontWeight.w600,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontStyle,
                                           ),
                                     ),
                                     Text(
@@ -128,12 +140,22 @@ class _GuestOrderWidgetState extends State<GuestOrderWidget> {
                                       style: FlutterFlowTheme.of(context)
                                           .bodyMedium
                                           .override(
-                                            fontFamily: 'Montserrat',
+                                            font: GoogleFonts.montserrat(
+                                              fontWeight: FontWeight.w500,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMedium
+                                                      .fontStyle,
+                                            ),
                                             color: FlutterFlowTheme.of(context)
                                                 .secondaryText,
                                             fontSize: 16.0,
                                             letterSpacing: 0.0,
                                             fontWeight: FontWeight.w500,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontStyle,
                                             lineHeight: 2.0,
                                           ),
                                     ),
@@ -171,23 +193,66 @@ class _GuestOrderWidgetState extends State<GuestOrderWidget> {
                                             obscureText: false,
                                             decoration: InputDecoration(
                                               isDense: true,
-                                              labelStyle:
-                                                  FlutterFlowTheme.of(context)
-                                                      .labelMedium
-                                                      .override(
-                                                        fontFamily:
-                                                            'Montserrat',
-                                                        letterSpacing: 0.0,
-                                                      ),
+                                              labelStyle: FlutterFlowTheme.of(
+                                                      context)
+                                                  .labelMedium
+                                                  .override(
+                                                    font:
+                                                        GoogleFonts.montserrat(
+                                                      fontWeight:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .labelMedium
+                                                              .fontWeight,
+                                                      fontStyle:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .labelMedium
+                                                              .fontStyle,
+                                                    ),
+                                                    letterSpacing: 0.0,
+                                                    fontWeight:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .labelMedium
+                                                            .fontWeight,
+                                                    fontStyle:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .labelMedium
+                                                            .fontStyle,
+                                                  ),
                                               hintText: 'Celular',
                                               hintStyle: FlutterFlowTheme.of(
                                                       context)
                                                   .labelMedium
                                                   .override(
-                                                    fontFamily: 'Montserrat',
+                                                    font:
+                                                        GoogleFonts.montserrat(
+                                                      fontWeight:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .labelMedium
+                                                              .fontWeight,
+                                                      fontStyle:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .labelMedium
+                                                              .fontStyle,
+                                                    ),
                                                     color: Color(0xA657636C),
                                                     fontSize: 16.0,
                                                     letterSpacing: 0.0,
+                                                    fontWeight:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .labelMedium
+                                                            .fontWeight,
+                                                    fontStyle:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .labelMedium
+                                                            .fontStyle,
                                                     lineHeight: 1.5,
                                                   ),
                                               enabledBorder: OutlineInputBorder(
@@ -250,10 +315,22 @@ class _GuestOrderWidgetState extends State<GuestOrderWidget> {
                                             style: FlutterFlowTheme.of(context)
                                                 .bodyMedium
                                                 .override(
-                                                  fontFamily: 'Montserrat',
+                                                  font: GoogleFonts.montserrat(
+                                                    fontWeight: FontWeight.w600,
+                                                    fontStyle:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .bodyMedium
+                                                            .fontStyle,
+                                                  ),
                                                   fontSize: 16.0,
                                                   letterSpacing: 0.0,
                                                   fontWeight: FontWeight.w600,
+                                                  fontStyle:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .bodyMedium
+                                                          .fontStyle,
                                                   lineHeight: 1.5,
                                                 ),
                                             keyboardType: TextInputType.phone,
@@ -263,6 +340,20 @@ class _GuestOrderWidgetState extends State<GuestOrderWidget> {
                                             validator: _model
                                                 .phoneTextControllerValidator
                                                 .asValidator(context),
+                                            inputFormatters: [
+                                              if (!isAndroid && !isiOS)
+                                                TextInputFormatter.withFunction(
+                                                    (oldValue, newValue) {
+                                                  return TextEditingValue(
+                                                    selection:
+                                                        newValue.selection,
+                                                    text: newValue.text
+                                                        .toCapitalization(
+                                                            TextCapitalization
+                                                                .none),
+                                                  );
+                                                }),
+                                            ],
                                           ),
                                         ),
                                         Padding(
@@ -326,7 +417,7 @@ class _GuestOrderWidgetState extends State<GuestOrderWidget> {
                                                         _shouldSetState = true;
                                                         if (OwnRoutesGroup
                                                                     .getCustomerLastOrdersCall
-                                                                    .items(
+                                                                    .data(
                                                                   (_model.customerOrdersOutput
                                                                           ?.jsonBody ??
                                                                       ''),
@@ -334,7 +425,7 @@ class _GuestOrderWidgetState extends State<GuestOrderWidget> {
                                                                 null &&
                                                             (OwnRoutesGroup
                                                                     .getCustomerLastOrdersCall
-                                                                    .items(
+                                                                    .data(
                                                               (_model.customerOrdersOutput
                                                                       ?.jsonBody ??
                                                                   ''),
@@ -342,13 +433,15 @@ class _GuestOrderWidgetState extends State<GuestOrderWidget> {
                                                                 .isNotEmpty) {
                                                           FFAppState()
                                                                   .LastCustomerOrdersProducts =
-                                                              OwnRoutesGroup
-                                                                  .getCustomerLastOrdersCall
-                                                                  .items(
-                                                                    (_model.customerOrdersOutput
-                                                                            ?.jsonBody ??
-                                                                        ''),
-                                                                  )!
+                                                              functions
+                                                                  .parseLastOrders(
+                                                                      OwnRoutesGroup
+                                                                          .getCustomerLastOrdersCall
+                                                                          .data(
+                                                                            (_model.customerOrdersOutput?.jsonBody ??
+                                                                                ''),
+                                                                          )!
+                                                                          .toList())
                                                                   .toList()
                                                                   .cast<
                                                                       LastCustomerOrdersProductsStruct>();
@@ -530,15 +623,36 @@ class _GuestOrderWidgetState extends State<GuestOrderWidget> {
                                               color:
                                                   FlutterFlowTheme.of(context)
                                                       .secondary,
-                                              textStyle:
-                                                  FlutterFlowTheme.of(context)
-                                                      .titleSmall
-                                                      .override(
-                                                        fontFamily:
-                                                            'Montserrat',
-                                                        color: Colors.white,
-                                                        letterSpacing: 0.0,
-                                                      ),
+                                              textStyle: FlutterFlowTheme.of(
+                                                      context)
+                                                  .titleSmall
+                                                  .override(
+                                                    font:
+                                                        GoogleFonts.montserrat(
+                                                      fontWeight:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .titleSmall
+                                                              .fontWeight,
+                                                      fontStyle:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .titleSmall
+                                                              .fontStyle,
+                                                    ),
+                                                    color: Colors.white,
+                                                    letterSpacing: 0.0,
+                                                    fontWeight:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .titleSmall
+                                                            .fontWeight,
+                                                    fontStyle:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .titleSmall
+                                                            .fontStyle,
+                                                  ),
                                               elevation: 0.0,
                                               borderRadius:
                                                   BorderRadius.circular(8.0),
@@ -592,12 +706,24 @@ class _GuestOrderWidgetState extends State<GuestOrderWidget> {
                                                     context)
                                                 .titleSmall
                                                 .override(
-                                                  fontFamily: 'Montserrat',
+                                                  font: GoogleFonts.montserrat(
+                                                    fontWeight: FontWeight.w500,
+                                                    fontStyle:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .titleSmall
+                                                            .fontStyle,
+                                                  ),
                                                   color: FlutterFlowTheme.of(
                                                           context)
                                                       .primaryText,
                                                   letterSpacing: 0.0,
                                                   fontWeight: FontWeight.w500,
+                                                  fontStyle:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .titleSmall
+                                                          .fontStyle,
                                                 ),
                                             elevation: 0.0,
                                             borderSide: BorderSide(
@@ -634,7 +760,7 @@ class _GuestOrderWidgetState extends State<GuestOrderWidget> {
                                       FFButtonWidget(
                                         onPressed: () async {
                                           context.goNamed(
-                                            CustomerIdentifierWidget.routeName,
+                                            WelcomeWidget.routeName,
                                             extra: <String, dynamic>{
                                               kTransitionInfoKey:
                                                   TransitionInfo(
@@ -668,12 +794,23 @@ class _GuestOrderWidgetState extends State<GuestOrderWidget> {
                                                   context)
                                               .titleSmall
                                               .override(
-                                                fontFamily: 'Montserrat',
+                                                font: GoogleFonts.montserrat(
+                                                  fontWeight: FontWeight.w500,
+                                                  fontStyle:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .titleSmall
+                                                          .fontStyle,
+                                                ),
                                                 color:
                                                     FlutterFlowTheme.of(context)
                                                         .primaryText,
                                                 letterSpacing: 0.0,
                                                 fontWeight: FontWeight.w500,
+                                                fontStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .titleSmall
+                                                        .fontStyle,
                                               ),
                                           elevation: 0.0,
                                           borderSide: BorderSide(

@@ -1,10 +1,10 @@
-import '';
-import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/index.dart';
+import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'confirmation_model.dart';
 export 'confirmation_model.dart';
 
@@ -33,7 +33,7 @@ class _ConfirmationWidgetState extends State<ConfirmationWidget> {
       await Future.delayed(const Duration(milliseconds: 6000));
 
       context.goNamed(
-        GuestOrderWidget.routeName,
+        WelcomeWidget.routeName,
         extra: <String, dynamic>{
           kTransitionInfoKey: TransitionInfo(
             hasTransition: true,
@@ -85,10 +85,16 @@ class _ConfirmationWidgetState extends State<ConfirmationWidget> {
                 child: Text(
                   '¡Gracias por tu compra!',
                   style: FlutterFlowTheme.of(context).bodyMedium.override(
-                        fontFamily: 'Montserrat',
+                        font: GoogleFonts.montserrat(
+                          fontWeight: FontWeight.w600,
+                          fontStyle:
+                              FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                        ),
                         fontSize: 20.0,
                         letterSpacing: 0.0,
                         fontWeight: FontWeight.w600,
+                        fontStyle:
+                            FlutterFlowTheme.of(context).bodyMedium.fontStyle,
                       ),
                 ),
               ),
@@ -98,11 +104,17 @@ class _ConfirmationWidgetState extends State<ConfirmationWidget> {
                   'Tu pedido está siendo preparado y saldrá lo antes posible.\nEsperamos que lo disfrutes.',
                   textAlign: TextAlign.center,
                   style: FlutterFlowTheme.of(context).bodyMedium.override(
-                        fontFamily: 'Montserrat',
+                        font: GoogleFonts.montserrat(
+                          fontWeight: FontWeight.w500,
+                          fontStyle:
+                              FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                        ),
                         color: FlutterFlowTheme.of(context).secondaryText,
                         fontSize: 16.0,
                         letterSpacing: 0.0,
                         fontWeight: FontWeight.w500,
+                        fontStyle:
+                            FlutterFlowTheme.of(context).bodyMedium.fontStyle,
                         lineHeight: 1.5,
                       ),
                 ),
@@ -112,7 +124,7 @@ class _ConfirmationWidgetState extends State<ConfirmationWidget> {
                 child: FFButtonWidget(
                   onPressed: () async {
                     context.goNamed(
-                      GuestOrderWidget.routeName,
+                      WelcomeWidget.routeName,
                       extra: <String, dynamic>{
                         kTransitionInfoKey: TransitionInfo(
                           hasTransition: true,
@@ -133,10 +145,17 @@ class _ConfirmationWidgetState extends State<ConfirmationWidget> {
                         EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
                     color: FlutterFlowTheme.of(context).secondaryBackground,
                     textStyle: FlutterFlowTheme.of(context).titleSmall.override(
-                          fontFamily: 'Montserrat',
+                          font: GoogleFonts.montserrat(
+                            fontWeight: FontWeight.w500,
+                            fontStyle: FlutterFlowTheme.of(context)
+                                .titleSmall
+                                .fontStyle,
+                          ),
                           color: FlutterFlowTheme.of(context).primaryText,
                           letterSpacing: 0.0,
                           fontWeight: FontWeight.w500,
+                          fontStyle:
+                              FlutterFlowTheme.of(context).titleSmall.fontStyle,
                         ),
                     elevation: 0.0,
                     borderSide: BorderSide(

@@ -1,7 +1,8 @@
 import '/flutter_flow/flutter_flow_count_controller.dart';
-import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'product_count_model.dart';
 export 'product_count_model.dart';
 
@@ -73,9 +74,15 @@ class _ProductCountWidgetState extends State<ProductCountWidget> {
         countBuilder: (count) => Text(
           count.toString(),
           style: FlutterFlowTheme.of(context).titleLarge.override(
-                fontFamily: 'Montserrat',
+                font: GoogleFonts.montserrat(
+                  fontWeight:
+                      FlutterFlowTheme.of(context).titleLarge.fontWeight,
+                  fontStyle: FlutterFlowTheme.of(context).titleLarge.fontStyle,
+                ),
                 fontSize: 16.0,
                 letterSpacing: 0.0,
+                fontWeight: FlutterFlowTheme.of(context).titleLarge.fontWeight,
+                fontStyle: FlutterFlowTheme.of(context).titleLarge.fontStyle,
               ),
         ),
         count: _model.countControllerValue ??= widget.value,

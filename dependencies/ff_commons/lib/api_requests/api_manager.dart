@@ -1,5 +1,6 @@
 // ignore_for_file: constant_identifier_names, depend_on_referenced_packages, prefer_final_fields
 
+import 'dart:async';
 import 'dart:convert';
 import 'dart:core';
 import 'dart:io';
@@ -11,10 +12,10 @@ import 'package:equatable/equatable.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:mime_type/mime_type.dart';
 
-import '/flutter_flow/uploaded_file.dart';
+import 'package:ff_commons/flutter_flow/uploaded_file.dart';
+
 
 import 'get_streamed_response.dart';
-
 enum ApiCallType {
   GET,
   POST,
@@ -61,6 +62,43 @@ class ApiCallOptions extends Equatable {
   final bool alwaysAllowBody;
   final bool cache;
   final bool isStreamingApi;
+
+  /// Creates a new [ApiCallOptions] with optionally updated parameters.
+  /// 
+  /// This helper function allows creating a copy of the current options while
+  /// selectively modifying specific fields. Any parameter that is not provided 
+  /// will retain its original value from the current instance.
+  ApiCallOptions copyWith({
+    String? callName,
+    ApiCallType? callType,
+    String? apiUrl,
+    Map<String, dynamic>? headers,
+    Map<String, dynamic>? params,
+    BodyType? bodyType,
+    String? body,
+    bool? returnBody,
+    bool? encodeBodyUtf8,
+    bool? decodeUtf8,
+    bool? alwaysAllowBody,
+    bool? cache,
+    bool? isStreamingApi,
+  }) {
+    return ApiCallOptions(
+      callName: callName ?? this.callName,
+      callType: callType ?? this.callType,
+      apiUrl: apiUrl ?? this.apiUrl,
+      headers: headers ?? _cloneMap(this.headers),
+      params: params ?? _cloneMap(this.params),
+      bodyType: bodyType ?? this.bodyType,
+      body: body ?? this.body,
+      returnBody: returnBody ?? this.returnBody,
+      encodeBodyUtf8: encodeBodyUtf8 ?? this.encodeBodyUtf8,
+      decodeUtf8: decodeUtf8 ?? this.decodeUtf8,
+      alwaysAllowBody: alwaysAllowBody ?? this.alwaysAllowBody,
+      cache: cache ?? this.cache,
+      isStreamingApi: isStreamingApi ?? this.isStreamingApi,
+    );
+  }
 
   ApiCallOptions clone() => ApiCallOptions(
         callName: callName,
@@ -129,6 +167,29 @@ class ApiCallResponse {
       (jsonBody is String ? jsonBody as String : jsonEncode(jsonBody));
   String get exceptionMessage => exception.toString();
 
+  /// Creates a new [ApiCallResponse] with optionally updated parameters.
+  /// 
+  /// This helper function allows creating a copy of the current response while
+  /// selectively modifying specific fields. Any parameter that is not provided 
+  /// will retain its original value from the current instance.
+  ApiCallResponse copyWith({
+    dynamic jsonBody,
+    Map<String, String>? headers,
+    int? statusCode,
+    http.Response? response,
+    http.StreamedResponse? streamedResponse,
+    Object? exception,
+  }) {
+    return ApiCallResponse(
+      jsonBody ?? this.jsonBody,
+      headers ?? this.headers,
+      statusCode ?? this.statusCode,
+      response: response ?? this.response,
+      streamedResponse: streamedResponse ?? this.streamedResponse,
+      exception: exception ?? this.exception,
+    );
+  }
+
   static ApiCallResponse fromHttpResponse(
     http.Response response,
     bool returnBody,
@@ -169,8 +230,7 @@ class ApiManager {
   // If your API calls need authentication, populate this field once
   // the user has authenticated. Alter this as needed.
   static String? _accessToken;
-
-  // You may want to call this if, for example, you make a change to the
+    // You may want to call this if, for example, you make a change to the
   // database and no longer want the cached result of a call that may
   // have changed.
   static void clearCache(String callName) => _apiCache.keys
@@ -379,8 +439,7 @@ class ApiManager {
   Future<ApiCallResponse> call(
     ApiCallOptions options, {
     http.Client? client,
-  }) =>
-      makeApiCall(
+  }) => makeApiCall(
         callName: options.callName,
         apiUrl: options.apiUrl,
         callType: options.callType,
