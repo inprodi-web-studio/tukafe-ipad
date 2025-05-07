@@ -48,6 +48,12 @@ class OrderModel extends FlutterFlowModel<OrderWidget> {
   ApiCallResponse? closeOrder;
   // Stores action output result for [Backend Call - API (Create Work)] action in Button widget.
   ApiCallResponse? workOutput;
+  // Stores action output result for [Backend Call - API (Get Purchases)] action in Button widget.
+  ApiCallResponse? purchasesOutputRetry;
+  // Stores action output result for [Backend Call - API (Create Order)] action in Button widget.
+  ApiCallResponse? orderOutputPromoRetry;
+  // Stores action output result for [Backend Call - API (Close Order)] action in Button widget.
+  ApiCallResponse? closePromoOrderRetry;
 
   @override
   void initState(BuildContext context) {

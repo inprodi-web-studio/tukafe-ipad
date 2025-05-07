@@ -1927,6 +1927,7 @@ class _OrderWidgetState extends State<OrderWidget> {
                                     ? null
                                     : () async {
                                         var _shouldSetState = false;
+                                        // Si el total es 0, por lo tanto no hay nada que cobrar, no se pasa por el procesamiento de izettle
                                         if (((functions.sumUnitaryPrices(
                                                         FFAppState()
                                                             .OrderItems
@@ -2417,25 +2418,126 @@ class _OrderWidgetState extends State<OrderWidget> {
                                               safeSetState(() {});
                                             return;
                                           } else {
-                                            ScaffoldMessenger.of(context)
-                                                .showSnackBar(
-                                              SnackBar(
-                                                content: Text(
-                                                  'La pasarela de pago no devolvió ninguna referencia. Por favor, coméntale a tu barista de este error.',
-                                                  style: TextStyle(
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .secondaryBackground,
-                                                    fontSize: 11.0,
-                                                  ),
-                                                ),
-                                                duration: Duration(
-                                                    milliseconds: 4000),
-                                                backgroundColor:
-                                                    FlutterFlowTheme.of(context)
-                                                        .error,
+                                            await Future.delayed(const Duration(
+                                                milliseconds: 2000));
+                                            _model.purchasesOutputRetry =
+                                                await ZettlePurchaseGroup
+                                                    .getPurchasesCall
+                                                    .call(
+                                              token: ZettleAuthGroup
+                                                  .getTokenCall
+                                                  .token(
+                                                (_model.tokenOutput?.jsonBody ??
+                                                    ''),
                                               ),
                                             );
+
+                                            _shouldSetState = true;
+                                            if (ZettlePurchaseGroup
+                                                    .getPurchasesCall
+                                                    .references(
+                                                      (_model.purchasesOutput
+                                                              ?.jsonBody ??
+                                                          ''),
+                                                    )!
+                                                    .where((e) =>
+                                                        _model.paymentOutput ==
+                                                        getJsonField(
+                                                          e,
+                                                          r'''$.apiReference''',
+                                                        ).toString())
+                                                    .toList()
+                                                    .length >
+                                                0) {
+                                              _model.orderOutputPromoRetry =
+                                                  await OrderGroup
+                                                      .createOrderCall
+                                                      .call(
+                                                customerJson: <String, dynamic>{
+                                                  'id': getJsonField(
+                                                    widget.customer,
+                                                    r'''$.client_id''',
+                                                  ),
+                                                },
+                                                productsJson:
+                                                    functions.parseOrderArray(
+                                                        FFAppState()
+                                                            .OrderItems
+                                                            .where((e) =>
+                                                                e.price == 0.0)
+                                                            .toList(),
+                                                        false),
+                                              );
+
+                                              _shouldSetState = true;
+                                              if ((_model.orderOutputPromoRetry
+                                                      ?.succeeded ??
+                                                  true)) {
+                                                unawaited(
+                                                  () async {
+                                                    _model.closePromoOrderRetry =
+                                                        await OrderGroup
+                                                            .closeOrderCall
+                                                            .call(
+                                                      orderId: getJsonField(
+                                                        (_model.orderOutputPromo
+                                                                ?.jsonBody ??
+                                                            ''),
+                                                        r'''$.response.id''',
+                                                      ),
+                                                      amount: 0,
+                                                    );
+                                                  }(),
+                                                );
+                                                _shouldSetState = true;
+                                              } else {
+                                                await showDialog(
+                                                  context: context,
+                                                  builder:
+                                                      (alertDialogContext) {
+                                                    return AlertDialog(
+                                                      title: Text(
+                                                          'Ocurrió un error inesperado'),
+                                                      content: Text(
+                                                          'Parece que hay un error de servidor. Por favor, intenta nuevamente o notifícale a nuestro barista de este error.'),
+                                                      actions: [
+                                                        TextButton(
+                                                          onPressed: () =>
+                                                              Navigator.pop(
+                                                                  alertDialogContext),
+                                                          child:
+                                                              Text('Aceptar'),
+                                                        ),
+                                                      ],
+                                                    );
+                                                  },
+                                                );
+                                                if (_shouldSetState)
+                                                  safeSetState(() {});
+                                                return;
+                                              }
+                                            } else {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                SnackBar(
+                                                  content: Text(
+                                                    'La pasarela de pago no devolvió ninguna referencia. Por favor, coméntale a tu barista de este error.',
+                                                    style: TextStyle(
+                                                      color: FlutterFlowTheme
+                                                              .of(context)
+                                                          .secondaryBackground,
+                                                      fontSize: 11.0,
+                                                    ),
+                                                  ),
+                                                  duration: Duration(
+                                                      milliseconds: 4000),
+                                                  backgroundColor:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .error,
+                                                ),
+                                              );
+                                            }
                                           }
                                         }
 
