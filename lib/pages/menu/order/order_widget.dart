@@ -468,13 +468,22 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                                         -1.0),
                                                                 child:
                                                                     Container(
-                                                                  width: 45.0,
-                                                                  height: 45.0,
+                                                                  width: 60.0,
+                                                                  height: 60.0,
                                                                   decoration:
                                                                       BoxDecoration(
                                                                     color: FlutterFlowTheme.of(
                                                                             context)
                                                                         .primary,
+                                                                    image:
+                                                                        DecorationImage(
+                                                                      fit: BoxFit
+                                                                          .cover,
+                                                                      image:
+                                                                          CachedNetworkImageProvider(
+                                                                        '${FFAppConstants.BaseURL}${mainCategoryItem.categoryPhoto}',
+                                                                      ),
+                                                                    ),
                                                                     borderRadius:
                                                                         BorderRadius.circular(
                                                                             100.0),
@@ -483,14 +492,6 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                                       AlignmentDirectional(
                                                                           0.0,
                                                                           0.0),
-                                                                  child: Icon(
-                                                                    FFIcons
-                                                                        .kcoffeeBean1,
-                                                                    color: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .secondaryBackground,
-                                                                    size: 24.0,
-                                                                  ),
                                                                 ),
                                                               ),
                                                               Text(
@@ -527,6 +528,296 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                                     ),
                                                               ),
                                                             ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    );
+                                                  },
+                                                );
+                                              },
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                    if (_model.path == 'categories')
+                                      Padding(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            30.0, 0.0, 30.0, 0.0),
+                                        child: FutureBuilder<ApiCallResponse>(
+                                          future:
+                                              ProductsGroup.productsCall.call(),
+                                          builder: (context, snapshot) {
+                                            // Customize what your widget looks like when it's loading.
+                                            if (!snapshot.hasData) {
+                                              return Center(
+                                                child: SizedBox(
+                                                  width: 40.0,
+                                                  height: 40.0,
+                                                  child: SpinKitSquareCircle(
+                                                    color: FlutterFlowTheme.of(
+                                                            context)
+                                                        .primary,
+                                                    size: 40.0,
+                                                  ),
+                                                ),
+                                              );
+                                            }
+                                            final mainProductsProductsResponse =
+                                                snapshot.data!;
+
+                                            return Builder(
+                                              builder: (context) {
+                                                final product = ProductsGroup
+                                                        .productsCall
+                                                        .data(
+                                                          mainProductsProductsResponse
+                                                              .jsonBody,
+                                                        )
+                                                        ?.where((e) =>
+                                                            e.menuCategoryId ==
+                                                            '0')
+                                                        .toList()
+                                                        .toList() ??
+                                                    [];
+
+                                                return GridView.builder(
+                                                  padding: EdgeInsets.zero,
+                                                  gridDelegate:
+                                                      SliverGridDelegateWithFixedCrossAxisCount(
+                                                    crossAxisCount: 3,
+                                                    crossAxisSpacing: 14.0,
+                                                    mainAxisSpacing: 14.0,
+                                                    childAspectRatio: 1.02,
+                                                  ),
+                                                  primary: false,
+                                                  shrinkWrap: true,
+                                                  scrollDirection:
+                                                      Axis.vertical,
+                                                  itemCount: product.length,
+                                                  itemBuilder:
+                                                      (context, productIndex) {
+                                                    final productItem =
+                                                        product[productIndex];
+                                                    return Builder(
+                                                      builder: (context) =>
+                                                          InkWell(
+                                                        splashColor:
+                                                            Colors.transparent,
+                                                        focusColor:
+                                                            Colors.transparent,
+                                                        hoverColor:
+                                                            Colors.transparent,
+                                                        highlightColor:
+                                                            Colors.transparent,
+                                                        onTap: () async {
+                                                          await showDialog(
+                                                            context: context,
+                                                            builder:
+                                                                (dialogContext) {
+                                                              return Dialog(
+                                                                elevation: 0,
+                                                                insetPadding:
+                                                                    EdgeInsets
+                                                                        .zero,
+                                                                backgroundColor:
+                                                                    Colors
+                                                                        .transparent,
+                                                                alignment: AlignmentDirectional(
+                                                                        0.0,
+                                                                        0.0)
+                                                                    .resolve(
+                                                                        Directionality.of(
+                                                                            context)),
+                                                                child:
+                                                                    GestureDetector(
+                                                                  onTap: () {
+                                                                    FocusScope.of(
+                                                                            dialogContext)
+                                                                        .unfocus();
+                                                                    FocusManager
+                                                                        .instance
+                                                                        .primaryFocus
+                                                                        ?.unfocus();
+                                                                  },
+                                                                  child:
+                                                                      Container(
+                                                                    height:
+                                                                        MediaQuery.sizeOf(context).height *
+                                                                            0.9,
+                                                                    width: MediaQuery.sizeOf(context)
+                                                                            .width *
+                                                                        0.9,
+                                                                    child:
+                                                                        ProductConfigurationDialogWidget(
+                                                                      productId:
+                                                                          productItem
+                                                                              .productId,
+                                                                      isFree: (FFAppState().OrderItems.where((e) => e.isFree).toList().length == 0) &&
+                                                                              (valueOrDefault<int>(
+                                                                                    functions.sumProductsCounts(FFAppState().LastCustomerOrdersProducts.toList()),
+                                                                                    0,
+                                                                                  ) >=
+                                                                                  4) &&
+                                                                              (functions.parseRewardsItems(FFAppState().LastCustomerOrdersProducts.toList()).where((e) => e.productId == productItem.productId).toList().length > 0)
+                                                                          ? true
+                                                                          : false,
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              );
+                                                            },
+                                                          );
+                                                        },
+                                                        child: Container(
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            color: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .secondaryBackground,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10.0),
+                                                            border: Border.all(
+                                                              color: FlutterFlowTheme
+                                                                      .of(context)
+                                                                  .accent4,
+                                                              width: 1.0,
+                                                            ),
+                                                          ),
+                                                          child: Padding(
+                                                            padding:
+                                                                EdgeInsets.all(
+                                                                    4.0),
+                                                            child: Column(
+                                                              mainAxisSize:
+                                                                  MainAxisSize
+                                                                      .max,
+                                                              children: [
+                                                                ClipRRect(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              8.0),
+                                                                  child:
+                                                                      CachedNetworkImage(
+                                                                    fadeInDuration:
+                                                                        Duration(
+                                                                            milliseconds:
+                                                                                500),
+                                                                    fadeOutDuration:
+                                                                        Duration(
+                                                                            milliseconds:
+                                                                                500),
+                                                                    imageUrl:
+                                                                        '${FFAppConstants.BaseURL}${productItem.photo}',
+                                                                    width: double
+                                                                        .infinity,
+                                                                    height:
+                                                                        199.0,
+                                                                    fit: BoxFit
+                                                                        .fitHeight,
+                                                                    alignment:
+                                                                        Alignment(
+                                                                            0.0,
+                                                                            0.0),
+                                                                  ),
+                                                                ),
+                                                                Expanded(
+                                                                  child:
+                                                                      Padding(
+                                                                    padding: EdgeInsetsDirectional
+                                                                        .fromSTEB(
+                                                                            8.0,
+                                                                            14.0,
+                                                                            8.0,
+                                                                            10.0),
+                                                                    child:
+                                                                        Column(
+                                                                      mainAxisSize:
+                                                                          MainAxisSize
+                                                                              .max,
+                                                                      mainAxisAlignment:
+                                                                          MainAxisAlignment
+                                                                              .end,
+                                                                      crossAxisAlignment:
+                                                                          CrossAxisAlignment
+                                                                              .stretch,
+                                                                      children:
+                                                                          [
+                                                                        Text(
+                                                                          productItem
+                                                                              .productName
+                                                                              .maybeHandleOverflow(
+                                                                            maxChars:
+                                                                                35,
+                                                                            replacement:
+                                                                                '…',
+                                                                          ),
+                                                                          maxLines:
+                                                                              1,
+                                                                          style: FlutterFlowTheme.of(context)
+                                                                              .bodyMedium
+                                                                              .override(
+                                                                                font: GoogleFonts.montserrat(
+                                                                                  fontWeight: FontWeight.w600,
+                                                                                  fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                                ),
+                                                                                fontSize: 15.0,
+                                                                                letterSpacing: 0.0,
+                                                                                fontWeight: FontWeight.w600,
+                                                                                fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                              ),
+                                                                        ),
+                                                                        Row(
+                                                                          mainAxisSize:
+                                                                              MainAxisSize.max,
+                                                                          crossAxisAlignment:
+                                                                              CrossAxisAlignment.end,
+                                                                          children:
+                                                                              [
+                                                                            Text(
+                                                                              'Desde',
+                                                                              style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                    font: GoogleFonts.montserrat(
+                                                                                      fontWeight: FontWeight.normal,
+                                                                                      fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                                    ),
+                                                                                    color: FlutterFlowTheme.of(context).secondaryText,
+                                                                                    fontSize: 12.0,
+                                                                                    letterSpacing: 0.0,
+                                                                                    fontWeight: FontWeight.normal,
+                                                                                    fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                                  ),
+                                                                            ),
+                                                                            Text(
+                                                                              functions.formatCurrency(
+                                                                                  valueOrDefault<String>(
+                                                                                    productItem.spots.firstOrNull?.price,
+                                                                                    '0',
+                                                                                  ),
+                                                                                  0.0),
+                                                                              style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                    font: GoogleFonts.montserrat(
+                                                                                      fontWeight: FontWeight.w600,
+                                                                                      fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                                    ),
+                                                                                    color: FlutterFlowTheme.of(context).primary,
+                                                                                    fontSize: 14.0,
+                                                                                    letterSpacing: 0.0,
+                                                                                    fontWeight: FontWeight.w600,
+                                                                                    fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                                  ),
+                                                                            ),
+                                                                          ].divide(SizedBox(width: 4.0)),
+                                                                        ),
+                                                                      ].divide(SizedBox(
+                                                                              height: 3.0)),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
                                                           ),
                                                         ),
                                                       ),
@@ -773,14 +1064,24 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                             )
                                                             ?.where((e) =>
                                                                 e.menuCategoryId ==
-                                                                (_model.subEntity !=
-                                                                            null &&
-                                                                        _model.subEntity !=
-                                                                            ''
-                                                                    ? _model
-                                                                        .subEntity
-                                                                    : _model
-                                                                        .entity))
+                                                                () {
+                                                                  if (_model.subEntity !=
+                                                                          null &&
+                                                                      _model.subEntity !=
+                                                                          '') {
+                                                                    return _model
+                                                                        .subEntity;
+                                                                  } else if (_model
+                                                                              .entity !=
+                                                                          null &&
+                                                                      _model.entity !=
+                                                                          '') {
+                                                                    return _model
+                                                                        .entity;
+                                                                  } else {
+                                                                    return null;
+                                                                  }
+                                                                }())
                                                             .toList()
                                                             .toList() ??
                                                         [];
