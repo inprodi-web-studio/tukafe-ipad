@@ -395,7 +395,7 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                     crossAxisCount: 4,
                                                     crossAxisSpacing: 14.0,
                                                     mainAxisSpacing: 14.0,
-                                                    childAspectRatio: 1.0,
+                                                    childAspectRatio: 1.3,
                                                   ),
                                                   primary: false,
                                                   shrinkWrap: true,
