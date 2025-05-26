@@ -2386,50 +2386,40 @@ class _OrderWidgetState extends State<OrderWidget> {
                                               return;
                                             }
                                           }
-                                          unawaited(
-                                            () async {
+                                          await OwnRoutesGroup
+                                              .createCustomerOrderCall
+                                              .call(
+                                            customerId: getJsonField(
+                                              widget.customer,
+                                              r'''$.client_id''',
+                                            ).toString(),
+                                            productsJson:
+                                                functions.parseOrderArray(
+                                                    FFAppState()
+                                                        .OrderItems
+                                                        .toList(),
+                                                    true),
+                                            hasFree: FFAppState()
+                                                        .OrderItems
+                                                        .where((e) => e.isFree)
+                                                        .toList()
+                                                        .length >
+                                                    0
+                                                ? true
+                                                : false,
+                                          );
+
+                                          _model.workOutput2 =
                                               await OwnRoutesGroup
-                                                  .createCustomerOrderCall
+                                                  .createWorkCall
                                                   .call(
-                                                customerId: getJsonField(
-                                                  widget.customer,
-                                                  r'''$.client_id''',
-                                                ).toString(),
-                                                productsJson:
-                                                    functions.parseOrderArray(
-                                                        FFAppState()
-                                                            .OrderItems
-                                                            .toList(),
-                                                        true),
-                                                hasFree: FFAppState()
-                                                            .OrderItems
-                                                            .where(
-                                                                (e) => e.isFree)
-                                                            .toList()
-                                                            .length >
-                                                        0
-                                                    ? true
-                                                    : false,
-                                              );
-                                            }(),
+                                            itemsJson: functions.parseWorkArray(
+                                                FFAppState()
+                                                    .OrderItems
+                                                    .toList(),
+                                                _model.nameTextController.text),
                                           );
-                                          unawaited(
-                                            () async {
-                                              _model.workOutput2 =
-                                                  await OwnRoutesGroup
-                                                      .createWorkCall
-                                                      .call(
-                                                itemsJson:
-                                                    functions.parseWorkArray(
-                                                        FFAppState()
-                                                            .OrderItems
-                                                            .toList(),
-                                                        _model
-                                                            .nameTextController
-                                                            .text),
-                                              );
-                                            }(),
-                                          );
+
                                           _shouldSetState = true;
 
                                           context.goNamed(
@@ -2550,22 +2540,19 @@ class _OrderWidgetState extends State<OrderWidget> {
                                               if ((_model.orderOutputPromo2
                                                       ?.succeeded ??
                                                   true)) {
-                                                unawaited(
-                                                  () async {
-                                                    _model.closePromoOrder =
-                                                        await OrderGroup
-                                                            .closeOrderCall
-                                                            .call(
-                                                      orderId: getJsonField(
-                                                        (_model.orderOutputPromo2
-                                                                ?.jsonBody ??
-                                                            ''),
-                                                        r'''$.response.id''',
-                                                      ),
-                                                      amount: 0,
-                                                    );
-                                                  }(),
+                                                _model.closePromoOrder =
+                                                    await OrderGroup
+                                                        .closeOrderCall
+                                                        .call(
+                                                  orderId: getJsonField(
+                                                    (_model.orderOutputPromo2
+                                                            ?.jsonBody ??
+                                                        ''),
+                                                    r'''$.response.id''',
+                                                  ),
+                                                  amount: 0,
                                                 );
+
                                                 _shouldSetState = true;
                                               } else {
                                                 await showDialog(
@@ -2625,27 +2612,24 @@ class _OrderWidgetState extends State<OrderWidget> {
                                               if ((_model.orderOutput2
                                                       ?.succeeded ??
                                                   true)) {
-                                                unawaited(
-                                                  () async {
-                                                    _model.closeOrder2 =
-                                                        await OrderGroup
-                                                            .closeOrderCall
-                                                            .call(
-                                                      orderId: getJsonField(
-                                                        (_model.orderOutput2
-                                                                ?.jsonBody ??
-                                                            ''),
-                                                        r'''$.response.id''',
-                                                      ),
-                                                      amount: getJsonField(
-                                                        (_model.orderOutput2
-                                                                ?.jsonBody ??
-                                                            ''),
-                                                        r'''$.response.sum''',
-                                                      ),
-                                                    );
-                                                  }(),
+                                                _model.closeOrder2 =
+                                                    await OrderGroup
+                                                        .closeOrderCall
+                                                        .call(
+                                                  orderId: getJsonField(
+                                                    (_model.orderOutput2
+                                                            ?.jsonBody ??
+                                                        ''),
+                                                    r'''$.response.id''',
+                                                  ),
+                                                  amount: getJsonField(
+                                                    (_model.orderOutput2
+                                                            ?.jsonBody ??
+                                                        ''),
+                                                    r'''$.response.sum''',
+                                                  ),
                                                 );
+
                                                 _shouldSetState = true;
                                               } else {
                                                 await showDialog(
@@ -2674,50 +2658,43 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                 return;
                                               }
                                             }
-                                            unawaited(
-                                              () async {
+                                            await OwnRoutesGroup
+                                                .createCustomerOrderCall
+                                                .call(
+                                              customerId: getJsonField(
+                                                widget.customer,
+                                                r'''$.client_id''',
+                                              ).toString(),
+                                              productsJson:
+                                                  functions.parseOrderArray(
+                                                      FFAppState()
+                                                          .OrderItems
+                                                          .toList(),
+                                                      true),
+                                              hasFree: FFAppState()
+                                                          .OrderItems
+                                                          .where(
+                                                              (e) => e.isFree)
+                                                          .toList()
+                                                          .length >
+                                                      0
+                                                  ? true
+                                                  : false,
+                                            );
+
+                                            _model.workOutput =
                                                 await OwnRoutesGroup
-                                                    .createCustomerOrderCall
+                                                    .createWorkCall
                                                     .call(
-                                                  customerId: getJsonField(
-                                                    widget.customer,
-                                                    r'''$.client_id''',
-                                                  ).toString(),
-                                                  productsJson:
-                                                      functions.parseOrderArray(
-                                                          FFAppState()
-                                                              .OrderItems
-                                                              .toList(),
-                                                          true),
-                                                  hasFree: FFAppState()
-                                                              .OrderItems
-                                                              .where((e) =>
-                                                                  e.isFree)
-                                                              .toList()
-                                                              .length >
-                                                          0
-                                                      ? true
-                                                      : false,
-                                                );
-                                              }(),
+                                              itemsJson:
+                                                  functions.parseWorkArray(
+                                                      FFAppState()
+                                                          .OrderItems
+                                                          .toList(),
+                                                      _model.nameTextController
+                                                          .text),
                                             );
-                                            unawaited(
-                                              () async {
-                                                _model.workOutput =
-                                                    await OwnRoutesGroup
-                                                        .createWorkCall
-                                                        .call(
-                                                  itemsJson:
-                                                      functions.parseWorkArray(
-                                                          FFAppState()
-                                                              .OrderItems
-                                                              .toList(),
-                                                          _model
-                                                              .nameTextController
-                                                              .text),
-                                                );
-                                              }(),
-                                            );
+
                                             _shouldSetState = true;
 
                                             context.goNamed(
@@ -2795,22 +2772,19 @@ class _OrderWidgetState extends State<OrderWidget> {
                                               if ((_model.orderOutputPromoRetry
                                                       ?.succeeded ??
                                                   true)) {
-                                                unawaited(
-                                                  () async {
-                                                    _model.closePromoOrderRetry =
-                                                        await OrderGroup
-                                                            .closeOrderCall
-                                                            .call(
-                                                      orderId: getJsonField(
-                                                        (_model.orderOutputPromoRetry
-                                                                ?.jsonBody ??
-                                                            ''),
-                                                        r'''$.response.id''',
-                                                      ),
-                                                      amount: 0,
-                                                    );
-                                                  }(),
+                                                _model.closePromoOrderRetry =
+                                                    await OrderGroup
+                                                        .closeOrderCall
+                                                        .call(
+                                                  orderId: getJsonField(
+                                                    (_model.orderOutputPromoRetry
+                                                            ?.jsonBody ??
+                                                        ''),
+                                                    r'''$.response.id''',
+                                                  ),
+                                                  amount: 0,
                                                 );
+
                                                 _shouldSetState = true;
                                               } else {
                                                 await showDialog(
@@ -2895,27 +2869,24 @@ class _OrderWidgetState extends State<OrderWidget> {
                                               if ((_model.orderOutput3
                                                       ?.succeeded ??
                                                   true)) {
-                                                unawaited(
-                                                  () async {
-                                                    _model.closeOrder3 =
-                                                        await OrderGroup
-                                                            .closeOrderCall
-                                                            .call(
-                                                      orderId: getJsonField(
-                                                        (_model.orderOutput3
-                                                                ?.jsonBody ??
-                                                            ''),
-                                                        r'''$.response.id''',
-                                                      ),
-                                                      amount: getJsonField(
-                                                        (_model.orderOutput3
-                                                                ?.jsonBody ??
-                                                            ''),
-                                                        r'''$.response.sum''',
-                                                      ),
-                                                    );
-                                                  }(),
+                                                _model.closeOrder3 =
+                                                    await OrderGroup
+                                                        .closeOrderCall
+                                                        .call(
+                                                  orderId: getJsonField(
+                                                    (_model.orderOutput3
+                                                            ?.jsonBody ??
+                                                        ''),
+                                                    r'''$.response.id''',
+                                                  ),
+                                                  amount: getJsonField(
+                                                    (_model.orderOutput3
+                                                            ?.jsonBody ??
+                                                        ''),
+                                                    r'''$.response.sum''',
+                                                  ),
                                                 );
+
                                                 _shouldSetState = true;
                                               } else {
                                                 if (_shouldSetState)
@@ -2923,50 +2894,43 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                 return;
                                               }
                                             }
-                                            unawaited(
-                                              () async {
+                                            await OwnRoutesGroup
+                                                .createCustomerOrderCall
+                                                .call(
+                                              customerId: getJsonField(
+                                                widget.customer,
+                                                r'''$.client_id''',
+                                              ).toString(),
+                                              productsJson:
+                                                  functions.parseOrderArray(
+                                                      FFAppState()
+                                                          .OrderItems
+                                                          .toList(),
+                                                      true),
+                                              hasFree: FFAppState()
+                                                          .OrderItems
+                                                          .where(
+                                                              (e) => e.isFree)
+                                                          .toList()
+                                                          .length >
+                                                      0
+                                                  ? true
+                                                  : false,
+                                            );
+
+                                            _model.workOutput3 =
                                                 await OwnRoutesGroup
-                                                    .createCustomerOrderCall
+                                                    .createWorkCall
                                                     .call(
-                                                  customerId: getJsonField(
-                                                    widget.customer,
-                                                    r'''$.client_id''',
-                                                  ).toString(),
-                                                  productsJson:
-                                                      functions.parseOrderArray(
-                                                          FFAppState()
-                                                              .OrderItems
-                                                              .toList(),
-                                                          true),
-                                                  hasFree: FFAppState()
-                                                              .OrderItems
-                                                              .where((e) =>
-                                                                  e.isFree)
-                                                              .toList()
-                                                              .length >
-                                                          0
-                                                      ? true
-                                                      : false,
-                                                );
-                                              }(),
+                                              itemsJson:
+                                                  functions.parseWorkArray(
+                                                      FFAppState()
+                                                          .OrderItems
+                                                          .toList(),
+                                                      _model.nameTextController
+                                                          .text),
                                             );
-                                            unawaited(
-                                              () async {
-                                                _model.workOutput3 =
-                                                    await OwnRoutesGroup
-                                                        .createWorkCall
-                                                        .call(
-                                                  itemsJson:
-                                                      functions.parseWorkArray(
-                                                          FFAppState()
-                                                              .OrderItems
-                                                              .toList(),
-                                                          _model
-                                                              .nameTextController
-                                                              .text),
-                                                );
-                                              }(),
-                                            );
+
                                             _shouldSetState = true;
 
                                             context.goNamed(
