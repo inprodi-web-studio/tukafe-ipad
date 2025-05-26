@@ -2471,7 +2471,7 @@ class _OrderWidgetState extends State<OrderWidget> {
 
                                           _shouldSetState = true;
                                           await Future.delayed(const Duration(
-                                              milliseconds: 2000));
+                                              milliseconds: 4000));
                                           _model.purchasesOutput =
                                               await ZettlePurchaseGroup
                                                   .getPurchasesCall
@@ -2741,7 +2741,7 @@ class _OrderWidgetState extends State<OrderWidget> {
                                             return;
                                           } else {
                                             await Future.delayed(const Duration(
-                                                milliseconds: 2000));
+                                                milliseconds: 4000));
                                             _model.purchasesOutputRetry =
                                                 await ZettlePurchaseGroup
                                                     .getPurchasesCall
