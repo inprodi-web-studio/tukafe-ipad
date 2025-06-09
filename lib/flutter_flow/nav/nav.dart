@@ -10,6 +10,8 @@ import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 
 import '/index.dart';
+import 'package:ghost_gesture_detector_library_ttvpdv/index.dart'
+    as $ghost_gesture_detector_library_ttvpdv;
 
 export 'package:go_router/go_router.dart';
 export 'serialization_util.dart';
@@ -32,84 +34,96 @@ class AppStateNotifier extends ChangeNotifier {
   }
 }
 
-GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
-      initialLocation: '/',
-      debugLogDiagnostics: true,
-      refreshListenable: appStateNotifier,
-      navigatorKey: appNavigatorKey,
-      errorBuilder: (context, state) => appStateNotifier.showSplashImage
-          ? Builder(
-              builder: (context) => Container(
-                color: FlutterFlowTheme.of(context).secondaryBackground,
-                child: Center(
-                  child: Image.asset(
-                    'assets/images/Tukafe_Identidad-31.png',
-                    width: 100.0,
-                    fit: BoxFit.fitWidth,
-                  ),
+GoRouter createRouter(AppStateNotifier appStateNotifier) {
+  $ghost_gesture_detector_library_ttvpdv.initializeRoutes(
+    homePageWidgetName: 'ghost_gesture_detector_library_ttvpdv.HomePage',
+  );
+
+  return GoRouter(
+    initialLocation: '/',
+    debugLogDiagnostics: true,
+    refreshListenable: appStateNotifier,
+    navigatorKey: appNavigatorKey,
+    errorBuilder: (context, state) => appStateNotifier.showSplashImage
+        ? Builder(
+            builder: (context) => Container(
+              color: FlutterFlowTheme.of(context).secondaryBackground,
+              child: Center(
+                child: Image.asset(
+                  'assets/images/Tukafe_Identidad-31.png',
+                  width: 100.0,
+                  fit: BoxFit.fitWidth,
                 ),
               ),
-            )
-          : WelcomeWidget(),
-      routes: [
-        FFRoute(
-          name: '_initialize',
-          path: '/',
-          builder: (context, _) => appStateNotifier.showSplashImage
-              ? Builder(
-                  builder: (context) => Container(
-                    color: FlutterFlowTheme.of(context).secondaryBackground,
-                    child: Center(
-                      child: Image.asset(
-                        'assets/images/Tukafe_Identidad-31.png',
-                        width: 100.0,
-                        fit: BoxFit.fitWidth,
-                      ),
+            ),
+          )
+        : WelcomeWidget(),
+    routes: [
+      FFRoute(
+        name: '_initialize',
+        path: '/',
+        builder: (context, _) => appStateNotifier.showSplashImage
+            ? Builder(
+                builder: (context) => Container(
+                  color: FlutterFlowTheme.of(context).secondaryBackground,
+                  child: Center(
+                    child: Image.asset(
+                      'assets/images/Tukafe_Identidad-31.png',
+                      width: 100.0,
+                      fit: BoxFit.fitWidth,
                     ),
                   ),
-                )
-              : WelcomeWidget(),
-        ),
-        FFRoute(
-          name: WelcomeWidget.routeName,
-          path: WelcomeWidget.routePath,
-          builder: (context, params) => WelcomeWidget(),
-        ),
-        FFRoute(
-          name: GuestOrderWidget.routeName,
-          path: GuestOrderWidget.routePath,
-          builder: (context, params) => GuestOrderWidget(),
-        ),
-        FFRoute(
-          name: AppLoginWidget.routeName,
-          path: AppLoginWidget.routePath,
-          builder: (context, params) => AppLoginWidget(),
-        ),
-        FFRoute(
-          name: OrderWidget.routeName,
-          path: OrderWidget.routePath,
-          builder: (context, params) => OrderWidget(
-            userType: params.getParam<UserTypes>(
-              'userType',
-              ParamType.Enum,
-            ),
-            customer: params.getParam(
-              'customer',
-              ParamType.JSON,
-            ),
-            hasFree: params.getParam(
-              'hasFree',
-              ParamType.bool,
-            ),
+                ),
+              )
+            : WelcomeWidget(),
+      ),
+      FFRoute(
+        name: WelcomeWidget.routeName,
+        path: WelcomeWidget.routePath,
+        builder: (context, params) => WelcomeWidget(),
+      ),
+      FFRoute(
+        name: GuestOrderWidget.routeName,
+        path: GuestOrderWidget.routePath,
+        builder: (context, params) => GuestOrderWidget(),
+      ),
+      FFRoute(
+        name: AppLoginWidget.routeName,
+        path: AppLoginWidget.routePath,
+        builder: (context, params) => AppLoginWidget(),
+      ),
+      FFRoute(
+        name: OrderWidget.routeName,
+        path: OrderWidget.routePath,
+        builder: (context, params) => OrderWidget(
+          userType: params.getParam<UserTypes>(
+            'userType',
+            ParamType.Enum,
+          ),
+          customer: params.getParam(
+            'customer',
+            ParamType.JSON,
+          ),
+          hasFree: params.getParam(
+            'hasFree',
+            ParamType.bool,
           ),
         ),
-        FFRoute(
-          name: ConfirmationWidget.routeName,
-          path: ConfirmationWidget.routePath,
-          builder: (context, params) => ConfirmationWidget(),
-        )
-      ].map((r) => r.toRoute(appStateNotifier)).toList(),
-    );
+      ),
+      FFRoute(
+        name: ConfirmationWidget.routeName,
+        path: ConfirmationWidget.routePath,
+        builder: (context, params) => ConfirmationWidget(),
+      ),
+      FFRoute(
+        name: $ghost_gesture_detector_library_ttvpdv.HomePageWidget.routeName,
+        path: $ghost_gesture_detector_library_ttvpdv.HomePageWidget.routePath,
+        builder: (context, params) =>
+            $ghost_gesture_detector_library_ttvpdv.HomePageWidget(),
+      )
+    ].map((r) => r.toRoute(appStateNotifier)).toList(),
+  );
+}
 
 extension NavParamExtensions on Map<String, String?> {
   Map<String, String> get withoutNulls => Map.fromEntries(
