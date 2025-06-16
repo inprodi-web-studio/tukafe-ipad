@@ -2386,9 +2386,10 @@ class _OrderWidgetState extends State<OrderWidget> {
                                               return;
                                             }
                                           }
-                                          await OwnRoutesGroup
-                                              .createCustomerOrderCall
-                                              .call(
+                                          _model.createCustomerOrder2 =
+                                              await OwnRoutesGroup
+                                                  .createCustomerOrderCall
+                                                  .call(
                                             customerId: getJsonField(
                                               widget.customer,
                                               r'''$.client_id''',
@@ -2409,6 +2410,7 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                 : false,
                                           );
 
+                                          _shouldSetState = true;
                                           _model.workOutput2 =
                                               await OwnRoutesGroup
                                                   .createWorkCall
@@ -2658,9 +2660,10 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                 return;
                                               }
                                             }
-                                            await OwnRoutesGroup
-                                                .createCustomerOrderCall
-                                                .call(
+                                            _model.createCustomerOrder =
+                                                await OwnRoutesGroup
+                                                    .createCustomerOrderCall
+                                                    .call(
                                               customerId: getJsonField(
                                                 widget.customer,
                                                 r'''$.client_id''',
@@ -2682,6 +2685,7 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                   : false,
                                             );
 
+                                            _shouldSetState = true;
                                             _model.workOutput =
                                                 await OwnRoutesGroup
                                                     .createWorkCall
@@ -2894,9 +2898,10 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                 return;
                                               }
                                             }
-                                            await OwnRoutesGroup
-                                                .createCustomerOrderCall
-                                                .call(
+                                            _model.createCustomerOrder3 =
+                                                await OwnRoutesGroup
+                                                    .createCustomerOrderCall
+                                                    .call(
                                               customerId: getJsonField(
                                                 widget.customer,
                                                 r'''$.client_id''',
@@ -2918,6 +2923,7 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                   : false,
                                             );
 
+                                            _shouldSetState = true;
                                             _model.workOutput3 =
                                                 await OwnRoutesGroup
                                                     .createWorkCall
