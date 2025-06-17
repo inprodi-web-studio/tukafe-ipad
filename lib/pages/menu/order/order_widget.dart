@@ -2284,31 +2284,23 @@ class _OrderWidgetState extends State<OrderWidget> {
                                             );
 
                                             _shouldSetState = true;
-                                            if ((_model.orderOutputPromo
-                                                    ?.succeeded ??
-                                                true)) {
-                                              unawaited(
-                                                () async {
-                                                  _model.closePromoOrder2 =
-                                                      await OrderGroup
-                                                          .closeOrderCall
-                                                          .call(
-                                                    orderId: getJsonField(
-                                                      (_model.orderOutputPromo
-                                                              ?.jsonBody ??
-                                                          ''),
-                                                      r'''$.response.id''',
-                                                    ),
-                                                    amount: 0,
-                                                  );
-                                                }(),
-                                              );
-                                              _shouldSetState = true;
-                                            } else {
-                                              if (_shouldSetState)
-                                                safeSetState(() {});
-                                              return;
-                                            }
+                                            unawaited(
+                                              () async {
+                                                _model.closePromoOrder2 =
+                                                    await OrderGroup
+                                                        .closeOrderCall
+                                                        .call(
+                                                  orderId: getJsonField(
+                                                    (_model.orderOutputPromo
+                                                            ?.jsonBody ??
+                                                        ''),
+                                                    r'''$.response.id''',
+                                                  ),
+                                                  amount: 0,
+                                                );
+                                              }(),
+                                            );
+                                            _shouldSetState = true;
                                           }
                                           if (FFAppState()
                                                   .OrderItems
@@ -2336,55 +2328,28 @@ class _OrderWidgetState extends State<OrderWidget> {
                                             );
 
                                             _shouldSetState = true;
-                                            if ((_model
-                                                    .orderOutput?.succeeded ??
-                                                true)) {
-                                              unawaited(
-                                                () async {
-                                                  _model.closeOrder =
-                                                      await OrderGroup
-                                                          .closeOrderCall
-                                                          .call(
-                                                    orderId: getJsonField(
-                                                      (_model.orderOutput
-                                                              ?.jsonBody ??
-                                                          ''),
-                                                      r'''$.response.id''',
-                                                    ),
-                                                    amount: getJsonField(
-                                                      (_model.orderOutput
-                                                              ?.jsonBody ??
-                                                          ''),
-                                                      r'''$.response.sum''',
-                                                    ),
-                                                  );
-                                                }(),
-                                              );
-                                              _shouldSetState = true;
-                                            } else {
-                                              await showDialog(
-                                                context: context,
-                                                builder: (alertDialogContext) {
-                                                  return AlertDialog(
-                                                    title: Text(
-                                                        'Ocurrió un error inesperado'),
-                                                    content: Text(
-                                                        'Parece que hay un error de servidor. Por favor, intenta nuevamente o notifícale a nuestro barista de este error.'),
-                                                    actions: [
-                                                      TextButton(
-                                                        onPressed: () =>
-                                                            Navigator.pop(
-                                                                alertDialogContext),
-                                                        child: Text('Aceptar'),
-                                                      ),
-                                                    ],
-                                                  );
-                                                },
-                                              );
-                                              if (_shouldSetState)
-                                                safeSetState(() {});
-                                              return;
-                                            }
+                                            unawaited(
+                                              () async {
+                                                _model.closeOrder =
+                                                    await OrderGroup
+                                                        .closeOrderCall
+                                                        .call(
+                                                  orderId: getJsonField(
+                                                    (_model.orderOutput
+                                                            ?.jsonBody ??
+                                                        ''),
+                                                    r'''$.response.id''',
+                                                  ),
+                                                  amount: getJsonField(
+                                                    (_model.orderOutput
+                                                            ?.jsonBody ??
+                                                        ''),
+                                                    r'''$.response.sum''',
+                                                  ),
+                                                );
+                                              }(),
+                                            );
+                                            _shouldSetState = true;
                                           }
                                           _model.createCustomerOrder2 =
                                               await OwnRoutesGroup
@@ -2539,49 +2504,20 @@ class _OrderWidgetState extends State<OrderWidget> {
                                               );
 
                                               _shouldSetState = true;
-                                              if ((_model.orderOutputPromo2
-                                                      ?.succeeded ??
-                                                  true)) {
-                                                _model.closePromoOrder =
-                                                    await OrderGroup
-                                                        .closeOrderCall
-                                                        .call(
-                                                  orderId: getJsonField(
-                                                    (_model.orderOutputPromo2
-                                                            ?.jsonBody ??
-                                                        ''),
-                                                    r'''$.response.id''',
-                                                  ),
-                                                  amount: 0,
-                                                );
+                                              _model.closePromoOrder =
+                                                  await OrderGroup
+                                                      .closeOrderCall
+                                                      .call(
+                                                orderId: getJsonField(
+                                                  (_model.orderOutputPromo2
+                                                          ?.jsonBody ??
+                                                      ''),
+                                                  r'''$.response.id''',
+                                                ),
+                                                amount: 0,
+                                              );
 
-                                                _shouldSetState = true;
-                                              } else {
-                                                await showDialog(
-                                                  context: context,
-                                                  builder:
-                                                      (alertDialogContext) {
-                                                    return AlertDialog(
-                                                      title: Text(
-                                                          'Ocurrió un error inesperado'),
-                                                      content: Text(
-                                                          'Parece que hay un error de servidor. Por favor, intenta nuevamente o notifícale a nuestro barista de este error.'),
-                                                      actions: [
-                                                        TextButton(
-                                                          onPressed: () =>
-                                                              Navigator.pop(
-                                                                  alertDialogContext),
-                                                          child:
-                                                              Text('Aceptar'),
-                                                        ),
-                                                      ],
-                                                    );
-                                                  },
-                                                );
-                                                if (_shouldSetState)
-                                                  safeSetState(() {});
-                                                return;
-                                              }
+                                              _shouldSetState = true;
                                             }
                                             if (FFAppState()
                                                     .OrderItems
@@ -2611,54 +2547,25 @@ class _OrderWidgetState extends State<OrderWidget> {
                                               );
 
                                               _shouldSetState = true;
-                                              if ((_model.orderOutput2
-                                                      ?.succeeded ??
-                                                  true)) {
-                                                _model.closeOrder2 =
-                                                    await OrderGroup
-                                                        .closeOrderCall
-                                                        .call(
-                                                  orderId: getJsonField(
-                                                    (_model.orderOutput2
-                                                            ?.jsonBody ??
-                                                        ''),
-                                                    r'''$.response.id''',
-                                                  ),
-                                                  amount: getJsonField(
-                                                    (_model.orderOutput2
-                                                            ?.jsonBody ??
-                                                        ''),
-                                                    r'''$.response.sum''',
-                                                  ),
-                                                );
+                                              _model.closeOrder2 =
+                                                  await OrderGroup
+                                                      .closeOrderCall
+                                                      .call(
+                                                orderId: getJsonField(
+                                                  (_model.orderOutput2
+                                                          ?.jsonBody ??
+                                                      ''),
+                                                  r'''$.response.id''',
+                                                ),
+                                                amount: getJsonField(
+                                                  (_model.orderOutput2
+                                                          ?.jsonBody ??
+                                                      ''),
+                                                  r'''$.response.sum''',
+                                                ),
+                                              );
 
-                                                _shouldSetState = true;
-                                              } else {
-                                                await showDialog(
-                                                  context: context,
-                                                  builder:
-                                                      (alertDialogContext) {
-                                                    return AlertDialog(
-                                                      title: Text(
-                                                          'Ocurrió un error inesperado'),
-                                                      content: Text(
-                                                          'Parece que hay un error de servidor. Por favor, intenta nuevamente o notifícale a nuestro barista de este error.'),
-                                                      actions: [
-                                                        TextButton(
-                                                          onPressed: () =>
-                                                              Navigator.pop(
-                                                                  alertDialogContext),
-                                                          child:
-                                                              Text('Aceptar'),
-                                                        ),
-                                                      ],
-                                                    );
-                                                  },
-                                                );
-                                                if (_shouldSetState)
-                                                  safeSetState(() {});
-                                                return;
-                                              }
+                                              _shouldSetState = true;
                                             }
                                             _model.createCustomerOrder =
                                                 await OwnRoutesGroup
@@ -2773,49 +2680,20 @@ class _OrderWidgetState extends State<OrderWidget> {
                                               );
 
                                               _shouldSetState = true;
-                                              if ((_model.orderOutputPromoRetry
-                                                      ?.succeeded ??
-                                                  true)) {
-                                                _model.closePromoOrderRetry =
-                                                    await OrderGroup
-                                                        .closeOrderCall
-                                                        .call(
-                                                  orderId: getJsonField(
-                                                    (_model.orderOutputPromoRetry
-                                                            ?.jsonBody ??
-                                                        ''),
-                                                    r'''$.response.id''',
-                                                  ),
-                                                  amount: 0,
-                                                );
+                                              _model.closePromoOrderRetry =
+                                                  await OrderGroup
+                                                      .closeOrderCall
+                                                      .call(
+                                                orderId: getJsonField(
+                                                  (_model.orderOutputPromoRetry
+                                                          ?.jsonBody ??
+                                                      ''),
+                                                  r'''$.response.id''',
+                                                ),
+                                                amount: 0,
+                                              );
 
-                                                _shouldSetState = true;
-                                              } else {
-                                                await showDialog(
-                                                  context: context,
-                                                  builder:
-                                                      (alertDialogContext) {
-                                                    return AlertDialog(
-                                                      title: Text(
-                                                          'Ocurrió un error inesperado'),
-                                                      content: Text(
-                                                          'Parece que hay un error de servidor. Por favor, intenta nuevamente o notifícale a nuestro barista de este error.'),
-                                                      actions: [
-                                                        TextButton(
-                                                          onPressed: () =>
-                                                              Navigator.pop(
-                                                                  alertDialogContext),
-                                                          child:
-                                                              Text('Aceptar'),
-                                                        ),
-                                                      ],
-                                                    );
-                                                  },
-                                                );
-                                                if (_shouldSetState)
-                                                  safeSetState(() {});
-                                                return;
-                                              }
+                                              _shouldSetState = true;
                                             } else {
                                               ScaffoldMessenger.of(context)
                                                   .showSnackBar(
@@ -2870,33 +2748,25 @@ class _OrderWidgetState extends State<OrderWidget> {
                                               );
 
                                               _shouldSetState = true;
-                                              if ((_model.orderOutput3
-                                                      ?.succeeded ??
-                                                  true)) {
-                                                _model.closeOrder3 =
-                                                    await OrderGroup
-                                                        .closeOrderCall
-                                                        .call(
-                                                  orderId: getJsonField(
-                                                    (_model.orderOutput3
-                                                            ?.jsonBody ??
-                                                        ''),
-                                                    r'''$.response.id''',
-                                                  ),
-                                                  amount: getJsonField(
-                                                    (_model.orderOutput3
-                                                            ?.jsonBody ??
-                                                        ''),
-                                                    r'''$.response.sum''',
-                                                  ),
-                                                );
+                                              _model.closeOrder3 =
+                                                  await OrderGroup
+                                                      .closeOrderCall
+                                                      .call(
+                                                orderId: getJsonField(
+                                                  (_model.orderOutput3
+                                                          ?.jsonBody ??
+                                                      ''),
+                                                  r'''$.response.id''',
+                                                ),
+                                                amount: getJsonField(
+                                                  (_model.orderOutput3
+                                                          ?.jsonBody ??
+                                                      ''),
+                                                  r'''$.response.sum''',
+                                                ),
+                                              );
 
-                                                _shouldSetState = true;
-                                              } else {
-                                                if (_shouldSetState)
-                                                  safeSetState(() {});
-                                                return;
-                                              }
+                                              _shouldSetState = true;
                                             }
                                             _model.createCustomerOrder3 =
                                                 await OwnRoutesGroup
