@@ -131,7 +131,7 @@ class _WelcomeWidgetState extends State<WelcomeWidget> {
                         EdgeInsetsDirectional.fromSTEB(0.0, 40.0, 0.0, 0.0),
                     child: FFButtonWidget(
                       onPressed: () async {
-                        context.pushNamed(
+                        context.goNamed(
                           GuestOrderWidget.routeName,
                           extra: <String, dynamic>{
                             kTransitionInfoKey: TransitionInfo(

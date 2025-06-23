@@ -30,6 +30,8 @@ class OrderModel extends FlutterFlowModel<OrderWidget> {
   ApiCallResponse? orderOutput;
   // Stores action output result for [Backend Call - API (Close Order)] action in Button widget.
   ApiCallResponse? closeOrder;
+  // Stores action output result for [Backend Call - API (Create Customer Order)] action in Button widget.
+  ApiCallResponse? createCustomerOrder2;
   // Stores action output result for [Backend Call - API (Create Work)] action in Button widget.
   ApiCallResponse? workOutput2;
   // Stores action output result for [Custom Action - generatePayment] action in Button widget.
@@ -46,6 +48,8 @@ class OrderModel extends FlutterFlowModel<OrderWidget> {
   ApiCallResponse? orderOutput2;
   // Stores action output result for [Backend Call - API (Close Order)] action in Button widget.
   ApiCallResponse? closeOrder2;
+  // Stores action output result for [Backend Call - API (Create Customer Order)] action in Button widget.
+  ApiCallResponse? createCustomerOrder;
   // Stores action output result for [Backend Call - API (Create Work)] action in Button widget.
   ApiCallResponse? workOutput;
   // Stores action output result for [Backend Call - API (Get Purchases)] action in Button widget.
@@ -58,6 +62,8 @@ class OrderModel extends FlutterFlowModel<OrderWidget> {
   ApiCallResponse? orderOutput3;
   // Stores action output result for [Backend Call - API (Close Order)] action in Button widget.
   ApiCallResponse? closeOrder3;
+  // Stores action output result for [Backend Call - API (Create Customer Order)] action in Button widget.
+  ApiCallResponse? createCustomerOrder3;
   // Stores action output result for [Backend Call - API (Create Work)] action in Button widget.
   ApiCallResponse? workOutput3;
 
