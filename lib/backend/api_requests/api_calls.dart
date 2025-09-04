@@ -149,6 +149,7 @@ class CreateOrderCall {
     dynamic customerJson,
     dynamic productsJson,
     String? comment = '',
+    int? spotId,
     String? token = '182720:8145958cd583496ec02d4cd60b03bebf',
   }) async {
     final baseUrl = OrderGroup.getBaseUrl(
@@ -159,7 +160,7 @@ class CreateOrderCall {
     final products = _serializeJson(productsJson, true);
     final ffApiRequestBody = '''
 {
-  "spotId": 1,
+  "spotId": ${spotId},
   "serviceMode": 2,
   "autoAccept": true,
   "client": ${customer},
@@ -313,6 +314,51 @@ class CreatePhoneCustomerCall {
 }
 
 /// End Customers Group Code
+
+/// Start Locations Group Code
+
+class LocationsGroup {
+  static String getBaseUrl({
+    String? token = '182720:8145958cd583496ec02d4cd60b03bebf',
+  }) =>
+      'https://joinposter.com/api';
+  static Map<String, String> headers = {};
+  static FindLocationsCall findLocationsCall = FindLocationsCall();
+}
+
+class FindLocationsCall {
+  Future<ApiCallResponse> call({
+    String? token = '182720:8145958cd583496ec02d4cd60b03bebf',
+  }) async {
+    final baseUrl = LocationsGroup.getBaseUrl(
+      token: token,
+    );
+
+    return ApiManager.instance.makeApiCall(
+      callName: 'Find Locations',
+      apiUrl: '${baseUrl}/spots.getSpots',
+      callType: ApiCallType.GET,
+      headers: {},
+      params: {
+        'token': token,
+      },
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+
+  List? data(dynamic response) => getJsonField(
+        response,
+        r'''$.response''',
+        true,
+      ) as List?;
+}
+
+/// End Locations Group Code
 
 /// Start Own Routes Group Code
 

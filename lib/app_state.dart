@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '/backend/schema/structs/index.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class FFAppState extends ChangeNotifier {
   static FFAppState _instance = FFAppState._internal();
@@ -14,12 +15,19 @@ class FFAppState extends ChangeNotifier {
     _instance = FFAppState._internal();
   }
 
-  Future initializePersistedState() async {}
+  Future initializePersistedState() async {
+    prefs = await SharedPreferences.getInstance();
+    _safeInit(() {
+      _Pin = prefs.getString('ff_Pin') ?? _Pin;
+    });
+  }
 
   void update(VoidCallback callback) {
     callback();
     notifyListeners();
   }
+
+  late SharedPreferences prefs;
 
   List<OrderProductStruct> _OrderItems = [];
   List<OrderProductStruct> get OrderItems => _OrderItems;
@@ -83,4 +91,29 @@ class FFAppState extends ChangeNotifier {
       int index, LastCustomerOrdersProductsStruct value) {
     LastCustomerOrdersProducts.insert(index, value);
   }
+
+  String _Pin = '88523';
+  String get Pin => _Pin;
+  set Pin(String value) {
+    _Pin = value;
+    prefs.setString('ff_Pin', value);
+  }
+
+  int _Branch = 0;
+  int get Branch => _Branch;
+  set Branch(int value) {
+    _Branch = value;
+  }
+}
+
+void _safeInit(Function() initializeField) {
+  try {
+    initializeField();
+  } catch (_) {}
+}
+
+Future _safeInitAsync(Function() initializeField) async {
+  try {
+    await initializeField();
+  } catch (_) {}
 }

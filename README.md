@@ -1,4 +1,4 @@
-# Tu Kafe In Place
+# Tu Kafe POS
 
 A new Flutter project.
 
