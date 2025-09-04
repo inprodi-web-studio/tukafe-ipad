@@ -2281,6 +2281,7 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                               e.price == 0.0)
                                                           .toList(),
                                                       false),
+                                              spotId: FFAppState().Branch,
                                             );
 
                                             _shouldSetState = true;
@@ -2325,6 +2326,7 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                               e.price != 0.0)
                                                           .toList(),
                                                       false),
+                                              spotId: FFAppState().Branch,
                                             );
 
                                             _shouldSetState = true;
@@ -2427,8 +2429,11 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                   .call();
 
                                           _shouldSetState = true;
-                                          await Future.delayed(const Duration(
-                                              milliseconds: 4000));
+                                          await Future.delayed(
+                                            Duration(
+                                              milliseconds: 4000,
+                                            ),
+                                          );
                                           _model.purchasesOutput =
                                               await ZettlePurchaseGroup
                                                   .getPurchasesCall
@@ -2501,6 +2506,7 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                                 e.price == 0.0)
                                                             .toList(),
                                                         false),
+                                                spotId: FFAppState().Branch,
                                               );
 
                                               _shouldSetState = true;
@@ -2544,6 +2550,7 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                                 e.price != 0.0)
                                                             .toList(),
                                                         false),
+                                                spotId: FFAppState().Branch,
                                               );
 
                                               _shouldSetState = true;
@@ -2628,8 +2635,11 @@ class _OrderWidgetState extends State<OrderWidget> {
                                               safeSetState(() {});
                                             return;
                                           } else {
-                                            await Future.delayed(const Duration(
-                                                milliseconds: 4000));
+                                            await Future.delayed(
+                                              Duration(
+                                                milliseconds: 4000,
+                                              ),
+                                            );
                                             _model.purchasesOutputRetry =
                                                 await ZettlePurchaseGroup
                                                     .getPurchasesCall
@@ -2677,6 +2687,7 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                                 e.price == 0.0)
                                                             .toList(),
                                                         false),
+                                                spotId: FFAppState().Branch,
                                               );
 
                                               _shouldSetState = true;
@@ -2745,6 +2756,7 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                                 e.price != 0.0)
                                                             .toList(),
                                                         false),
+                                                spotId: FFAppState().Branch,
                                               );
 
                                               _shouldSetState = true;

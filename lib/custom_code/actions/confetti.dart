@@ -11,8 +11,6 @@ import 'package:flutter/material.dart';
 
 import 'package:confetti/confetti.dart';
 
-import 'package:confetti/confetti.dart';
-
 Future<void> confetti(BuildContext context) async {
   // Crear controladores de confetti para diferentes direcciones
   final confettiControllerLeft =
