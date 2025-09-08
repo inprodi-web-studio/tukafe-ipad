@@ -99,7 +99,7 @@ class FFAppState extends ChangeNotifier {
     prefs.setString('ff_Pin', value);
   }
 
-  int _Branch = 0;
+  int _Branch = 1;
   int get Branch => _Branch;
   set Branch(int value) {
     _Branch = value;
