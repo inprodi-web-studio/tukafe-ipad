@@ -144,8 +144,11 @@ class _BranchSelectWidgetState extends State<BranchSelectWidget> {
                           EdgeInsetsDirectional.fromSTEB(0.0, 20.0, 0.0, 0.0),
                       child: FFButtonWidget(
                         onPressed: () async {
-                          if (_model.pinCodeController!.text !=
+                          if (_model.pinCodeController!.text ==
                               FFAppState().Pin) {
+                            _model.canSelect = true;
+                            safeSetState(() {});
+                          } else {
                             await showDialog(
                               context: context,
                               builder: (alertDialogContext) {
