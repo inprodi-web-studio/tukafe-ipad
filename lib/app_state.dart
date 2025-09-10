@@ -20,6 +20,9 @@ class FFAppState extends ChangeNotifier {
     _safeInit(() {
       _Pin = prefs.getString('ff_Pin') ?? _Pin;
     });
+    _safeInit(() {
+      _Branch = prefs.getInt('ff_Branch') ?? _Branch;
+    });
   }
 
   void update(VoidCallback callback) {
@@ -103,6 +106,7 @@ class FFAppState extends ChangeNotifier {
   int get Branch => _Branch;
   set Branch(int value) {
     _Branch = value;
+    prefs.setInt('ff_Branch', value);
   }
 }
 
