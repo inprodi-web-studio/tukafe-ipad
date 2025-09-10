@@ -137,7 +137,7 @@ List<dynamic> parseWorkArray(
         return {"value": mod.name};
       }).toList(),
       "count": item.count,
-      "branch": item.branch
+      "branch": branch
     };
   }).toList();
 }
