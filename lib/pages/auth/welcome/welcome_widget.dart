@@ -6,7 +6,6 @@ import '/index.dart';
 import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 import 'welcome_model.dart';
 export 'welcome_model.dart';
 
@@ -40,8 +39,6 @@ class _WelcomeWidgetState extends State<WelcomeWidget> {
 
   @override
   Widget build(BuildContext context) {
-    context.watch<FFAppState>();
-
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -164,33 +161,6 @@ class _WelcomeWidgetState extends State<WelcomeWidget> {
                               0.0, 4.0, 0.0, 0.0),
                           child: Text(
                             'Haz click para comenzar tu pedido y \ndisfruta una nueva forma de disfrutar tu café.',
-                            textAlign: TextAlign.center,
-                            style: FlutterFlowTheme.of(context)
-                                .bodyMedium
-                                .override(
-                                  font: GoogleFonts.montserrat(
-                                    fontWeight: FontWeight.w500,
-                                    fontStyle: FlutterFlowTheme.of(context)
-                                        .bodyMedium
-                                        .fontStyle,
-                                  ),
-                                  color: FlutterFlowTheme.of(context)
-                                      .secondaryBackground,
-                                  fontSize: 20.0,
-                                  letterSpacing: 0.0,
-                                  fontWeight: FontWeight.w500,
-                                  fontStyle: FlutterFlowTheme.of(context)
-                                      .bodyMedium
-                                      .fontStyle,
-                                  lineHeight: 2.0,
-                                ),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
-                              0.0, 4.0, 0.0, 0.0),
-                          child: Text(
-                            FFAppState().Branch.toString(),
                             textAlign: TextAlign.center,
                             style: FlutterFlowTheme.of(context)
                                 .bodyMedium
