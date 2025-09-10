@@ -279,7 +279,7 @@ class _BranchSelectWidgetState extends State<BranchSelectWidget> {
                                       locationItem,
                                       r'''$.spot_id''',
                                     );
-                                    safeSetState(() {});
+                                    FFAppState().update(() {});
                                   },
                                   child: Container(
                                     width: double.infinity,
