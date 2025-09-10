@@ -127,6 +127,7 @@ int findIndexInOrder(
 List<dynamic> parseWorkArray(
   List<OrderProductStruct> items,
   String customer,
+  int branch,
 ) {
   return items.map((item) {
     return {
@@ -135,7 +136,8 @@ List<dynamic> parseWorkArray(
       "modificators": item.modification.map((mod) {
         return {"value": mod.name};
       }).toList(),
-      "count": item.count
+      "count": item.count,
+      "branch": item.branch
     };
   }).toList();
 }

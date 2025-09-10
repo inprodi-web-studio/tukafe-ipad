@@ -2386,7 +2386,8 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                 FFAppState()
                                                     .OrderItems
                                                     .toList(),
-                                                _model.nameTextController.text),
+                                                _model.nameTextController.text,
+                                                FFAppState().Branch),
                                           );
 
                                           _shouldSetState = true;
@@ -2610,7 +2611,8 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                           .OrderItems
                                                           .toList(),
                                                       _model.nameTextController
-                                                          .text),
+                                                          .text,
+                                                      FFAppState().Branch),
                                             );
 
                                             _shouldSetState = true;
@@ -2816,7 +2818,8 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                           .OrderItems
                                                           .toList(),
                                                       _model.nameTextController
-                                                          .text),
+                                                          .text,
+                                                      FFAppState().Branch),
                                             );
 
                                             _shouldSetState = true;
