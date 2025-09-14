@@ -2298,6 +2298,7 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                     r'''$.response.id''',
                                                   ),
                                                   amount: 0,
+                                                  spotId: FFAppState().Branch,
                                                 );
                                               }(),
                                             );
@@ -2348,6 +2349,7 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                         ''),
                                                     r'''$.response.sum''',
                                                   ),
+                                                  spotId: FFAppState().Branch,
                                                 );
                                               }(),
                                             );
@@ -2522,6 +2524,7 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                   r'''$.response.id''',
                                                 ),
                                                 amount: 0,
+                                                spotId: FFAppState().Branch,
                                               );
 
                                               _shouldSetState = true;
@@ -2571,6 +2574,7 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                       ''),
                                                   r'''$.response.sum''',
                                                 ),
+                                                spotId: FFAppState().Branch,
                                               );
 
                                               _shouldSetState = true;
@@ -2704,6 +2708,7 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                   r'''$.response.id''',
                                                 ),
                                                 amount: 0,
+                                                spotId: FFAppState().Branch,
                                               );
 
                                               _shouldSetState = true;
@@ -2778,6 +2783,7 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                       ''),
                                                   r'''$.response.sum''',
                                                 ),
+                                                spotId: FFAppState().Branch,
                                               );
 
                                               _shouldSetState = true;
