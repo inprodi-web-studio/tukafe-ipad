@@ -189,6 +189,7 @@ class CloseOrderCall {
   Future<ApiCallResponse> call({
     int? orderId,
     int? amount,
+    int? spotId,
     String? token = '182720:8145958cd583496ec02d4cd60b03bebf',
   }) async {
     final baseUrl = OrderGroup.getBaseUrl(
@@ -197,7 +198,7 @@ class CloseOrderCall {
 
     final ffApiRequestBody = '''
 {
-  "spot_id": 1,
+  "spot_id": ${spotId},
   "spot_tablet_id": 1,
   "transaction_id": ${orderId},
   "payed_card": ${amount}
