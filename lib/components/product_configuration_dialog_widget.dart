@@ -868,7 +868,17 @@ class _ProductConfigurationDialogWidgetState
                                           )),
                                       (e) => e
                                         ..incrementCount(
-                                            _model.countControllerValue!),
+                                            _model.countControllerValue!)
+                                        ..discount = FFAppState()
+                                                    .Coupon
+                                                    .products
+                                                    .where((e) =>
+                                                        e == widget.productId)
+                                                    .toList()
+                                                    .length >
+                                                0
+                                            ? FFAppState().Coupon.discount
+                                            : 0.0,
                                     );
                                     FFAppState().update(() {});
                                   } else {
@@ -943,6 +953,16 @@ class _ProductConfigurationDialogWidgetState
                                             rowSingleProductResponse.jsonBody,
                                           )
                                           ?.nodiscount,
+                                      discount: FFAppState()
+                                                  .Coupon
+                                                  .products
+                                                  .where((e) =>
+                                                      e == widget.productId)
+                                                  .toList()
+                                                  .length >
+                                              0
+                                          ? FFAppState().Coupon.discount
+                                          : 0.0,
                                     ));
                                     FFAppState().update(() {});
                                   }

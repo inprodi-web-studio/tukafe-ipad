@@ -377,6 +377,7 @@ class OwnRoutesGroup {
   static CreateCustomerOrderCall createCustomerOrderCall =
       CreateCustomerOrderCall();
   static CreateWorkCall createWorkCall = CreateWorkCall();
+  static ValidateCouponCall validateCouponCall = ValidateCouponCall();
 }
 
 class GetCustomerLastOrdersCall {
@@ -423,6 +424,7 @@ class CreateCustomerOrderCall {
     String? customerId = '',
     dynamic productsJson,
     bool? hasFree,
+    String? coupon = '',
     String? token =
         '78445fbc64d40826408f50653f9692f59da74b601bd3ec841acab680a038a1d81183ed56aa6c0a71790a3c142713274384030d61af59ab7420b1d2b330e93307b598ad67e7a2793e72b8eb007ae32f0237606997b7ae5053f28be4edd943a35c1293fde44436c4744f3c8ef1ab935b221911b2bc2dd21a639b8a6d443580b536',
   }) async {
@@ -435,7 +437,8 @@ class CreateCustomerOrderCall {
 {
   "customer_id": "${escapeStringForJson(customerId)}",
   "products": ${products},
-  "hasFree": ${hasFree}
+  "hasFree": ${hasFree},
+  "coupon": "${escapeStringForJson(coupon)}"
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'Create Customer Order',
@@ -473,6 +476,45 @@ ${items}''';
     return ApiManager.instance.makeApiCall(
       callName: 'Create Work',
       apiUrl: '${baseUrl}/works',
+      callType: ApiCallType.POST,
+      headers: {
+        'Authorization': 'Bearer ${token}',
+      },
+      params: {},
+      body: ffApiRequestBody,
+      bodyType: BodyType.JSON,
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+}
+
+class ValidateCouponCall {
+  Future<ApiCallResponse> call({
+    String? coupon = '',
+    double? total,
+    List<String>? productsList,
+    String? token =
+        '78445fbc64d40826408f50653f9692f59da74b601bd3ec841acab680a038a1d81183ed56aa6c0a71790a3c142713274384030d61af59ab7420b1d2b330e93307b598ad67e7a2793e72b8eb007ae32f0237606997b7ae5053f28be4edd943a35c1293fde44436c4744f3c8ef1ab935b221911b2bc2dd21a639b8a6d443580b536',
+  }) async {
+    final baseUrl = OwnRoutesGroup.getBaseUrl(
+      token: token,
+    );
+    final products = _serializeList(productsList);
+
+    final ffApiRequestBody = '''
+{
+  "coupon": "${escapeStringForJson(coupon)}",
+  "products": ${products},
+  "total": ${total}
+}''';
+    return ApiManager.instance.makeApiCall(
+      callName: 'Validate Coupon',
+      apiUrl: '${baseUrl}/coupons',
       callType: ApiCallType.POST,
       headers: {
         'Authorization': 'Bearer ${token}',

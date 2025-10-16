@@ -40,8 +40,39 @@ double stringToNumber(String value) {
   return double.parse(value.replaceAll(RegExp(r'[^0-9.]'), ''));
 }
 
-double sumUnitaryPrices(List<OrderProductStruct> items) {
-  return items.fold(0.0, (sum, item) => sum + (item.unitaryPrice * item.count));
+double sumUnitaryPrices(
+  List<OrderProductStruct> items,
+  bool isPercent,
+  bool considerDiscounts,
+) {
+  if (!considerDiscounts) {
+    return items.fold(
+        0.0, (sum, item) => sum + (item.unitaryPrice * item.count));
+  }
+
+  if (isPercent) {
+    return items.fold(
+        0.0,
+        (sum, item) =>
+            sum + ((item.unitaryPrice * (item.discount / 100)) * item.count));
+  }
+
+  return items.fold(0.0,
+      (sum, item) => sum + ((item.unitaryPrice - item.discount) * item.count));
+}
+
+double sumDiscounts(
+  List<OrderProductStruct> items,
+  bool isPercent,
+) {
+  if (isPercent) {
+    return items.fold(
+        0.0,
+        (sum, item) =>
+            sum + ((item.discount / 100) * item.unitaryPrice * item.count));
+  }
+
+  return items.fold(0.0, (sum, item) => sum + (item.discount * item.count));
 }
 
 List<dynamic> parseOrderArray(

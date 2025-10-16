@@ -1,5 +1,6 @@
 import '/backend/api_requests/api_calls.dart';
 import '/backend/schema/enums/enums.dart';
+import '/backend/schema/structs/index.dart';
 import '/components/empty_order_widget.dart';
 import '/components/free_alert_widget.dart';
 import '/components/orders_count_widget.dart';
@@ -83,6 +84,195 @@ class _OrderWidgetState extends State<OrderWidget> {
 
     _model.nameTextController ??= TextEditingController();
     _model.nameFocusNode ??= FocusNode();
+
+    _model.couponTextController ??= TextEditingController();
+    _model.couponFocusNode ??= FocusNode();
+    _model.couponFocusNode!.addListener(
+      () async {
+        var _shouldSetState = false;
+        if (((_model.couponFocusNode?.hasFocus ?? false) == false) &&
+            (_model.couponTextController.text != '')) {
+          _model.couponOutput = await OwnRoutesGroup.validateCouponCall.call(
+            coupon: _model.couponTextController.text,
+            total: functions.sumUnitaryPrices(
+                FFAppState()
+                    .OrderItems
+                    .where((e) => e.isFree == false)
+                    .toList()
+                    .toList(),
+                false,
+                false),
+            productsList: FFAppState().OrderItems.map((e) => e.id).toList(),
+          );
+
+          _shouldSetState = true;
+          if ((_model.couponOutput?.succeeded ?? true)) {
+            safeSetState(() {
+              _model.couponTextController?.text = '';
+            });
+            FFAppState().Coupon = CouponStruct.maybeFromMap(
+                (_model.couponOutput?.jsonBody ?? ''))!;
+            safeSetState(() {});
+            if (FFAppState().Coupon.products.length > 0) {
+              for (int loop1Index = 0;
+                  loop1Index < FFAppState().Coupon.products.length;
+                  loop1Index++) {
+                final currentLoop1Item =
+                    FFAppState().Coupon.products[loop1Index];
+                FFAppState().updateOrderItemsAtIndex(
+                  functions.findIndexInOrder(
+                      FFAppState().OrderItems.toList(),
+                      FFAppState()
+                          .OrderItems
+                          .where((e) => e.id == currentLoop1Item)
+                          .toList()
+                          .firstOrNull!),
+                  (e) => e..discount = FFAppState().Coupon.discount,
+                );
+                safeSetState(() {});
+              }
+            } else {
+              if (_shouldSetState) safeSetState(() {});
+              return;
+            }
+          } else {
+            if ('coupon.notFound' ==
+                getJsonField(
+                  (_model.couponOutput?.jsonBody ?? ''),
+                  r'''$.error.details''',
+                ).toString()) {
+              await showDialog(
+                context: context,
+                builder: (alertDialogContext) {
+                  return AlertDialog(
+                    title: Text('Cupon no Encontrado'),
+                    content: Text(
+                        'No hemos encontrado ningún cupón con ese código.'),
+                    actions: [
+                      TextButton(
+                        onPressed: () => Navigator.pop(alertDialogContext),
+                        child: Text('Aceptar'),
+                      ),
+                    ],
+                  );
+                },
+              );
+            } else if ('coupon.expired' ==
+                getJsonField(
+                  (_model.couponOutput?.jsonBody ?? ''),
+                  r'''$.error.details''',
+                ).toString()) {
+              await showDialog(
+                context: context,
+                builder: (alertDialogContext) {
+                  return AlertDialog(
+                    title: Text('Cupon Expirado'),
+                    content: Text('El cupón ingresado ha expirado.'),
+                    actions: [
+                      TextButton(
+                        onPressed: () => Navigator.pop(alertDialogContext),
+                        child: Text('Aceptar'),
+                      ),
+                    ],
+                  );
+                },
+              );
+            } else if ('coupon.limitReached' ==
+                getJsonField(
+                  (_model.couponOutput?.jsonBody ?? ''),
+                  r'''$.error.details''',
+                ).toString()) {
+              await showDialog(
+                context: context,
+                builder: (alertDialogContext) {
+                  return AlertDialog(
+                    title: Text('Límite Alcanzado'),
+                    content: Text(
+                        'Se ha alcanzado el límite de uso configurado para este cupón.'),
+                    actions: [
+                      TextButton(
+                        onPressed: () => Navigator.pop(alertDialogContext),
+                        child: Text('Aceptar'),
+                      ),
+                    ],
+                  );
+                },
+              );
+            } else if ('coupon.amountTooLow' ==
+                getJsonField(
+                  (_model.couponOutput?.jsonBody ?? ''),
+                  r'''$.error.details''',
+                ).toString()) {
+              await showDialog(
+                context: context,
+                builder: (alertDialogContext) {
+                  return AlertDialog(
+                    title: Text('Importe Inválido'),
+                    content: Text(
+                        'Las condiciones del cupón no se cumplen para aplicar el descuento'),
+                    actions: [
+                      TextButton(
+                        onPressed: () => Navigator.pop(alertDialogContext),
+                        child: Text('Aceptar'),
+                      ),
+                    ],
+                  );
+                },
+              );
+            } else if ('coupon.productsNotFound' ==
+                getJsonField(
+                  (_model.couponOutput?.jsonBody ?? ''),
+                  r'''$.error.details''',
+                ).toString()) {
+              await showDialog(
+                context: context,
+                builder: (alertDialogContext) {
+                  return AlertDialog(
+                    title: Text('Productos Inválidos'),
+                    content: Text(
+                        'Las condiciones del cupón no se cumplen para aplicar el descuento'),
+                    actions: [
+                      TextButton(
+                        onPressed: () => Navigator.pop(alertDialogContext),
+                        child: Text('Aceptar'),
+                      ),
+                    ],
+                  );
+                },
+              );
+            } else {
+              await showDialog(
+                context: context,
+                builder: (alertDialogContext) {
+                  return AlertDialog(
+                    title: Text('Cupon no Encontrado'),
+                    content: Text(
+                        'No hemos encontrado ningún cupón con ese código.'),
+                    actions: [
+                      TextButton(
+                        onPressed: () => Navigator.pop(alertDialogContext),
+                        child: Text('Aceptar'),
+                      ),
+                    ],
+                  );
+                },
+              );
+            }
+
+            safeSetState(() {
+              _model.couponTextController?.text = '';
+            });
+            if (_shouldSetState) safeSetState(() {});
+            return;
+          }
+        } else {
+          if (_shouldSetState) safeSetState(() {});
+          return;
+        }
+
+        if (_shouldSetState) safeSetState(() {});
+      },
+    );
   }
 
   @override
@@ -1351,7 +1541,7 @@ class _OrderWidgetState extends State<OrderWidget> {
                       ),
                       child: Padding(
                         padding: EdgeInsetsDirectional.fromSTEB(
-                            20.0, 20.0, 20.0, 0.0),
+                            20.0, 10.0, 20.0, 0.0),
                         child: Column(
                           mainAxisSize: MainAxisSize.max,
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -1401,9 +1591,9 @@ class _OrderWidgetState extends State<OrderWidget> {
                                   return ListView.separated(
                                     padding: EdgeInsets.fromLTRB(
                                       0,
-                                      20.0,
+                                      10.0,
                                       0,
-                                      20.0,
+                                      4.0,
                                     ),
                                     scrollDirection: Axis.vertical,
                                     itemCount: products.length,
@@ -1765,17 +1955,39 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                                     .fontStyle,
                                                               ),
                                                         ),
-                                                        Text(
-                                                          productsItem.isFree
-                                                              ? '¡Gratis!'
-                                                              : productsItem
-                                                                  .granTotal,
-                                                          style: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .bodyMedium
-                                                              .override(
-                                                                font: GoogleFonts
-                                                                    .montserrat(
+                                                        if ((productsItem
+                                                                    .discount ==
+                                                                null) ||
+                                                            (productsItem
+                                                                    .discount ==
+                                                                0.0) ||
+                                                            productsItem.isFree)
+                                                          Text(
+                                                            productsItem.isFree
+                                                                ? '¡Gratis!'
+                                                                : productsItem
+                                                                    .granTotal,
+                                                            style: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .bodyMedium
+                                                                .override(
+                                                                  font: GoogleFonts
+                                                                      .montserrat(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w600,
+                                                                    fontStyle: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .bodyMedium
+                                                                        .fontStyle,
+                                                                  ),
+                                                                  color: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .primary,
+                                                                  fontSize:
+                                                                      18.0,
+                                                                  letterSpacing:
+                                                                      0.0,
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .w600,
@@ -1784,21 +1996,108 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                                       .bodyMedium
                                                                       .fontStyle,
                                                                 ),
-                                                                color: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .primary,
-                                                                fontSize: 18.0,
-                                                                letterSpacing:
-                                                                    0.0,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600,
-                                                                fontStyle: FlutterFlowTheme.of(
+                                                          ),
+                                                        if ((productsItem
+                                                                    .discount >
+                                                                0.0) &&
+                                                            !productsItem
+                                                                .isFree)
+                                                          Row(
+                                                            mainAxisSize:
+                                                                MainAxisSize
+                                                                    .max,
+                                                            children: [
+                                                              Text(
+                                                                productsItem
+                                                                    .granTotal,
+                                                                style: FlutterFlowTheme.of(
                                                                         context)
                                                                     .bodyMedium
-                                                                    .fontStyle,
+                                                                    .override(
+                                                                      font: GoogleFonts
+                                                                          .montserrat(
+                                                                        fontWeight:
+                                                                            FontWeight.w600,
+                                                                        fontStyle: FlutterFlowTheme.of(context)
+                                                                            .bodyMedium
+                                                                            .fontStyle,
+                                                                      ),
+                                                                      color: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .secondaryText,
+                                                                      fontSize:
+                                                                          14.0,
+                                                                      letterSpacing:
+                                                                          0.0,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w600,
+                                                                      fontStyle: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .bodyMedium
+                                                                          .fontStyle,
+                                                                      decoration:
+                                                                          TextDecoration
+                                                                              .lineThrough,
+                                                                    ),
                                                               ),
-                                                        ),
+                                                              Text(
+                                                                FFAppState()
+                                                                            .Coupon
+                                                                            .type ==
+                                                                        'amount'
+                                                                    ? formatNumber(
+                                                                        functions.stringToNumber(productsItem.granTotal) -
+                                                                            productsItem.discount,
+                                                                        formatType:
+                                                                            FormatType.decimal,
+                                                                        decimalType:
+                                                                            DecimalType.periodDecimal,
+                                                                        currency:
+                                                                            '\$',
+                                                                      )
+                                                                    : formatNumber(
+                                                                        functions.stringToNumber(productsItem.granTotal) -
+                                                                            (functions.stringToNumber(productsItem.granTotal) *
+                                                                                (productsItem.discount / 100)),
+                                                                        formatType:
+                                                                            FormatType.decimal,
+                                                                        decimalType:
+                                                                            DecimalType.periodDecimal,
+                                                                        currency:
+                                                                            '\$',
+                                                                      ),
+                                                                style: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .override(
+                                                                      font: GoogleFonts
+                                                                          .montserrat(
+                                                                        fontWeight:
+                                                                            FontWeight.w600,
+                                                                        fontStyle: FlutterFlowTheme.of(context)
+                                                                            .bodyMedium
+                                                                            .fontStyle,
+                                                                      ),
+                                                                      color: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .primary,
+                                                                      fontSize:
+                                                                          18.0,
+                                                                      letterSpacing:
+                                                                          0.0,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w600,
+                                                                      fontStyle: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .bodyMedium
+                                                                          .fontStyle,
+                                                                    ),
+                                                              ),
+                                                            ].divide(SizedBox(
+                                                                width: 8.0)),
+                                                          ),
                                                       ],
                                                     ),
                                                   ].divide(
@@ -1816,13 +2115,13 @@ class _OrderWidgetState extends State<OrderWidget> {
                             ),
                             Padding(
                               padding: EdgeInsetsDirectional.fromSTEB(
-                                  0.0, 12.0, 0.0, 16.0),
+                                  0.0, 12.0, 0.0, 8.0),
                               child: Column(
                                 mainAxisSize: MainAxisSize.max,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'Ingresa tu nombre\npara continuar con tu pedido:',
+                                    'Ingresa tu nombre para terminar tu pedido:',
                                     style: FlutterFlowTheme.of(context)
                                         .bodyMedium
                                         .override(
@@ -1999,6 +2298,304 @@ class _OrderWidgetState extends State<OrderWidget> {
                                 ].divide(SizedBox(height: 8.0)),
                               ),
                             ),
+                            if (FFAppState().Coupon.code == '')
+                              Padding(
+                                padding: EdgeInsetsDirectional.fromSTEB(
+                                    0.0, 0.0, 0.0, 16.0),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.max,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      '¿Tienes un Cupón? ¡Ingrésalo!',
+                                      style: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .override(
+                                            font: GoogleFonts.montserrat(
+                                              fontWeight: FontWeight.w600,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMedium
+                                                      .fontStyle,
+                                            ),
+                                            fontSize: 17.0,
+                                            letterSpacing: 0.0,
+                                            fontWeight: FontWeight.w600,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontStyle,
+                                            lineHeight: 1.5,
+                                          ),
+                                    ),
+                                    Container(
+                                      width: double.infinity,
+                                      child: TextFormField(
+                                        controller: _model.couponTextController,
+                                        focusNode: _model.couponFocusNode,
+                                        autofocus: false,
+                                        textCapitalization:
+                                            TextCapitalization.none,
+                                        textInputAction: TextInputAction.go,
+                                        obscureText: false,
+                                        decoration: InputDecoration(
+                                          isDense: true,
+                                          labelStyle: FlutterFlowTheme.of(
+                                                  context)
+                                              .labelMedium
+                                              .override(
+                                                font: GoogleFonts.montserrat(
+                                                  fontWeight:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .labelMedium
+                                                          .fontWeight,
+                                                  fontStyle:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .labelMedium
+                                                          .fontStyle,
+                                                ),
+                                                letterSpacing: 0.0,
+                                                fontWeight:
+                                                    FlutterFlowTheme.of(context)
+                                                        .labelMedium
+                                                        .fontWeight,
+                                                fontStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .labelMedium
+                                                        .fontStyle,
+                                              ),
+                                          hintText: 'XXXX',
+                                          hintStyle: FlutterFlowTheme.of(
+                                                  context)
+                                              .labelMedium
+                                              .override(
+                                                font: GoogleFonts.montserrat(
+                                                  fontWeight:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .labelMedium
+                                                          .fontWeight,
+                                                  fontStyle:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .labelMedium
+                                                          .fontStyle,
+                                                ),
+                                                color: Color(0xA657636C),
+                                                fontSize: 16.0,
+                                                letterSpacing: 0.0,
+                                                fontWeight:
+                                                    FlutterFlowTheme.of(context)
+                                                        .labelMedium
+                                                        .fontWeight,
+                                                fontStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .labelMedium
+                                                        .fontStyle,
+                                                lineHeight: 1.5,
+                                              ),
+                                          enabledBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .accent4,
+                                              width: 1.0,
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(8.0),
+                                          ),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primary,
+                                              width: 1.0,
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(8.0),
+                                          ),
+                                          errorBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .error,
+                                              width: 1.0,
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(8.0),
+                                          ),
+                                          focusedErrorBorder:
+                                              OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .error,
+                                              width: 1.0,
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(8.0),
+                                          ),
+                                          filled: true,
+                                          fillColor:
+                                              FlutterFlowTheme.of(context)
+                                                  .secondaryBackground,
+                                          contentPadding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  16.0, 16.0, 16.0, 16.0),
+                                          prefixIcon: Icon(
+                                            FFIcons.kticket,
+                                            color: FlutterFlowTheme.of(context)
+                                                .secondaryText,
+                                            size: 20.0,
+                                          ),
+                                        ),
+                                        style: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .override(
+                                              font: GoogleFonts.montserrat(
+                                                fontWeight: FontWeight.w600,
+                                                fontStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .fontStyle,
+                                              ),
+                                              fontSize: 16.0,
+                                              letterSpacing: 0.0,
+                                              fontWeight: FontWeight.w600,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMedium
+                                                      .fontStyle,
+                                              lineHeight: 1.5,
+                                            ),
+                                        cursorColor:
+                                            FlutterFlowTheme.of(context)
+                                                .primaryText,
+                                        validator: _model
+                                            .couponTextControllerValidator
+                                            .asValidator(context),
+                                        inputFormatters: [
+                                          if (!isAndroid && !isiOS)
+                                            TextInputFormatter.withFunction(
+                                                (oldValue, newValue) {
+                                              return TextEditingValue(
+                                                selection: newValue.selection,
+                                                text: newValue.text
+                                                    .toCapitalization(
+                                                        TextCapitalization
+                                                            .none),
+                                              );
+                                            }),
+                                        ],
+                                      ),
+                                    ),
+                                  ].divide(SizedBox(height: 8.0)),
+                                ),
+                              ),
+                            if (FFAppState().Coupon.code != '')
+                              Padding(
+                                padding: EdgeInsetsDirectional.fromSTEB(
+                                    0.0, 12.0, 0.0, 16.0),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.max,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      children: [
+                                        Text(
+                                          'Cupón:',
+                                          style: FlutterFlowTheme.of(context)
+                                              .bodyMedium
+                                              .override(
+                                                font: GoogleFonts.montserrat(
+                                                  fontWeight:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .bodyMedium
+                                                          .fontWeight,
+                                                  fontStyle:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .bodyMedium
+                                                          .fontStyle,
+                                                ),
+                                                letterSpacing: 0.0,
+                                                fontWeight:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .fontWeight,
+                                                fontStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .fontStyle,
+                                              ),
+                                        ),
+                                        Expanded(
+                                          child: Text(
+                                            FFAppState().Coupon.code,
+                                            style: FlutterFlowTheme.of(context)
+                                                .bodyMedium
+                                                .override(
+                                                  font: GoogleFonts.montserrat(
+                                                    fontWeight: FontWeight.w600,
+                                                    fontStyle:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .bodyMedium
+                                                            .fontStyle,
+                                                  ),
+                                                  letterSpacing: 0.0,
+                                                  fontWeight: FontWeight.w600,
+                                                  fontStyle:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .bodyMedium
+                                                          .fontStyle,
+                                                ),
+                                          ),
+                                        ),
+                                        FlutterFlowIconButton(
+                                          borderRadius: 8.0,
+                                          buttonSize: 30.0,
+                                          fillColor:
+                                              FlutterFlowTheme.of(context)
+                                                  .primary,
+                                          icon: Icon(
+                                            FFIcons.kx,
+                                            color: FlutterFlowTheme.of(context)
+                                                .info,
+                                            size: 15.0,
+                                          ),
+                                          onPressed: () async {
+                                            FFAppState().Coupon =
+                                                CouponStruct();
+                                            safeSetState(() {});
+                                            for (int loop1Index = 0;
+                                                loop1Index <
+                                                    FFAppState()
+                                                        .OrderItems
+                                                        .length;
+                                                loop1Index++) {
+                                              final currentLoop1Item =
+                                                  FFAppState()
+                                                      .OrderItems[loop1Index];
+                                              FFAppState()
+                                                  .updateOrderItemsAtIndex(
+                                                loop1Index,
+                                                (e) => e..discount = 0.0,
+                                              );
+                                              safeSetState(() {});
+                                            }
+                                          },
+                                        ),
+                                      ].divide(SizedBox(width: 4.0)),
+                                    ),
+                                  ].divide(SizedBox(height: 8.0)),
+                                ),
+                              ),
                             Container(
                               width: double.infinity,
                               decoration: BoxDecoration(
@@ -2015,7 +2612,7 @@ class _OrderWidgetState extends State<OrderWidget> {
                                 children: [
                                   Padding(
                                     padding: EdgeInsetsDirectional.fromSTEB(
-                                        14.0, 14.0, 14.0, 0.0),
+                                        14.0, 10.0, 14.0, 0.0),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.max,
                                       mainAxisAlignment:
@@ -2048,7 +2645,9 @@ class _OrderWidgetState extends State<OrderWidget> {
                                             functions.sumUnitaryPrices(
                                                 FFAppState()
                                                     .OrderItems
-                                                    .toList()),
+                                                    .toList(),
+                                                false,
+                                                false),
                                             formatType: FormatType.decimal,
                                             decimalType:
                                                 DecimalType.periodDecimal,
@@ -2108,18 +2707,111 @@ class _OrderWidgetState extends State<OrderWidget> {
                                               ),
                                         ),
                                         Text(
-                                          '- ${formatNumber(
-                                            functions.sumUnitaryPrices(
-                                                FFAppState()
-                                                    .OrderItems
-                                                    .where(
-                                                        (e) => e.isFree == true)
-                                                    .toList()),
-                                            formatType: FormatType.decimal,
-                                            decimalType:
-                                                DecimalType.periodDecimal,
-                                            currency: '\$',
-                                          )}',
+                                          '- ${() {
+                                            if ((FFAppState().Coupon.type ==
+                                                    'amount') &&
+                                                (FFAppState()
+                                                        .Coupon
+                                                        .products
+                                                        .length ==
+                                                    0)) {
+                                              return formatNumber(
+                                                functions.sumUnitaryPrices(
+                                                        FFAppState()
+                                                            .OrderItems
+                                                            .where((e) =>
+                                                                e.isFree ==
+                                                                true)
+                                                            .toList(),
+                                                        false,
+                                                        false) +
+                                                    FFAppState()
+                                                        .Coupon
+                                                        .discount,
+                                                formatType: FormatType.decimal,
+                                                decimalType:
+                                                    DecimalType.periodDecimal,
+                                                currency: '\$',
+                                              );
+                                            } else if ((FFAppState()
+                                                        .Coupon
+                                                        .type ==
+                                                    'percent') &&
+                                                (FFAppState()
+                                                        .Coupon
+                                                        .products
+                                                        .length ==
+                                                    0)) {
+                                              return formatNumber(
+                                                ((functions.sumUnitaryPrices(
+                                                                FFAppState()
+                                                                    .OrderItems
+                                                                    .toList(),
+                                                                false,
+                                                                false) -
+                                                            functions.sumUnitaryPrices(
+                                                                FFAppState()
+                                                                    .OrderItems
+                                                                    .where((e) =>
+                                                                        e.isFree ==
+                                                                        true)
+                                                                    .toList(),
+                                                                false,
+                                                                false)) *
+                                                        (FFAppState()
+                                                                .Coupon
+                                                                .discount /
+                                                            100)) +
+                                                    functions.sumUnitaryPrices(
+                                                        FFAppState()
+                                                            .OrderItems
+                                                            .where((e) =>
+                                                                e.isFree ==
+                                                                true)
+                                                            .toList(),
+                                                        false,
+                                                        false),
+                                                formatType: FormatType.decimal,
+                                                decimalType:
+                                                    DecimalType.periodDecimal,
+                                                currency: '\$',
+                                              );
+                                            } else if (FFAppState()
+                                                    .Coupon
+                                                    .products
+                                                    .length >
+                                                0) {
+                                              return formatNumber(
+                                                functions.sumDiscounts(
+                                                    FFAppState()
+                                                        .OrderItems
+                                                        .where((e) =>
+                                                            e.isFree == false)
+                                                        .toList(),
+                                                    FFAppState().Coupon.type ==
+                                                        'percent'),
+                                                formatType: FormatType.decimal,
+                                                decimalType:
+                                                    DecimalType.periodDecimal,
+                                                currency: '\$',
+                                              );
+                                            } else {
+                                              return formatNumber(
+                                                functions.sumUnitaryPrices(
+                                                    FFAppState()
+                                                        .OrderItems
+                                                        .where((e) =>
+                                                            e.isFree == true)
+                                                        .toList(),
+                                                    false,
+                                                    false),
+                                                formatType: FormatType.decimal,
+                                                decimalType:
+                                                    DecimalType.periodDecimal,
+                                                currency: '\$',
+                                              );
+                                            }
+                                          }()}',
                                           style: FlutterFlowTheme.of(context)
                                               .bodyMedium
                                               .override(
@@ -2150,7 +2842,7 @@ class _OrderWidgetState extends State<OrderWidget> {
                                   ),
                                   Padding(
                                     padding: EdgeInsetsDirectional.fromSTEB(
-                                        14.0, 0.0, 14.0, 14.0),
+                                        14.0, 0.0, 14.0, 10.0),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.max,
                                       mainAxisAlignment:
@@ -2179,18 +2871,117 @@ class _OrderWidgetState extends State<OrderWidget> {
                                               ),
                                         ),
                                         Text(
-                                          formatNumber(
-                                            functions.sumUnitaryPrices(
-                                                FFAppState()
-                                                    .OrderItems
-                                                    .where((e) =>
-                                                        e.isFree == false)
-                                                    .toList()),
-                                            formatType: FormatType.decimal,
-                                            decimalType:
-                                                DecimalType.periodDecimal,
-                                            currency: '\$',
-                                          ),
+                                          () {
+                                            if ((FFAppState().Coupon.type ==
+                                                    'amount') &&
+                                                (FFAppState()
+                                                        .Coupon
+                                                        .products
+                                                        .length ==
+                                                    0)) {
+                                              return formatNumber(
+                                                functions.sumUnitaryPrices(
+                                                        FFAppState()
+                                                            .OrderItems
+                                                            .where((e) =>
+                                                                e.isFree ==
+                                                                false)
+                                                            .toList(),
+                                                        false,
+                                                        false) -
+                                                    FFAppState()
+                                                        .Coupon
+                                                        .discount,
+                                                formatType: FormatType.decimal,
+                                                decimalType:
+                                                    DecimalType.periodDecimal,
+                                                currency: '\$',
+                                              );
+                                            } else if ((FFAppState()
+                                                        .Coupon
+                                                        .type ==
+                                                    'percent') &&
+                                                (FFAppState()
+                                                        .Coupon
+                                                        .products
+                                                        .length ==
+                                                    0)) {
+                                              return formatNumber(
+                                                functions.sumUnitaryPrices(
+                                                        FFAppState()
+                                                            .OrderItems
+                                                            .where((e) =>
+                                                                e.isFree ==
+                                                                false)
+                                                            .toList(),
+                                                        false,
+                                                        false) -
+                                                    (functions.sumUnitaryPrices(
+                                                            FFAppState()
+                                                                .OrderItems
+                                                                .where((e) =>
+                                                                    e.isFree ==
+                                                                    false)
+                                                                .toList(),
+                                                            false,
+                                                            false) *
+                                                        (FFAppState()
+                                                                .Coupon
+                                                                .discount /
+                                                            100)),
+                                                formatType: FormatType.decimal,
+                                                decimalType:
+                                                    DecimalType.periodDecimal,
+                                                currency: '\$',
+                                              );
+                                            } else if (FFAppState()
+                                                    .Coupon
+                                                    .products
+                                                    .length >
+                                                0) {
+                                              return formatNumber(
+                                                functions.sumUnitaryPrices(
+                                                        FFAppState()
+                                                            .OrderItems
+                                                            .where((e) =>
+                                                                e.isFree ==
+                                                                false)
+                                                            .toList(),
+                                                        false,
+                                                        false) -
+                                                    functions.sumDiscounts(
+                                                        FFAppState()
+                                                            .OrderItems
+                                                            .where((e) =>
+                                                                e.isFree ==
+                                                                false)
+                                                            .toList(),
+                                                        FFAppState()
+                                                                .Coupon
+                                                                .type ==
+                                                            'percent'),
+                                                formatType: FormatType.decimal,
+                                                decimalType:
+                                                    DecimalType.periodDecimal,
+                                                currency: '\$',
+                                              );
+                                            } else {
+                                              return formatNumber(
+                                                functions.sumUnitaryPrices(
+                                                    FFAppState()
+                                                        .OrderItems
+                                                        .where((e) =>
+                                                            e.isFree == false)
+                                                        .toList(),
+                                                    false,
+                                                    false),
+                                                formatType: FormatType.decimal,
+                                                decimalType:
+                                                    DecimalType.periodDecimal,
+                                                currency: '\$',
+                                              );
+                                            }
+                                          }(),
                                           style: FlutterFlowTheme.of(context)
                                               .bodyMedium
                                               .override(
@@ -2219,7 +3010,7 @@ class _OrderWidgetState extends State<OrderWidget> {
                             ),
                             Padding(
                               padding: EdgeInsetsDirectional.fromSTEB(
-                                  0.0, 20.0, 0.0, 0.0),
+                                  0.0, 10.0, 0.0, 0.0),
                               child: FFButtonWidget(
                                 onPressed: ((FFAppState().OrderItems.length ==
                                             0) ||
@@ -2230,15 +3021,21 @@ class _OrderWidgetState extends State<OrderWidget> {
                                         var _shouldSetState = false;
                                         // Si el total es 0, por lo tanto no hay nada que cobrar, no se pasa por el procesamiento de izettle
                                         if (((functions.sumUnitaryPrices(
-                                                        FFAppState()
-                                                            .OrderItems
-                                                            .where((e) =>
-                                                                e.isFree ==
-                                                                false)
-                                                            .toList()) *
-                                                    100)
-                                                .toInt()) ==
-                                            0) {
+                                                            FFAppState()
+                                                                .OrderItems
+                                                                .where((e) =>
+                                                                    e.isFree ==
+                                                                    false)
+                                                                .toList(),
+                                                            FFAppState()
+                                                                    .Coupon
+                                                                    .type ==
+                                                                'percent',
+                                                            true) *
+                                                        100)
+                                                    .toInt())
+                                                .toString() ==
+                                            '0') {
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(
                                             SnackBar(
@@ -2377,6 +3174,10 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                     0
                                                 ? true
                                                 : false,
+                                            coupon: FFAppState()
+                                                .Coupon
+                                                .id
+                                                .toString(),
                                           );
 
                                           _shouldSetState = true;
@@ -2410,6 +3211,7 @@ class _OrderWidgetState extends State<OrderWidget> {
                                           FFAppState()
                                               .LastCustomerOrdersProducts = [];
                                           FFAppState().OrderItems = [];
+                                          FFAppState().Coupon = CouponStruct();
                                           if (_shouldSetState)
                                             safeSetState(() {});
                                           return;
@@ -2422,7 +3224,12 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                             .where((e) =>
                                                                 e.isFree ==
                                                                 false)
-                                                            .toList()) *
+                                                            .toList(),
+                                                        FFAppState()
+                                                                .Coupon
+                                                                .type ==
+                                                            'percent',
+                                                        true) *
                                                     100)
                                                 .toInt(),
                                           );
@@ -2602,6 +3409,10 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                       0
                                                   ? true
                                                   : false,
+                                              coupon: FFAppState()
+                                                  .Coupon
+                                                  .id
+                                                  .toString(),
                                             );
 
                                             _shouldSetState = true;
@@ -2637,6 +3448,8 @@ class _OrderWidgetState extends State<OrderWidget> {
                                             FFAppState()
                                                 .LastCustomerOrdersProducts = [];
                                             FFAppState().OrderItems = [];
+                                            FFAppState().Coupon =
+                                                CouponStruct();
                                             if (_shouldSetState)
                                               safeSetState(() {});
                                             return;
@@ -2811,6 +3624,10 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                       0
                                                   ? true
                                                   : false,
+                                              coupon: FFAppState()
+                                                  .Coupon
+                                                  .id
+                                                  .toString(),
                                             );
 
                                             _shouldSetState = true;
@@ -2846,6 +3663,8 @@ class _OrderWidgetState extends State<OrderWidget> {
                                             FFAppState()
                                                 .LastCustomerOrdersProducts = [];
                                             FFAppState().OrderItems = [];
+                                            FFAppState().Coupon =
+                                                CouponStruct();
                                             if (_shouldSetState)
                                               safeSetState(() {});
                                             return;
@@ -2942,6 +3761,7 @@ class _OrderWidgetState extends State<OrderWidget> {
                                     FFAppState().OrderItems = [];
                                     FFAppState().LastCustomerOrdersProducts =
                                         [];
+                                    FFAppState().Coupon = CouponStruct();
                                     safeSetState(() {});
                                   }
                                 },

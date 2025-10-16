@@ -1,5 +1,6 @@
 export '/backend/schema/util/schema_util.dart';
 
+export 'coupon_struct.dart';
 export 'customer_struct.dart';
 export 'last_customer_orders_products_struct.dart';
 export 'order_struct.dart';
