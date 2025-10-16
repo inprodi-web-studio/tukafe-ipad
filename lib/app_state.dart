@@ -108,6 +108,16 @@ class FFAppState extends ChangeNotifier {
     _Branch = value;
     prefs.setInt('ff_Branch', value);
   }
+
+  CouponStruct _Coupon = CouponStruct();
+  CouponStruct get Coupon => _Coupon;
+  set Coupon(CouponStruct value) {
+    _Coupon = value;
+  }
+
+  void updateCouponStruct(Function(CouponStruct) updateFn) {
+    updateFn(_Coupon);
+  }
 }
 
 void _safeInit(Function() initializeField) {

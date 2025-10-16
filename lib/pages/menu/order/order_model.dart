@@ -22,6 +22,12 @@ class OrderModel extends FlutterFlowModel<OrderWidget> {
   FocusNode? nameFocusNode;
   TextEditingController? nameTextController;
   String? Function(BuildContext, String?)? nameTextControllerValidator;
+  // State field(s) for coupon widget.
+  FocusNode? couponFocusNode;
+  TextEditingController? couponTextController;
+  String? Function(BuildContext, String?)? couponTextControllerValidator;
+  // Stores action output result for [Backend Call - API (Validate Coupon)] action in coupon widget.
+  ApiCallResponse? couponOutput;
   // Stores action output result for [Backend Call - API (Create Order)] action in Button widget.
   ApiCallResponse? orderOutputPromo;
   // Stores action output result for [Backend Call - API (Close Order)] action in Button widget.
@@ -77,5 +83,8 @@ class OrderModel extends FlutterFlowModel<OrderWidget> {
     ordersCountModel.dispose();
     nameFocusNode?.dispose();
     nameTextController?.dispose();
+
+    couponFocusNode?.dispose();
+    couponTextController?.dispose();
   }
 }
