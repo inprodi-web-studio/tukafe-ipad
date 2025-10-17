@@ -3295,18 +3295,97 @@ class _OrderWidgetState extends State<OrderWidget> {
                                         } else {
                                           _model.paymentOutput =
                                               await actions.generatePayment(
-                                            (functions.sumUnitaryPrices(
-                                                        FFAppState()
-                                                            .OrderItems
-                                                            .where((e) =>
-                                                                e.isFree ==
-                                                                false)
-                                                            .toList(),
-                                                        FFAppState()
+                                            (() {
+                                                      if ((FFAppState()
+                                                                  .Coupon
+                                                                  .type ==
+                                                              'amount') &&
+                                                          (FFAppState()
+                                                                  .Coupon
+                                                                  .products
+                                                                  .length ==
+                                                              0)) {
+                                                        return (functions.sumUnitaryPrices(
+                                                                FFAppState()
+                                                                    .OrderItems
+                                                                    .where((e) =>
+                                                                        e.isFree ==
+                                                                        false)
+                                                                    .toList(),
+                                                                false,
+                                                                false) -
+                                                            FFAppState()
                                                                 .Coupon
-                                                                .type ==
-                                                            'percent',
-                                                        true) *
+                                                                .discount);
+                                                      } else if ((FFAppState()
+                                                                  .Coupon
+                                                                  .type ==
+                                                              'percent') &&
+                                                          (FFAppState()
+                                                                  .Coupon
+                                                                  .products
+                                                                  .length ==
+                                                              0)) {
+                                                        return (functions.sumUnitaryPrices(
+                                                                FFAppState()
+                                                                    .OrderItems
+                                                                    .where((e) =>
+                                                                        e.isFree ==
+                                                                        false)
+                                                                    .toList(),
+                                                                false,
+                                                                false) -
+                                                            (functions.sumUnitaryPrices(
+                                                                    FFAppState()
+                                                                        .OrderItems
+                                                                        .where((e) =>
+                                                                            e.isFree ==
+                                                                            false)
+                                                                        .toList(),
+                                                                    false,
+                                                                    false) *
+                                                                (FFAppState()
+                                                                        .Coupon
+                                                                        .discount /
+                                                                    100)));
+                                                      } else if (FFAppState()
+                                                              .Coupon
+                                                              .products
+                                                              .length >
+                                                          0) {
+                                                        return (functions.sumUnitaryPrices(
+                                                                FFAppState()
+                                                                    .OrderItems
+                                                                    .where((e) =>
+                                                                        e.isFree ==
+                                                                        false)
+                                                                    .toList(),
+                                                                false,
+                                                                false) -
+                                                            functions.sumDiscounts(
+                                                                FFAppState()
+                                                                    .OrderItems
+                                                                    .where((e) =>
+                                                                        e.isFree ==
+                                                                        false)
+                                                                    .toList(),
+                                                                FFAppState()
+                                                                        .Coupon
+                                                                        .type ==
+                                                                    'percent'));
+                                                      } else {
+                                                        return functions
+                                                            .sumUnitaryPrices(
+                                                                FFAppState()
+                                                                    .OrderItems
+                                                                    .where((e) =>
+                                                                        e.isFree ==
+                                                                        false)
+                                                                    .toList(),
+                                                                false,
+                                                                false);
+                                                      }
+                                                    }() *
                                                     100)
                                                 .toInt(),
                                           );
