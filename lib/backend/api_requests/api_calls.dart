@@ -402,6 +402,8 @@ class GetCustomerLastOrdersCall {
         'filters[customer_id]': customerId,
         'pagination[limit]': 5,
         'filters[isUsed]': false,
+        'sort': "createdAt:desc",
+        'filters[products][product_id][\$notNull]': true,
       },
       returnBody: true,
       encodeBodyUtf8: false,
