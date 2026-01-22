@@ -82,7 +82,22 @@ class _OrderWidgetState extends State<OrderWidget> {
       }
     });
 
-    _model.nameTextController ??= TextEditingController();
+    _model.nameTextController ??= TextEditingController(
+        text: (getJsonField(
+                      widget.customer,
+                      r'''$.firstname''',
+                    ) !=
+                    null) &&
+                ('phone_customer' !=
+                    getJsonField(
+                      widget.customer,
+                      r'''$.firstname''',
+                    ).toString())
+            ? getJsonField(
+                widget.customer,
+                r'''$.firstname''',
+              ).toString()
+            : '');
     _model.nameFocusNode ??= FocusNode();
 
     _model.couponTextController ??= TextEditingController();
