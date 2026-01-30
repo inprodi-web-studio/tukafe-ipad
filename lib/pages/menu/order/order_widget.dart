@@ -85,17 +85,17 @@ class _OrderWidgetState extends State<OrderWidget> {
     _model.nameTextController ??= TextEditingController(
         text: (getJsonField(
                       widget.customer,
-                      r'''$.firstname''',
+                      r'''$.lastname''',
                     ) !=
                     null) &&
                 ('phone_customer' !=
                     getJsonField(
                       widget.customer,
-                      r'''$.firstname''',
+                      r'''$.lastname''',
                     ).toString())
             ? getJsonField(
                 widget.customer,
-                r'''$.firstname''',
+                r'''$.lastname''',
               ).toString()
             : '');
     _model.nameFocusNode ??= FocusNode();
@@ -435,10 +435,26 @@ class _OrderWidgetState extends State<OrderWidget> {
                                                   ),
                                                 ),
                                                 Text(
-                                                  getJsonField(
-                                                    widget.customer,
-                                                    r'''$.phone''',
-                                                  ).toString(),
+                                                  (getJsonField(
+                                                                widget
+                                                                    .customer,
+                                                                r'''$.lastname''',
+                                                              ) !=
+                                                              null) &&
+                                                          ('phone_customer' !=
+                                                              getJsonField(
+                                                                widget
+                                                                    .customer,
+                                                                r'''$.lastname''',
+                                                              ).toString())
+                                                      ? '¡Hola ${getJsonField(
+                                                          widget.customer,
+                                                          r'''$.lastname''',
+                                                        ).toString()}!'
+                                                      : getJsonField(
+                                                          widget.customer,
+                                                          r'''$.phone''',
+                                                        ).toString(),
                                                   style: FlutterFlowTheme.of(
                                                           context)
                                                       .bodyMedium
