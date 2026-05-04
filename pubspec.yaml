@@ -3,7 +3,7 @@ description: A new Flutter project.
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -15,7 +15,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 1.0.20
+version: 1.0.21
 
 environment:
   sdk: ">=3.0.0 <4.0.0"
@@ -40,7 +40,7 @@ dependencies:
   ff_theme:
     path: ./dependencies/ff_theme # 1.0.8+1
   flutter_animate: 4.5.0
-  flutter_barcode_scanner: 
+  flutter_barcode_scanner:
     git:
       url: https://github.com/decodevM/flutter_barcode_scanner
       ref: flutter-3.29
@@ -108,22 +108,19 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
-
 flutter_launcher_icons:
   android: true
   ios: true
   remove_alpha_ios: true
   web:
     generate: true
-  image_path: 'assets/images/app_launcher_icon.jpg'
-
+  image_path: "assets/images/app_launcher_icon.jpg"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
@@ -143,7 +140,6 @@ flutter:
     - family: PhosphorIconsRegular
       fonts:
         - asset: assets/fonts/PhosphorIconsRegular.ttf
-
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
@@ -170,4 +166,3 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
-
